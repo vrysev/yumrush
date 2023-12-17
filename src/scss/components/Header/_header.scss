@@ -1,0 +1,50 @@
+.header__section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  flex-wrap: wrap;
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+  }
+
+  &__search {
+    &--icon {
+      position: absolute;
+      margin: 12px 0 12px 26.5px;
+    }
+
+    &--search {
+      position: relative;
+      padding-left: 120px;
+      border-radius: 15px;
+      background: rgba(180, 188, 207, 0.41);
+      font-size: 24px;
+      width: 350px;
+      height: 70px;
+      flex-shrink: 0;
+      border: none;
+      transition: 0.2s ease-in-out;
+
+      &:focus {
+        width: 510px;
+        transition: 0.2s ease-in-out;
+      }
+    }
+  }
+
+  .greeting {
+    color: $gray;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .welcome-message {
+    color: $black;
+    font-size: 28px;
+    font-weight: 700;
+  }
+}

@@ -3,7 +3,7 @@
   margin: 0;
   list-style: none;
   outline: none;
-  font-family: 'Proxima Nova', Roboto, system-ui, Tahoma, sans-serif;
+  font-family: Roboto, system-ui, Tahoma, sans-serif;
   box-sizing: border-box;
 }
 
@@ -16,6 +16,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   color: $black;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
 
 a,

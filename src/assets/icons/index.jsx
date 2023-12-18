@@ -8,3 +8,4 @@ export { default as settings } from "./settings.svg";
 export { default as expand } from "./expand.svg";
 export { default as search } from "./search.svg";
 export { default as close } from "./close.svg";
+``;

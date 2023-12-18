@@ -6,3 +6,5 @@ export { default as person } from "./person.svg";
 export { default as piechart } from "./piechart.svg";
 export { default as settings } from "./settings.svg";
 export { default as expand } from "./expand.svg";
+export { default as search } from "./search.svg";
+export { default as close } from "./close.svg";

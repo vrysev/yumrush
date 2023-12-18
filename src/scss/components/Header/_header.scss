@@ -11,9 +11,22 @@
   }
 
   &__search {
-    &--icon {
+    position: relative;
+    &--iconSearch {
       position: absolute;
-      margin: 12px 0 12px 26.5px;
+      top: 17%;
+      left: 5%;
+    }
+    &--iconClose {
+      top: 28%;
+      right: 5%;
+      position: absolute;
+      z-index: 1;
+      button {
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
     }
 
     &--search {

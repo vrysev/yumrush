@@ -2,9 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
   flex-wrap: wrap;
-
+  padding-top: 50px;
   &__block {
     display: flex;
     flex-direction: column;

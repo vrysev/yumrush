@@ -45,7 +45,12 @@ h2 {
 }
 
 a {
+  display: block;
   text-decoration: none;
+}
+
+image {
+  display: block;
 }
 
 @mixin noselect {

@@ -1,6 +1,7 @@
 @import "variables";
 @import "libs/normalize";
 @import "components/Header/header";
+@import "components/Navbar/navbar";
 
 body {
   background-color: $background;
@@ -12,7 +13,6 @@ body {
   background-color: #fff;
   border-radius: 10px;
   max-width: 1400px;
-  margin: 0 auto;
 }
 
 
@@ -23,42 +23,6 @@ body {
 
 
 
-.left-sidebar {
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 105px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.05);
-
-  .navigation {
-    display: flex;
-    height: 600px;
-    flex-direction: column;
-    row-gap: 45px;
-
-    &-item {
-      align-self: center;
-      justify-self: center;
-      path {
-        fill: $gray;
-      }
-    }
-  }
-
-  .active {
-    padding: 7px;
-    border-radius: 15px;
-    background: #FF8A00;
-
-    path {
-      fill: white;
-    }
-  }
-}
 
 .hero__section {
   display: flex;

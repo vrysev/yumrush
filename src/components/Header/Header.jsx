@@ -2,6 +2,11 @@ import * as Icons from "./../../assets/icons/";
 import { useState } from "react";
 function Header() {
   const [searchValue, setSearchValue] = useState("");
+  const handleClearSearch = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setSearchValue("");
+  };
   return (
     <header className="header">
       <div className="container">
@@ -16,7 +21,7 @@ function Header() {
             </div>
             <div className="header__section__search--iconClose">
               {searchValue ? (
-                <button onClick={() => setSearchValue("")}>
+                <button onMouseDown={handleClearSearch}>
                   <img src={Icons["close"]} alt="" />
                 </button>
               ) : (

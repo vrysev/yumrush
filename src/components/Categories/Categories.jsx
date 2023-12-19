@@ -14,6 +14,7 @@ function Categories() {
               return (
                 <>
                   <li
+                    key={index}
                     onClick={() => setActiveCategory(index)}
                     className={`category__item ${
                       activeCategory === index ? "active" : ""

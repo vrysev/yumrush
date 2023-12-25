@@ -1,7 +1,6 @@
 import * as Icons from "./../../assets/icons/";
 import { useState } from "react";
-function Header() {
-  const [searchValue, setSearchValue] = useState("");
+function Header({ searchValue, setSearchValue }) {
   const handleClearSearch = (event) => {
     event.preventDefault();
     event.stopPropagation();

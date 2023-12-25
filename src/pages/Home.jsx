@@ -8,29 +8,47 @@ import Product from "../components/Product/Product.jsx";
 
 function Home() {
   const [pizzas, setPizzas] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [sortItem, setSortItem] = useState(3);
+  const [foundData, setFoundData] = useState(true);
+  const sortTypes = ["rating", "title", "alphabet(Z-A)", "price"];
   useEffect(() => {
-    fetch("https://65810e6e3dfdd1b11c425bad.mockapi.io/pizzas")
+    setIsLoading(true);
+    fetch(
+      `https://65810e6e3dfdd1b11c425bad.mockapi.io/pizzas?sortBy=${sortTypes[sortItem]}&search=${searchValue}&order=desc`,
+    )
       .then((res) => res.json())
       .then((data) => {
-        setPizzas(data);
+        if (data !== "Not found") {
+          setPizzas(data);
+          setFoundData(true);
+        } else {
+          setFoundData(false);
+        }
         setIsLoading(false);
       });
-  }, []);
+  }, [sortTypes[sortItem], searchValue]);
   return (
     <>
       <Outlet />
-      <Header />
+      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
       <Hero />
-      <Categories />
+      <Categories sortItem={sortItem} setSortItem={(id) => setSortItem(id)} />
       <div className="products">
         <div className="container">
           <div className="products__section">
-            {isLoading
-              ? [...new Array(6)].map((_, index) => (
+            {foundData ? (
+              isLoading ? (
+                [...new Array(6)].map((_, index) => (
                   <SkeletonProduct key={index} />
                 ))
-              : pizzas.map((obj) => <Product key={obj.id} {...obj} />)}
+              ) : (
+                pizzas.map((obj) => <Product key={obj.id} {...obj} />)
+              )
+            ) : (
+              <div>Sorry, we didn't find any matches</div>
+            )}
           </div>
         </div>
       </div>

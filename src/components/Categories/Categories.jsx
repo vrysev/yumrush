@@ -1,7 +1,7 @@
 import * as Images from "./../../assets/img/";
 import { useState } from "react";
 import sortIcon from "./../../assets/icons/sort.svg";
-function Categories() {
+function Categories({ sortItem, setSortItem }) {
   const categories = [
     { id: 1, name: "Pizza" },
     { id: 2, name: "Burger" },
@@ -10,11 +10,10 @@ function Categories() {
   ];
   const [popupActive, setPopupActive] = useState(false);
   const sortTypes = ["popularity", "alphabet(A-Z)", "alphabet(Z-A)", "price"];
-  const [sortType, setActiveSortType] = useState(0);
   const [activeCategory, setActiveCategory] = useState(0);
 
   const handleChangeSortType = (index) => {
-    setActiveSortType(index);
+    setSortItem(index);
     setPopupActive(!popupActive);
   };
   return (
@@ -33,7 +32,7 @@ function Categories() {
                     onClick={() => handleChangeSortType(index)}
                     key={index}
                     className={`sort__popup--item ${
-                      sortType === index ? "active" : ""
+                      sortItem === index ? "active" : ""
                     }`}
                   >
                     {obj}

@@ -5,7 +5,7 @@ function SkeletonProduct(props) {
       speed={2}
       width={620}
       height={260}
-      viewBox="0 0 620 260"
+      viewBox="0 0 600 260"
       backgroundColor="#fafafa"
       foregroundColor="#ededed"
       {...props}

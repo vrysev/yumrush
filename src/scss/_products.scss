@@ -99,7 +99,6 @@
       color: $button-primary;
       border-radius: 50px;
       margin-right: 5px;
-
       height: 8px;
       transition: 0.3s ease-in;
 
@@ -111,7 +110,7 @@
       background-color: $button-primary;
       color: $white;
       border-radius: 50px;
-      cursor: grabbing;
+      cursor: pointer;
       padding: 5px 10px;
       width: 40px;
       transition: 0.3s ease-in;

@@ -12,9 +12,7 @@ body {
   position: fixed;
   box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.08);
   z-index: 1000;
-  & + .wrapper {
-    margin-left: 100px;
-  }
+
   .expandButton {
     position: absolute;
     display: flex;

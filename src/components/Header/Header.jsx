@@ -20,12 +20,10 @@ function Header() {
               <img src={Icons["search"]} alt="" />
             </div>
             <div className="header__section__search--iconClose">
-              {searchValue ? (
+              {searchValue && (
                 <button onMouseDown={handleClearSearch}>
                   <img src={Icons["close"]} alt="" />
                 </button>
-              ) : (
-                ""
               )}
             </div>
             <input

@@ -5,18 +5,21 @@ import Hero from "../components/Hero/Hero.jsx";
 import Categories from "../components/Categories/Categories.jsx";
 import SkeletonProduct from "../components/Product/SkeletonProduct.jsx";
 import Product from "../components/Product/Product.jsx";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const sort = useSelector((state) => state.sort.sortType);
+
   const [pizzas, setPizzas] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [sortItem, setSortItem] = useState(3);
+
   const [foundData, setFoundData] = useState(true);
-  const sortTypes = ["rating", "title", "alphabet(Z-A)", "price"];
+  const sortTypes = ["rating", "title", "time", "price"];
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      `https://65810e6e3dfdd1b11c425bad.mockapi.io/pizzas?sortBy=${sortTypes[sortItem]}&search=${searchValue}&order=desc`,
+      `https://65810e6e3dfdd1b11c425bad.mockapi.io/pizzas?sortBy=${sortTypes[sort]}&search=${searchValue}&order=desc`,
     )
       .then((res) => res.json())
       .then((data) => {
@@ -28,13 +31,13 @@ function Home() {
         }
         setIsLoading(false);
       });
-  }, [sortTypes[sortItem], searchValue]);
+  }, [sortTypes[sort], searchValue]);
   return (
     <>
       <Outlet />
       <Header searchValue={searchValue} setSearchValue={setSearchValue} />
       <Hero />
-      <Categories sortItem={sortItem} setSortItem={(id) => setSortItem(id)} />
+      <Categories />
       <div className="products">
         <div className="container">
           <div className="products__section">
@@ -47,7 +50,7 @@ function Home() {
                 pizzas.map((obj) => <Product key={obj.id} {...obj} />)
               )
             ) : (
-              <div>Sorry, we didn't find any matches</div>
+              <div>Sorry, we didnt find any matches</div>
             )}
           </div>
         </div>

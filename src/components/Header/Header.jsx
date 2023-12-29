@@ -1,5 +1,4 @@
 import * as Icons from "./../../assets/icons/";
-import { useState } from "react";
 function Header({ searchValue, setSearchValue }) {
   const handleClearSearch = (event) => {
     event.preventDefault();
@@ -31,7 +30,7 @@ function Header({ searchValue, setSearchValue }) {
               name="search"
               placeholder="Search"
               value={searchValue}
-              onChange={() => setSearchValue(event.target.value)}
+              onChange={(event) => setSearchValue(event.target.value)}
             />
           </div>
         </div>

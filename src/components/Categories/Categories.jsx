@@ -1,20 +1,29 @@
 import * as Images from "./../../assets/img/";
-import { useState } from "react";
 import sortIcon from "./../../assets/icons/sort.svg";
-function Categories({ sortItem, setSortItem }) {
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSortType,
+  setPopupActive,
+  setActiveCategory,
+} from "../../redux/slices/sortSlice.jsx";
+function Categories() {
+  const sort = useSelector((state) => state.sort.sortType);
+  const popUp = useSelector((state) => state.sort.popUp);
+  const category = useSelector((state) => state.sort.category);
+  const dispatch = useDispatch();
+
   const categories = [
     { id: 1, name: "Pizza" },
     { id: 2, name: "Burger" },
     { id: 3, name: "Fries" },
     { id: 4, name: "Pack" },
   ];
-  const [popupActive, setPopupActive] = useState(false);
+
   const sortTypes = ["popularity", "alphabet(A-Z)", "alphabet(Z-A)", "price"];
-  const [activeCategory, setActiveCategory] = useState(0);
 
   const handleChangeSortType = (index) => {
-    setSortItem(index);
-    setPopupActive(!popupActive);
+    dispatch(setSortType(index));
+    dispatch(setPopupActive(!popUp));
   };
   return (
     <div className="categories">
@@ -22,17 +31,20 @@ function Categories({ sortItem, setSortItem }) {
         <div className="categories__section">
           <div className="categories__section--title">
             Our Menu
-            <span onClick={() => setPopupActive(!popupActive)} className="sort">
+            <span
+              onClick={() => dispatch(setPopupActive(!popUp))}
+              className="sort"
+            >
               <img src={sortIcon} alt="" className="sort--img" />
             </span>
-            {popupActive && (
+            {popUp && (
               <ul className="sort__popup">
                 {sortTypes.map((obj, index) => (
                   <li
                     onClick={() => handleChangeSortType(index)}
                     key={index}
                     className={`sort__popup--item ${
-                      sortItem === index ? "active" : ""
+                      sort === index ? "active" : ""
                     }`}
                   >
                     {obj}
@@ -46,9 +58,9 @@ function Categories({ sortItem, setSortItem }) {
               return (
                 <li
                   key={obj.id}
-                  onClick={() => setActiveCategory(index)}
+                  onClick={() => dispatch(setActiveCategory(index))}
                   className={`category__item ${
-                    activeCategory === index ? "active" : ""
+                    category === index ? "active" : ""
                   }`}
                 >
                   <div className="category__item--img">

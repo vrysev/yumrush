@@ -7,9 +7,7 @@ import {
   setActiveCategory,
 } from "../../redux/slices/sortSlice.jsx";
 function Categories() {
-  const sort = useSelector((state) => state.sort.sortType);
-  const popUp = useSelector((state) => state.sort.popUp);
-  const category = useSelector((state) => state.sort.category);
+  const { sort, popUp, category } = useSelector((state) => state.sort);
   const dispatch = useDispatch();
 
   const categories = [

@@ -1,9 +1,27 @@
 import * as Icons from "./../../assets/icons/";
-function Header({ searchValue, setSearchValue }) {
+import { useDispatch } from "react-redux";
+import { setSearchValue } from "../../redux/slices/searchSlice.jsx";
+import { debounce } from "lodash";
+import { useState, useCallback } from "react";
+
+function Header() {
+  const [value, setValue] = useState("");
+  const dispatch = useDispatch();
   const handleClearSearch = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    setSearchValue("");
+    dispatch(setSearchValue(""));
+    setValue("");
+  };
+  const debounceSearch = useCallback(
+    debounce((str) => {
+      dispatch(setSearchValue(str));
+    }, 500),
+    [],
+  );
+  const handleSearch = (event) => {
+    setValue(event.target.value);
+    debounceSearch(event.target.value);
   };
   return (
     <header className="header">
@@ -18,7 +36,7 @@ function Header({ searchValue, setSearchValue }) {
               <img src={Icons["search"]} alt="" />
             </div>
             <div className="header__section__search--iconClose">
-              {searchValue && (
+              {value && (
                 <button onMouseDown={handleClearSearch}>
                   <img src={Icons["close"]} alt="" />
                 </button>
@@ -29,8 +47,8 @@ function Header({ searchValue, setSearchValue }) {
               className={"header__section__search--search"}
               name="search"
               placeholder="Search"
-              value={searchValue}
-              onChange={(event) => setSearchValue(event.target.value)}
+              value={value}
+              onChange={handleSearch}
             />
           </div>
         </div>

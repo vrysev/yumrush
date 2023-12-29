@@ -9,9 +9,9 @@ import { useSelector } from "react-redux";
 
 function Home() {
   const sort = useSelector((state) => state.sort.sortType);
+  const search = useSelector((state) => state.search.searchValue);
 
   const [pizzas, setPizzas] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const [foundData, setFoundData] = useState(true);
@@ -19,7 +19,7 @@ function Home() {
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      `https://65810e6e3dfdd1b11c425bad.mockapi.io/pizzas?sortBy=${sortTypes[sort]}&search=${searchValue}&order=desc`,
+      `https://65810e6e3dfdd1b11c425bad.mockapi.io/pizzas?sortBy=${sortTypes[sort]}&search=${search}&order=desc`,
     )
       .then((res) => res.json())
       .then((data) => {
@@ -31,11 +31,11 @@ function Home() {
         }
         setIsLoading(false);
       });
-  }, [sortTypes[sort], searchValue]);
+  }, [sortTypes[sort], search]);
   return (
     <>
       <Outlet />
-      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Header />
       <Hero />
       <Categories />
       <div className="products">

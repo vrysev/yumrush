@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const initialState = {
+const initialState = {
   sortType: 0,
   popUp: false,
   category: 0,
@@ -19,13 +19,9 @@ export const sortSlice = createSlice({
     setActiveCategory(state, action) {
       state.category = action.payload;
     },
-    setParams(state, action) {
-      state.sortType = action.payload.sort;
-      state.category = action.payload.category;
-    },
   },
 });
 
-export const { setSortType, setPopupActive, setActiveCategory, setParams } =
+export const { setSortType, setPopupActive, setActiveCategory } =
   sortSlice.actions;
 export default sortSlice.reducer;

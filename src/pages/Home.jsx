@@ -5,33 +5,36 @@ import Hero from "../components/Hero/Hero.jsx";
 import Categories from "../components/Categories/Categories.jsx";
 import SkeletonProduct from "../components/Product/SkeletonProduct.jsx";
 import Product from "../components/Product/Product.jsx";
+import axios from "axios";
 import { useSelector } from "react-redux";
 
 function Home() {
   const sort = useSelector((state) => state.sort.sortType);
   const search = useSelector((state) => state.search.searchValue);
+  const category = useSelector((state) => state.sort.category);
 
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [foundData, setFoundData] = useState(true);
   const sortTypes = ["rating", "title", "time", "price"];
+  const categoryTypes = ["pizzas", "burgers"];
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      `https://65810e6e3dfdd1b11c425bad.mockapi.io/pizzas?sortBy=${sortTypes[sort]}&search=${search}&order=desc`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data !== "Not found") {
-          setPizzas(data);
+    axios
+      .get(
+        `https://65810e6e3dfdd1b11c425bad.mockapi.io/${categoryTypes[category]}?sortBy=${sortTypes[sort]}&search=${search}&order=desc`,
+      )
+      .then((res) => {
+        if (res.data !== "Not found") {
+          setPizzas(res.data);
           setFoundData(true);
         } else {
           setFoundData(false);
         }
         setIsLoading(false);
       });
-  }, [sortTypes[sort], search]);
+  }, [sortTypes[sort], search, categoryTypes[category]]);
   return (
     <>
       <Outlet />

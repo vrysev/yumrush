@@ -1,3 +1,5 @@
+@import "./../../scss/variables";
+
 .hero__section {
   display: flex;
   position: relative;
@@ -14,7 +16,7 @@
     height: 100%;
     border-radius: 40px;
     flex: 1 1 150%;
-    background: url("../assets/img/pizzahero.png") center/cover no-repeat;
+    background: url("../../assets/img/pizzahero.png") center/cover no-repeat;
   }
 
 }

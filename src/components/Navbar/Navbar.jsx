@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Icons from "../../assets/icons";
 import styles from "./Navbar.module.scss";
 function Navbar() {
@@ -13,6 +13,26 @@ function Navbar() {
     "piechart",
     "chat",
   ];
+  useEffect(() => {
+    // Function to update state based on viewport width
+    const updateViewportStatus = () => {
+      const viewportWidth = window.innerWidth;
+
+      if (viewportWidth <= 1480) {
+        setExpand(false);
+      } else {
+        setExpand(true);
+      }
+    };
+
+    updateViewportStatus();
+
+    window.addEventListener("resize", updateViewportStatus);
+
+    return () => {
+      window.removeEventListener("resize", updateViewportStatus);
+    };
+  }, []);
   return (
     <>
       {expand ? (

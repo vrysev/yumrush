@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import styles from "./Products.module.scss";
 function Product(props) {
   const { imageUrl, title, price, preparationTime } = props;
   const [countProducts, setCountProducts] = useState(0);
@@ -10,25 +10,22 @@ function Product(props) {
   };
 
   return (
-    <div className="product-item">
-      <div className="product-item--img">
+    <div className={styles.item}>
+      <div className={styles.itemImage}>
         <img src={imageUrl} alt="" />
       </div>
-      <div className="product-item__block">
-        <h2 className="product-item__title">{title}</h2>
-        <p className="product-item__description">{preparationTime}</p>
-        <div className="price__block">
-          <p className="product-item__price">{price + "$"}</p>
+      <div className={styles.itemBlock}>
+        <h2 className={styles.title}>{title}</h2>
+        <p className={styles.description}>{preparationTime}</p>
+        <div className={styles.priceBlock}>
+          <p className={styles.price}>{price + "$"}</p>
           <button
             onClick={() => setCountProducts(countProducts + 1)}
-            className="product-item__button"
+            className={styles.btn}
           >
             Add to Cart
-            <span
-              onClick={updateCountProducts}
-              className="product-item__counter"
-            >
-              {countProducts ? <span className="decrease">-</span> : ""}
+            <span onClick={updateCountProducts} className={styles.counter}>
+              {countProducts ? <span className={styles.decrease}>-</span> : ""}
               {countProducts}
             </span>
           </button>

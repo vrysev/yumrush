@@ -5,20 +5,22 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import { store } from "./redux/store.jsx";
 import { Provider } from "react-redux";
+import NotFound from "./pages/NotFound.jsx";
+import Cart from "./pages/Cart.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <div>ERROR</div>,
+    errorElement: <NotFound />,
     children: [
       {
         path: "/",
         element: <Home />,
       },
       {
-        path: "yes",
-        element: <div>YES</div>,
+        path: "cart",
+        element: <Cart />,
       },
     ],
   },

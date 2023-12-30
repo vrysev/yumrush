@@ -41,9 +41,27 @@ function Home() {
 
   return (
     <>
+      <Outlet />
       <Header />
       <Hero />
       <Categories />
+      <div className="products">
+        <div className="container">
+          <div className={sectionProducts}>
+            {foundData ? (
+              isLoading ? (
+                [...new Array(6)].map((_, index) => (
+                  <SkeletonProduct key={index} />
+                ))
+              ) : (
+                pizzas.map((obj) => <Product key={obj.id} {...obj} />)
+              )
+            ) : (
+              <div>Sorry, we didnt find any matches</div>
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 }

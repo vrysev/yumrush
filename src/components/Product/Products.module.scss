@@ -2,36 +2,37 @@
 
 .section {
   display: flex;
+  justify-content: center;
   width: 100%;
   flex-wrap: wrap;
   gap: 15px;
+  font-size: 24px;
 }
 
 .item {
   display: flex;
   position: relative;
   align-items: center;
-  width: calc(50% - 10px);
-  column-gap: 10px;
-  height: 260px;
-  border-radius: 30px;
+  width: 23em;
+  column-gap: 0.5em;
+  height: 10em;
+  border-radius: 1.5em;
   background: $white;
   box-shadow: 2px 6px 30px 0px rgba(0, 0, 0, 0.10);
+  @media (max-width: 685px) {
+      width: 100vw;
+  }
 
   .itemImage {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-    padding: 0 0 0 25px;
-
-    @media (max-width: 1370px) {
-      height: 70%;
-    }
+    padding: 0 0 0 1em;
 
     img {
       display: block;
-      height: 70%;
+      height: 8em;
     }
   }
 
@@ -39,39 +40,33 @@
     display: flex;
     height: 100%;
     justify-content: center;
-    row-gap: 30px;
+    row-gap: 1em;
     flex-direction: column;
     width: 100%;
 
     .title {
       color: $black;
-      font-size: 34px;
-      font-weight: 700;
-      line-height: 94.687%; /* 34.087px */
+      font-size: 1.3em;
+      font-weight: 00;
       letter-spacing: 1.08px;
-      @media (max-width: 1370px) {
-        font-size: 15px;
-      }
     }
 
     .description {
       color: $gray;
-      font-size: 20px;
+      font-size: 0.83em;
       font-weight: 600;
-      line-height: 144.687%; /* 28.937px */
       letter-spacing: 0.6px;
     }
 
     .priceBlock {
       display: flex;
       justify-content: space-between;
-      padding: 0 30px 0 0;
+      padding: 0 1em 0 0;
 
       .price {
         color: #01C550;
-        font-size: 32px;
+        font-size: 1.5em;
         font-weight: 700;
-        line-height: 144.687%; /* 46.3px */
         letter-spacing: 0.96px;
       }
 
@@ -79,13 +74,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        column-gap: 10px;
+        column-gap: 0.5em;
         border: 2px solid $button-primary;
         background: none;
-        border-radius: 50px;
-        padding: 5px 7px 5px 20px;
+        border-radius: 2em;
+        padding: 0.2em 0.3em 0.2em 1em;
         color: $button-primary;
-        font-size: 16px;
+        font-size: 0.66em;
         font-weight: bold;
         transition: 0.3s ease-in;
         cursor: pointer;
@@ -113,9 +108,9 @@
           align-items: center;
           background: $white;
           color: $button-primary;
-          border-radius: 50px;
+          border-radius: 2em;
           margin-right: 5px;
-          height: 8px;
+          height: 0.33em;
           transition: 0.3s ease-in;
         }
 
@@ -125,13 +120,30 @@
           align-items: center;
           background-color: $button-primary;
           color: $white;
-          border-radius: 50px;
+          border-radius: 2em;
           cursor: pointer;
-          padding: 5px 10px;
-          width: 40px;
+          padding: 0.2em 0.5em;
+          width: 1.66em;
           transition: 0.3s ease-in;
         }
       }
     }
   }
+  @media (max-width: 1245px) {
+    font-size: 20px;
+  }
+  @media (max-width: 1045px) {
+    font-size: 17px;
+  }
+  @media (max-width: 890px) {
+    font-size: 15px;
+  }
+  @media (max-width: 785px) {
+    font-size: 13px;
+  }
+  @media (max-width: 685px) {
+    font-size: 18px;
+  }
 }
+
+

@@ -1,15 +1,26 @@
-.categories__section {
+@import "./../../scss/variables";
+
+.section {
   display: flex;
   align-items: center;
   margin-bottom: 50px;
   width: 100%;
   justify-content: space-between;
-  &--list {
+
+  .active {
+    outline: 3px solid $button-primary;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    box-shadow: 0 4px 15px 0 rgba(255, 138, 0, 0.25);
+    transition: outline 0.3s ease;
+  }
+
+  .list {
     display: flex;
     flex-wrap: wrap;
     column-gap: 35px;
     margin-left: 100px;
-    .category__item {
+
+    .categoryItem {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -19,10 +30,12 @@
       background: $white;
       box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
       cursor: pointer;
+
       @media (max-width: 1370px ) {
         padding: 5px 30px 5px 5px;
       }
-      &--img {
+
+      .itemImage {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -32,42 +45,39 @@
         border-radius: 50px;
         background: #D9D9D9;
       }
-      &--title {
+
+      .itemTitle {
         display: block;
         font-style: normal;
         width: 30px;
         font-size: 20px;
         font-weight: 700;
-        line-height: 144.687%; /* 31.831px */
+        line-height: 144.687%;
         letter-spacing: 0.66px;
+
         @media (max-width: 1370px ) {
           font-size: 14px;
-
         }
       }
-
-    }
-    .active {
-      outline: 3px solid $button-primary;
-      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-      box-shadow: 0 4px 15px 0 rgba(255, 138, 0, 0.25);
-      transition: outline 0.3s ease;
     }
   }
-  &--title {
+
+  .title {
     color: $black;
     font-size: 30px;
     font-weight: 700;
     line-height: 144.687%; /* 43.406px */
     letter-spacing: 0.9px;
     white-space: nowrap;
-    .sort {
+
+    .sortBtn {
       display: inline-block;
       margin-left: 10px;
       cursor: pointer;
       position: relative;
     }
-    .sort__popup {
+
+    .sortPopUp {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -79,21 +89,16 @@
       font-weight: 500;
       z-index: 1;
       box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.2);
-      &--item {
+
+      .sortItem {
         text-align: center;
         cursor: pointer;
         padding: 5px 25px;
         width: 100%;
         transition: background 0.1s ease-in;
-        &.active {
-          background: $button-primary;
-          color: $white;
-          &:hover {
-            background: #cb6f26;
-          }
-        }
+
         &:hover {
-          background: $gray;
+          background: $button-primary;
           color: $white;
           transition: background 0.1s ease-in;
         }
@@ -101,4 +106,3 @@
     }
   }
 }
-

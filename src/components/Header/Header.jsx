@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { setSearchValue } from "../../redux/slices/searchSlice.jsx";
 import { debounce } from "lodash";
 import { useState, useCallback } from "react";
+import styles from "./Header.module.scss";
 
 function Header() {
   const [value, setValue] = useState("");
@@ -26,16 +27,16 @@ function Header() {
   return (
     <header className="header">
       <div className="container">
-        <div className="header__section">
-          <div className="header__section__block">
-            <p className="greeting">Hello John</p>
-            <p className="welcome-message">Welcome Back</p>
+        <div className={styles.section}>
+          <div className={styles.block}>
+            <p className={styles.greeting}>Hello John</p>
+            <p className={styles.welcomeMessage}>Welcome Back</p>
           </div>
-          <div className="header__section__search">
-            <div className="header__section__search--iconSearch">
+          <div className={styles.search}>
+            <div className={styles.iconSearch}>
               <img src={Icons["search"]} alt="" />
             </div>
-            <div className="header__section__search--iconClose">
+            <div className={styles.iconClose}>
               {value && (
                 <button onMouseDown={handleClearSearch}>
                   <img src={Icons["close"]} alt="" />
@@ -44,7 +45,7 @@ function Header() {
             </div>
             <input
               type="search"
-              className={"header__section__search--search"}
+              className={styles.searchInput}
               name="search"
               placeholder="Search"
               value={value}

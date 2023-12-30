@@ -1,35 +1,42 @@
-.header__section {
+@import "./../../scss/variables";
+
+.section {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   padding-top: 50px;
-  &__block {
+
+  .block {
     display: flex;
     flex-direction: column;
     row-gap: 14px;
   }
 
-  &__search {
+  .search {
     position: relative;
-    &--iconSearch {
+
+    .iconSearch {
       position: absolute;
       top: 17%;
       left: 5%;
     }
-    &--iconClose {
+
+    .iconClose {
       top: 28%;
       right: 5%;
       position: absolute;
       z-index: 1;
+
       button {
         border: none;
         background: none;
         cursor: pointer;
       }
+
     }
 
-    &--search {
+    .searchInput {
       position: relative;
       padding-left: 120px;
       border-radius: 15px;
@@ -54,11 +61,9 @@
     font-weight: 500;
   }
 
-  .welcome-message {
+  .welcomeMessage {
     color: $black;
     font-size: 28px;
     font-weight: 700;
   }
-
 }
-

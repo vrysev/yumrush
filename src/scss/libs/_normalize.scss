@@ -53,6 +53,12 @@ image {
   display: block;
 }
 
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
 @mixin noselect {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */

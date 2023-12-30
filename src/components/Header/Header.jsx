@@ -36,12 +36,8 @@ function Header() {
             <div className={styles.iconSearch}>
               <img src={Icons["search"]} alt="" />
             </div>
-            <div className={styles.iconClose}>
-              {value && (
-                <button onMouseDown={handleClearSearch}>
-                  <img src={Icons["close"]} alt="" />
-                </button>
-              )}
+            <div onMouseDown={handleClearSearch} className={styles.iconClose}>
+              {value && <img src={Icons["close"]} alt="" />}
             </div>
             <input
               type="search"

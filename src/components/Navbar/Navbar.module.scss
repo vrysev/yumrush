@@ -8,6 +8,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: $white;
   top: 0;
   left: 0;
   height: 100%;
@@ -69,7 +70,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 8vh;
+  top: 15vh;
   background: $button-primary;
   padding: 7px;
   border: none;

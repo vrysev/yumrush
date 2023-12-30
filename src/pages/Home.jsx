@@ -37,12 +37,12 @@ function Home() {
       });
   }, [sortTypes[sort], search, categoryTypes[category]]);
   // <Outlet />
-  // <Hero />
   // <Categories />
 
   return (
     <>
       <Header />
+      <Hero />
     </>
   );
 }

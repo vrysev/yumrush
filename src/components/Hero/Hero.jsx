@@ -2,10 +2,12 @@ import styles from "./Hero.module.scss";
 function Hero() {
   return (
     <div className="hero">
-      <div className="container">
+      <div className={styles.container}>
         <div className={styles.section}>
           <div className={styles.block}>
-            <div className={styles.title}>Make Your First Order and Get</div>
+            <div className={styles.title}>
+              Make Your First Order and Get 15%
+            </div>
             <div className={styles.text}>
               In publishing and graphic design, Lorem ipsum is a placeholder
               text commonly used to demonstrate the visual form of a document or

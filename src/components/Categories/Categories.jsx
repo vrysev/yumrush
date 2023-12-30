@@ -36,23 +36,23 @@ function Categories() {
               className={styles.sortBtn}
             >
               <img src={sortIcon} alt="" className="sort--img" />
+              {popUp && (
+                <ul className={styles.sortPopUp}>
+                  {sortTypes.map((obj, index) => (
+                    <li
+                      onClick={() => handleChangeSortType(index)}
+                      key={index}
+                      className={
+                        styles.sortItem +
+                        (sortType === index ? " " + styles.active : "")
+                      }
+                    >
+                      {obj}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </span>
-            {popUp && (
-              <ul className={styles.sortPopUp}>
-                {sortTypes.map((obj, index) => (
-                  <li
-                    onClick={() => handleChangeSortType(index)}
-                    key={index}
-                    className={
-                      styles.sortItem +
-                      (sortType === index ? " " + styles.active : "")
-                    }
-                  >
-                    {obj}
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
           <ul className={styles.list}>
             {categories.map((obj, index) => {

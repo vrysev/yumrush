@@ -17,7 +17,7 @@
   .search {
     position: relative;
     .searchInput {
-      padding: 0 2em 0 5em;
+      padding: 0 3em 0 5em;
       border-radius: 0.6em;
       background: rgba(180, 188, 207, 0.41);
       width: 15em;
@@ -47,11 +47,11 @@
     .iconClose {
       display: block;
       position: absolute;
-      padding: 0 0.25em 0 0.25em;
       top: 50%;
       right: 5%;
       transform: translateY(-50%);
       z-index: 1;
+      cursor: pointer;
         img {
           width: 1.5em;
           height: 1.5em;

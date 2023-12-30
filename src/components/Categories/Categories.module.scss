@@ -12,7 +12,7 @@
     outline: 3px solid $button-primary;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     box-shadow: 0 4px 15px 0 rgba(255, 138, 0, 0.25);
-    transition: outline 0.3s ease;
+    transition: outline 0.1s ease-in;
   }
 
   .list {
@@ -79,18 +79,19 @@
       position: absolute;
       background: $white;
       color: $black;
-      font-size: 0.83em;
-      font-weight: 500;
+      font-size: 0.7em;
+      font-weight: 300;
       z-index: 1;
-      box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.2);
-
+      box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.12);
+      border-radius: 5px;
+      transition: 0.2s ease-in;
       .sortItem {
         text-align: center;
         cursor: pointer;
-        padding: 0.2em 1em;
+        padding: 0.5em 2em;
+        border-radius: 5px;
         width: 100%;
         transition: background 0.1s ease-in;
-
         &:hover {
           background: $button-primary;
           color: $white;

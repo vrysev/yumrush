@@ -1,7 +1,10 @@
+@import "./../../scss/variables";
+
 body {
   position: relative;
 }
-.left-sidebar {
+
+.leftSidebar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +26,6 @@ body {
 
     img {
       transition: 5s ease;
-
       transform: rotate(0deg);
     }
   }
@@ -34,7 +36,7 @@ body {
     flex-direction: column;
     row-gap: 45px;
 
-    &-item {
+    .item {
       align-self: center;
       justify-self: center;
       padding: 7px;
@@ -42,7 +44,6 @@ body {
         height: 40px;
       }
     }
-
   }
 
   .active {
@@ -59,7 +60,6 @@ body {
       // this is $white color for svg in image
       filter: hue-rotate(180deg) brightness(100);
       transition: 5s ease-in-out;
-
     }
   }
 }

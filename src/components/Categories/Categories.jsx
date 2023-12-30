@@ -6,8 +6,9 @@ import {
   setPopupActive,
   setActiveCategory,
 } from "../../redux/slices/sortSlice.jsx";
+import styles from "./Categories.module.scss";
 function Categories() {
-  const { sort, popUp, category } = useSelector((state) => state.sort);
+  const { sortType, popUp, category } = useSelector((state) => state.sort);
   const dispatch = useDispatch();
 
   const categories = [
@@ -22,28 +23,30 @@ function Categories() {
   const handleChangeSortType = (index) => {
     dispatch(setSortType(index));
     dispatch(setPopupActive(!popUp));
+    console.log(sortType);
   };
   return (
     <div className="categories">
       <div className="container">
-        <div className="categories__section">
-          <div className="categories__section--title">
+        <div className={styles.section}>
+          <div className={styles.title}>
             Our Menu
             <span
               onClick={() => dispatch(setPopupActive(!popUp))}
-              className="sort"
+              className={styles.sortBtn}
             >
               <img src={sortIcon} alt="" className="sort--img" />
             </span>
             {popUp && (
-              <ul className="sort__popup">
+              <ul className={styles.sortPopUp}>
                 {sortTypes.map((obj, index) => (
                   <li
                     onClick={() => handleChangeSortType(index)}
                     key={index}
-                    className={`sort__popup--item ${
-                      sort === index ? "active" : ""
-                    }`}
+                    className={
+                      styles.sortItem +
+                      (sortType === index ? " " + styles.active : "")
+                    }
                   >
                     {obj}
                   </li>
@@ -51,23 +54,23 @@ function Categories() {
               </ul>
             )}
           </div>
-          <ul className="categories__section--list">
+          <ul className={styles.list}>
             {categories.map((obj, index) => {
               return (
                 <li
                   key={obj.id}
                   onClick={() => dispatch(setActiveCategory(index))}
-                  className={`category__item ${
-                    category === index ? "active" : ""
+                  className={`${styles.categoryItem} ${
+                    category === index ? styles.active : ""
                   }`}
                 >
-                  <div className="category__item--img">
+                  <div className={styles.itemImage}>
                     <img
                       src={Images[obj.name.toLowerCase()]}
                       alt={"category"}
                     />
                   </div>
-                  <p className="category__item--title">{obj.name}</p>
+                  <p className={styles.itemTitle}>{obj.name}</p>
                 </li>
               );
             })}

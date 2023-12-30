@@ -7,6 +7,7 @@ import SkeletonProduct from "../components/Product/SkeletonProduct.jsx";
 import Product from "../components/Product/Product.jsx";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { section as sectionProducts } from "./../components/Product/Products.module.scss";
 
 function Home() {
   const sort = useSelector((state) => state.sort.sortType);
@@ -43,7 +44,7 @@ function Home() {
       <Categories />
       <div className="products">
         <div className="container">
-          <div className="products__section">
+          <div className={sectionProducts}>
             {foundData ? (
               isLoading ? (
                 [...new Array(6)].map((_, index) => (

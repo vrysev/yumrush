@@ -1,7 +1,9 @@
+@import "./../../scss/variables";
+
 body {
   position: relative;
 }
-.left-sidebar {
+.leftSidebar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +36,7 @@ body {
     flex-direction: column;
     row-gap: 45px;
 
-    &-item {
+    .item {
       align-self: center;
       justify-self: center;
       padding: 7px;

@@ -92,10 +92,19 @@
         border-radius: 5px;
         width: 100%;
         transition: background 0.1s ease-in;
-        &:hover {
+        &.active {
           background: $button-primary;
           color: $white;
-          transition: background 0.1s ease-in;
+          z-index: -1;
+          &:hover {
+            color: $white;
+          }
+        }
+        &:hover {
+          outline: 4px solid $button-primary;
+          color: $button-primary;
+          transition: 0.1s ease-in;
+          box-shadow: 10px 10px 20px 0px rgba(255, 125, 125, 0.5);
         }
       }
     }

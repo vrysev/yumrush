@@ -109,4 +109,12 @@
       font-size: 1.7em;
     }
   }
+  @media (max-width: 463px) {
+    font-size: 8px;
+    .block {
+      padding: 10px;
+      column-gap: 25px;
+      font-size: 1.7em;
+    }
+  }
 }

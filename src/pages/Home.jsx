@@ -37,12 +37,13 @@ function Home() {
       });
   }, [sortTypes[sort], search, categoryTypes[category]]);
   // <Outlet />
-  // <Categories />
+  //
 
   return (
     <>
       <Header />
       <Hero />
+      <Categories />
     </>
   );
 }

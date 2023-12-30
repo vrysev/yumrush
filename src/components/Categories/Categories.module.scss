@@ -6,6 +6,7 @@
   margin-bottom: 50px;
   width: 100%;
   justify-content: space-between;
+  font-size: 24px;
 
   .active {
     outline: 3px solid $button-primary;
@@ -16,63 +17,56 @@
 
   .list {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    column-gap: 35px;
-    margin-left: 100px;
+    column-gap: 1.45em;
+    row-gap: 0.5em;
+    margin-left: 4.16em;
 
     .categoryItem {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      column-gap: 10px;
-      padding: 5px 60px 5px 5px;
-      border-radius: 25px;
+      column-gap: 0.41em;
+      padding: 0.2em 2.5em 0.2em 0.2em;
+      border-radius: 1em;
       background: $white;
       box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
       cursor: pointer;
-
-      @media (max-width: 1370px ) {
-        padding: 5px 30px 5px 5px;
-      }
 
       .itemImage {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 60px;
-        flex-shrink: 0;
-        height: 40px;
-        border-radius: 50px;
+        border-radius: 2em;
         background: #D9D9D9;
+        img {
+          width: 2.5em;
+          height: 1.66em;
+        }
       }
 
       .itemTitle {
         display: block;
         font-style: normal;
-        width: 30px;
-        font-size: 20px;
+        width: 1.25em;
+        font-size: 0.83em;
         font-weight: 700;
-        line-height: 144.687%;
         letter-spacing: 0.66px;
-
-        @media (max-width: 1370px ) {
-          font-size: 14px;
-        }
       }
     }
   }
 
   .title {
     color: $black;
-    font-size: 30px;
+    font-size: 1.25em;
     font-weight: 700;
-    line-height: 144.687%; /* 43.406px */
     letter-spacing: 0.9px;
     white-space: nowrap;
 
     .sortBtn {
       display: inline-block;
-      margin-left: 10px;
+      margin-left: 0.41em;
       cursor: pointer;
       position: relative;
     }
@@ -85,7 +79,7 @@
       position: absolute;
       background: $white;
       color: $black;
-      font-size: 20px;
+      font-size: 0.83em;
       font-weight: 500;
       z-index: 1;
       box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.2);
@@ -93,7 +87,7 @@
       .sortItem {
         text-align: center;
         cursor: pointer;
-        padding: 5px 25px;
+        padding: 0.2em 1em;
         width: 100%;
         transition: background 0.1s ease-in;
 
@@ -104,5 +98,20 @@
         }
       }
     }
+  }
+  @media (max-width: 715px) {
+    font-size: 20px;
+  }
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
+  @media (max-width: 500px) {
+    font-size: 13px;
+  }
+  @media (max-width: 400px) {
+    font-size: 10px;
+  }
+  @media (max-width: 350px) {
+    font-size: 8px;
   }
 }

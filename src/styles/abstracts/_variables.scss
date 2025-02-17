@@ -1,0 +1,22 @@
+$colors: (
+  'black': #2F2F2F,
+  'gray': #B4BCCF,
+  'white': #FFFFFF,
+  'primary': #FF8A00,
+  'light-gray': rgba(180, 188, 207, 0.41),
+  'background': #FFFFFF
+);
+
+$container: (
+  'max-width': 1400px,
+  'width': 90%
+);
+
+$breakpoints: (
+  'xs': 320px,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px
+);

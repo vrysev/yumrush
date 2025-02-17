@@ -2,7 +2,6 @@
 @import 'abstracts/variables';
 @import 'abstracts/functions';
 @import 'abstracts/mixins';
-@import 'abstracts/breakpoints';
 
 // Base
 @import 'base/reset';
@@ -12,23 +11,4 @@
 // Layout
 @import 'layout/wrapper';
 @import 'layout/container';
-@import 'layout/header';
-@import 'layout/navbar';
 
-// Components
-@import 'components/buttons';
-@import 'components/cards';
-@import 'components/hero';
-@import 'components/categories';
-@import 'components/products';
-@import 'components/cart';
-@import 'components/search';
-
-// Pages
-@import 'pages/home';
-@import 'pages/cart';
-@import 'pages/not-found';
-
-// Utilities
-@import 'utilities/animations';
-@import 'utilities/helpers';

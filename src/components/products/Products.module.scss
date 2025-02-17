@@ -1,4 +1,6 @@
-@import "@styles/abstracts/variables";
+@import '@styles/abstracts/variables';
+@import '@styles/abstracts/mixins';
+@import '@styles/abstracts/functions';
 
 .section {
   display: flex;
@@ -17,7 +19,7 @@
   column-gap: 0.5em;
   height: 10em;
   border-radius: 1.5em;
-  background: $white;
+  background: color('white');
   box-shadow: 2px 6px 30px 0px rgba(0, 0, 0, 0.10);
   @media (max-width: 685px) {
       width: 100vw;
@@ -45,14 +47,14 @@
     width: 100%;
 
     .title {
-      color: $black;
+      color: color('black');
       font-size: 1.3em;
       font-weight: 00;
       letter-spacing: 1.08px;
     }
 
     .description {
-      color: $gray;
+      color: color('gray');
       font-size: 0.83em;
       font-weight: 600;
       letter-spacing: 0.6px;
@@ -75,30 +77,30 @@
         justify-content: center;
         align-items: center;
         column-gap: 0.5em;
-        border: 2px solid $button-primary;
+        border: 2px solid color('primary');
         background: none;
         border-radius: 2em;
         padding: 0.2em 0.3em 0.2em 1em;
-        color: $button-primary;
+        color: color('primary');
         font-size: 0.66em;
         font-weight: bold;
         transition: 0.3s ease-in;
         cursor: pointer;
 
         &:hover {
-          background: $button-primary;
-          color: $white;
+          background: color('primary');
+          color: color('white');
           transition: 0.3s ease-in;
 
           .counter {
-            background-color: $white;
-            color: $button-primary;
+            background-color: color('white');
+            color: color('primary');
             transition: 0.3s ease-in;
           }
 
           .decrease {
-            background: $button-primary;
-            color: $white;
+            background: color('primary');
+            color: color('white');
           }
         }
 
@@ -106,8 +108,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          background: $white;
-          color: $button-primary;
+          background: color('white');
+          color: color('primary');
           border-radius: 2em;
           margin-right: 5px;
           height: 0.33em;
@@ -118,8 +120,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: $button-primary;
-          color: $white;
+          background-color: color('primary');
+          color: color('white');
           border-radius: 2em;
           cursor: pointer;
           padding: 0.2em 0.5em;

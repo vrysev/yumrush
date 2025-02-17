@@ -1,4 +1,6 @@
-@import "@styles/abstracts/variables";
+@import '@styles/abstracts/variables';
+@import '@styles/abstracts/mixins';
+@import '@styles/abstracts/functions';
 
 .section {
   display: flex;
@@ -16,10 +18,11 @@
 
   .search {
     position: relative;
+    
     .searchInput {
       padding: 0 3em 0 5em;
       border-radius: 0.6em;
-      background: rgba(180, 188, 207, 0.41);
+      background: color('light-gray');
       width: 15em;
       font-size: 1em;
       height: 3em;
@@ -28,7 +31,6 @@
 
       &:focus {
         width: 21em;
-        transition: 0.2s ease-in-out;
       }
     }
 
@@ -36,8 +38,8 @@
       position: absolute;
       top: 50%;
       left: 5%;
-
       transform: translateY(-50%);
+      
       img {
         width: 2em;
         height: 2em;
@@ -52,28 +54,27 @@
       transform: translateY(-50%);
       z-index: 1;
       cursor: pointer;
-        img {
-          width: 1.5em;
-          height: 1.5em;
-        }
+      
+      img {
+        width: 1.5em;
+        height: 1.5em;
+      }
     }
-
   }
 
   .greeting {
-    color: $gray;
+    color: color('gray');
     font-weight: 500;
   }
 
   .welcomeMessage {
-    color: $black;
+    color: color('black');
     font-size: 1.5em;
     font-weight: 700;
   }
 
   @media (max-width: 1165px) {
     font-size: 18px;
-
     .block {
       padding: 10px;
       column-gap: 25px;
@@ -83,38 +84,17 @@
 
   @media (max-width: 850px) {
     font-size: 16px;
-
-    .block {
-      padding: 10px;
-      column-gap: 25px;
-      font-size: 1.7em;
-    }
   }
 
   @media (max-width: 755px) {
     font-size: 13px;
-
-    .block {
-      padding: 10px;
-      column-gap: 25px;
-      font-size: 1.7em;
-    }
   }
 
   @media (max-width: 660px) {
     font-size: 10px;
-    .block {
-      padding: 10px;
-      column-gap: 25px;
-      font-size: 1.7em;
-    }
   }
+
   @media (max-width: 463px) {
     font-size: 8px;
-    .block {
-      padding: 10px;
-      column-gap: 25px;
-      font-size: 1.7em;
-    }
   }
 }

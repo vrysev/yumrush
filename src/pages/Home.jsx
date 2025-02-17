@@ -9,35 +9,81 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { section as sectionProducts } from "./../components/Product/Products.module.scss";
 
+// Constants
+const SORT_TYPES = ["rating", "title", "time", "price"];
+const CATEGORY_TYPES = ["pizzas", "burgers"];
+const API_BASE_URL = "https://65810e6e3dfdd1b11c425bad.mockapi.io";
+const SKELETON_COUNT = 6;
+
+// API instance
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 5000,
+});
+
 function Home() {
+  // Redux selectors
   const sort = useSelector((state) => state.sort.sortType);
   const search = useSelector((state) => state.search.searchValue);
   const category = useSelector((state) => state.sort.category);
 
-  const [pizzas, setPizzas] = useState([]);
+  // State
+  const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
-  const [foundData, setFoundData] = useState(true);
-  const sortTypes = ["rating", "title", "time", "price"];
-  const categoryTypes = ["pizzas", "burgers"];
+  // Fetch products
   useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(
-        `https://65810e6e3dfdd1b11c425bad.mockapi.io/${categoryTypes[category]}?sortBy=${sortTypes[sort]}&search=${search}&order=desc`,
-      )
-      .then((res) => {
-        if (res.data !== "Not found") {
-          setPizzas(res.data);
-          setFoundData(true);
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        setHasError(false);
+
+        const url = `${CATEGORY_TYPES[category]}`;
+        const params = {
+          sortBy: SORT_TYPES[sort],
+          search,
+          order: "desc",
+        };
+
+        const { data } = await api.get(url, { params });
+
+        if (data === "Not found") {
+          setProducts([]);
+          setHasError(true);
         } else {
-          setFoundData(false);
+          setProducts(data);
         }
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+        setHasError(true);
+        setProducts([]);
+      } finally {
         setIsLoading(false);
-      });
-  }, [sortTypes[sort], search, categoryTypes[category]]);
-  // <Outlet />
-  //
+      }
+    };
+
+    fetchProducts();
+  }, [category, sort, search]);
+
+  // Render product list
+  const renderProducts = () => {
+    if (isLoading) {
+      return [...Array(SKELETON_COUNT)].map((_, index) => (
+        <SkeletonProduct key={`skeleton-${index}`} />
+      ));
+    }
+
+    if (hasError || products.length === 0) {
+      return (
+        <div className="text-center py-8 text-gray-600">
+          No products found. Try adjusting your search or filters.
+        </div>
+      );
+    }
+
+    return products.map((product) => <Product key={product.id} {...product} />);
+  };
 
   return (
     <>
@@ -45,23 +91,11 @@ function Home() {
       <Header />
       <Hero />
       <Categories />
-      <div className="products">
+      <section className="products">
         <div className="container">
-          <div className={sectionProducts}>
-            {foundData ? (
-              isLoading ? (
-                [...new Array(6)].map((_, index) => (
-                  <SkeletonProduct key={index} />
-                ))
-              ) : (
-                pizzas.map((obj) => <Product key={obj.id} {...obj} />)
-              )
-            ) : (
-              <div>Sorry, we didnt find any matches</div>
-            )}
-          </div>
+          <div className={sectionProducts}>{renderProducts()}</div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

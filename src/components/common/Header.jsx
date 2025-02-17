@@ -1,4 +1,4 @@
-import * as Icons from "./../../assets/icons/";
+import * as Icons from "../../assets/icons/index.jsx";
 import { useDispatch } from "react-redux";
 import { setSearchValue } from "../../redux/slices/searchSlice.jsx";
 import { debounce } from "lodash";

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header/Header.jsx";
-import Hero from "../components/Hero/Hero.jsx";
-import Categories from "../components/Categories/Categories.jsx";
-import SkeletonProduct from "../components/Product/SkeletonProduct.jsx";
-import Product from "../components/Product/Product.jsx";
+import Header from "../components/common/Header.jsx";
+import Hero from "../components/common/Hero.jsx";
+import Categories from "../components/categories/Categories.jsx";
+import SkeletonProduct from "../components/products/SkeletonProduct.jsx";
+import Product from "../components/products/Product.jsx";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { section as sectionProducts } from "./../components/Product/Products.module.scss";
+import { section as sectionProducts } from "../components/products/Products.module.scss";
 
 // Constants
 const SORT_TYPES = ["rating", "title", "time", "price"];

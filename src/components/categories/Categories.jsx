@@ -1,4 +1,4 @@
-import * as Images from "./../../assets/img/";
+import * as Images from "../../assets/img/index.jsx";
 import sortIcon from "./../../assets/icons/sort.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {

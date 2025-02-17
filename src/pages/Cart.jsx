@@ -1,4 +1,4 @@
-import CartList from "../components/CartList/CartList.jsx";
+import CartList from "../components/cart/CartList.jsx";
 
 function Cart() {
   return (

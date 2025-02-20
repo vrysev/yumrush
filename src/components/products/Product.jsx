@@ -1,7 +1,7 @@
-import { useState } from "react";
-import styles from "./Products.module.scss";
-function Product(props) {
-  const { imageUrl, title, price, preparationTime } = props;
+import { useState } from 'react';
+import './Product.scss';
+
+function Product({ imageUrl, title, price, preparationTime }) {
   const [countProducts, setCountProducts] = useState(0);
 
   const updateCountProducts = (event) => {
@@ -10,24 +10,23 @@ function Product(props) {
   };
 
   return (
-    <div className={styles.item}>
-      <div className={styles.itemImage}>
-        <img src={imageUrl} alt="" />
+    <div className="product">
+      <div className="product__image-wrapper">
+        <img src={imageUrl} alt={title} className="product__image" />
       </div>
-      <div className={styles.itemBlock}>
-        <h2 className={styles.title}>{title}</h2>
-        <p className={styles.description}>{preparationTime}</p>
-        <div className={styles.priceBlock}>
-          <p className={styles.price}>{price + "$"}</p>
-          <button
-            onClick={() => setCountProducts(countProducts + 1)}
-            className={styles.btn}
-          >
+      <div className="product__content">
+        <h2 className="product__title">{title}</h2>
+        <p className="product__prep-time">{preparationTime}</p>
+        <div className="product__footer">
+          <p className="product__price">${price}</p>
+          <button onClick={() => setCountProducts(countProducts + 1)} className="product__button">
             Add to Cart
-            <span onClick={updateCountProducts} className={styles.counter}>
-              {countProducts ? <span className={styles.decrease}>-</span> : ""}
-              {countProducts}
-            </span>
+            {countProducts > 0 && (
+              <span onClick={updateCountProducts} className="product__counter">
+                <span className="product__counter-decrease">-</span>
+                <span className="product__counter-number">{countProducts}</span>
+              </span>
+            )}
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   sortType: 0,
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export const sortSlice = createSlice({
-  name: "sort",
+  name: 'sort',
   initialState,
   reducers: {
     setSortType(state, action) {
@@ -22,6 +22,5 @@ export const sortSlice = createSlice({
   },
 });
 
-export const { setSortType, setPopupActive, setActiveCategory } =
-  sortSlice.actions;
+export const { setSortType, setPopupActive, setActiveCategory } = sortSlice.actions;
 export default sortSlice.reducer;

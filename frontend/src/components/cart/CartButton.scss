@@ -1,0 +1,59 @@
+@import '@styles/abstracts/variables';
+@import '@styles/abstracts/mixins';
+@import '@styles/abstracts/functions';
+
+.cart-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color('primary');
+  color: color('white');
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  
+  @include media-down('md') {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  &:hover {
+    background-color: darken(#FF8A00, 5%);
+  }
+  
+  &__icon {
+    margin-right: 8px;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+      
+      @include media-down('md') {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+  
+  &__count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: color('white');
+    color: color('primary');
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}

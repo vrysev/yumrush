@@ -7,6 +7,8 @@ import './Header.scss';
 import { IconsType } from '@/types/icons';
 import { useState, useCallback, MouseEvent, ChangeEvent, FC } from 'react';
 import AuthModal from '../../auth/AuthModal';
+import CartButton from '../../cart/CartButton';
+import CartSidebar from '../../cart/CartSidebar';
 import { RootState, AppDispatch } from '../../../redux/store';
 
 interface HeaderProps {
@@ -81,7 +83,9 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               </div>
             )}
             
-            <div className="header__auth">
+            <div className="header__buttons">
+              <CartButton />
+              
               {isAuthenticated ? (
                 <button
                   onClick={handleLogout}
@@ -106,6 +110,8 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
       />
+      
+      <CartSidebar />
     </header>
   );
 };

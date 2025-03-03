@@ -45,6 +45,16 @@
     }
   }
   
+  &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    @include media-down('md') {
+      gap: 8px;
+    }
+  }
+  
   &__login-btn, &__logout-btn {
     padding: 10px 24px;
     border-radius: 8px;

@@ -7,6 +7,8 @@ import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
+import Admin from './pages/Admin';
+import CheckoutSuccess from './pages/CheckoutSuccess';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
       {
         path: 'cart',
         element: <Cart />,
+      },
+      {
+        path: 'admin',
+        element: <Admin />,
+      },
+      {
+        path: 'checkout/success',
+        element: <CheckoutSuccess />,
       },
     ],
   },

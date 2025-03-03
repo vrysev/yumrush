@@ -1,6 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import * as Icons from '@assets/icons';
 import { IconsType } from '@/types/icons';
+import { RootState } from '../../../redux/store';
 import './Navbar.scss';
 
 interface NavItemProps {
@@ -8,15 +11,15 @@ interface NavItemProps {
   label: string;
   isActive: boolean;
   onClick: () => void;
+  path?: string;
 }
 
-
-const NavItem: FC<NavItemProps> = ({ icon, label, isActive, onClick }) => (
+const NavItem: FC<NavItemProps> = ({ icon, label, isActive, onClick, path }) => (
   <li 
     className={`navbar__item ${isActive ? 'navbar__item--active' : ''}`}
     onClick={onClick}
   >
-    <a href="#" className="navbar__link">
+    <a href={path || "#"} className="navbar__link" onClick={(e) => path && e.preventDefault()}>
       <img 
         src={(Icons as IconsType)[icon]} 
         alt={label} 
@@ -27,18 +30,39 @@ const NavItem: FC<NavItemProps> = ({ icon, label, isActive, onClick }) => (
   </li>
 );
 
-
 const Navbar: FC = () => {
   const [active, setActive] = useState<number>(0);
+  const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
   
-  const navItems = [
-    { icon: 'menu', label: 'Menu' },
-    { icon: 'person', label: 'Profile' },
-    { icon: 'balance', label: 'Orders' },
-    { icon: 'settings', label: 'Settings' },
-    { icon: 'email', label: 'Messages' },
-    { icon: 'piechart', label: 'Analytics' },
-    { icon: 'chat', label: 'Support' }
+  const handleNavClick = (index: number, path?: string) => {
+    setActive(index);
+    if (path) {
+      navigate(path);
+    }
+  };
+  
+  // Base navigation items
+  let navItems = [
+    { icon: 'menu', label: 'Menu', path: '/' },
+    { icon: 'person', label: 'Profile', path: '/profile' },
+    { icon: 'balance', label: 'Orders', path: '/account/orders' },
+    { icon: 'settings', label: 'Settings', path: '/settings' },
+  ];
+  
+  // Add admin dashboard for admin users
+  if (user && user.isAdmin) {
+    navItems = [
+      ...navItems,
+      { icon: 'piechart', label: 'Admin Panel', path: '/admin' },
+    ];
+  }
+  
+  // Add remaining items
+  navItems = [
+    ...navItems,
+    { icon: 'email', label: 'Messages', path: '/messages' },
+    { icon: 'chat', label: 'Support', path: '/support' },
   ];
 
   return (
@@ -53,8 +77,9 @@ const Navbar: FC = () => {
               key={index}
               icon={item.icon}
               label={item.label}
+              path={item.path}
               isActive={active === index}
-              onClick={() => setActive(index)}
+              onClick={() => handleNavClick(index, item.path)}
             />
           ))}
         </ul>

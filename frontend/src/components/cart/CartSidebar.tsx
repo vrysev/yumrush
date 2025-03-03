@@ -1,12 +1,15 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeCart, removeFromCart, updateQuantity, clearCart } from '../../redux/slices/cartSlice';
 import { RootState, AppDispatch } from '../../redux/store';
+import { createCheckoutSession } from '../../api/paymentApi';
 import './CartSidebar.scss';
 
 const CartSidebar: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { items, isOpen, totalQuantity, totalAmount } = useSelector((state: RootState) => state.cart);
+  const { user } = useSelector((state: RootState) => state.auth);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   
   const handleCloseCart = () => {
     dispatch(closeCart());
@@ -22,6 +25,32 @@ const CartSidebar: FC = () => {
   
   const handleClearCart = () => {
     dispatch(clearCart());
+  };
+  
+  const handleCheckout = async () => {
+    if (!user) {
+      alert('Please log in to checkout');
+      return;
+    }
+    
+    try {
+      setIsCheckingOut(true);
+      
+      console.log('Creating checkout session with user:', user);
+      const result = await createCheckoutSession(
+        items,
+        user.token,
+        user._id // Pass the user ID to be stored in the session metadata
+      );
+      
+      // Redirect to Stripe checkout
+      window.location.href = result.url;
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      alert('There was an error processing your payment. Please try again.');
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
   
   return (
@@ -113,8 +142,12 @@ const CartSidebar: FC = () => {
               <span>${totalAmount.toFixed(2)}</span>
             </div>
             <div className="cart-sidebar__footer-buttons">
-              <button className="cart-sidebar__footer-checkout">
-                Proceed to Checkout
+              <button 
+                className="cart-sidebar__footer-checkout"
+                onClick={handleCheckout}
+                disabled={isCheckingOut}
+              >
+                {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
               </button>
               <button 
                 className="cart-sidebar__footer-continue"
@@ -123,6 +156,11 @@ const CartSidebar: FC = () => {
                 Clear Cart
               </button>
             </div>
+            {!user && (
+              <p className="cart-sidebar__footer-login-notice">
+                Please log in to checkout
+              </p>
+            )}
           </div>
         )}
       </div>

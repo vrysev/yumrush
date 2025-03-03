@@ -277,5 +277,13 @@
         background-color: rgba(0, 0, 0, 0.05);
       }
     }
+    
+    &-login-notice {
+      text-align: center;
+      color: color('gray');
+      font-size: 14px;
+      margin-top: 15px;
+      font-style: italic;
+    }
   }
 }

@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 // Generate JWT
 const generateToken = (id: string): string => {
-  return jwt.sign({ id }, process.env.JWT_SECRET!, {
+  return jwt.sign({ id }, process.env.JWT_SECRET || 'mysecretkey123', {
     expiresIn: '30d'
   });
 };
@@ -14,7 +14,7 @@ const generateToken = (id: string): string => {
 // @route   POST /api/users
 // @access  Public
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
-  const { name, email, password } = req.body;
+  const { name, email, password, isAdmin } = req.body;
 
   try {
     // Check if user exists
@@ -25,11 +25,12 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    // Create user
+    // Create user (optionally as admin if specified in request)
     const user = await User.create({
       name,
       email,
-      password
+      password,
+      isAdmin: isAdmin || false, // Only set to true if explicitly requested
     });
 
     if (user) {
@@ -143,6 +144,72 @@ export const updateUserProfile = async (req: Request, res: Response): Promise<vo
     }
   } catch (error) {
     console.error('Update profile error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Admin
+export const getUsers = async (req: Request, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const adminUser = await User.findById(req.user._id);
+    
+    if (!adminUser?.isAdmin) {
+      res.status(401).json({ message: 'Not authorized as admin' });
+      return;
+    }
+
+    const users = await User.find({}).select('-password');
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Get users error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Create admin user (if no admin user exists)
+// @route   POST /api/users/create-admin
+// @access  Public (but can only be used once)
+export const createAdminUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Check if any admin user already exists
+    const adminExists = await User.findOne({ isAdmin: true });
+    
+    if (adminExists) {
+      res.status(400).json({ message: 'Admin user already exists' });
+      return;
+    }
+    
+    const { name, email, password } = req.body;
+    
+    // Create admin user
+    const adminUser = await User.create({
+      name,
+      email,
+      password,
+      isAdmin: true
+    });
+    
+    if (adminUser) {
+      const userDoc = adminUser as unknown as IUser;
+      res.status(201).json({
+        _id: userDoc._id,
+        name: userDoc.name,
+        email: userDoc.email,
+        isAdmin: userDoc.isAdmin,
+        token: generateToken(userDoc._id.toString())
+      });
+    } else {
+      res.status(400).json({ message: 'Invalid admin user data' });
+    }
+  } catch (error) {
+    console.error('Create admin error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };

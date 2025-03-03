@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs';
 dotenv.config();
 
 // Get the base URL from environment or default to localhost
-const BASE_URL = process.env.BACKEND_URL || 'http://localhost:5000/images';
+const BASE_URL = process.env.BACKEND_URL || 'http://localhost:1972/images';
 
 const initialProducts = [
  // Pizzas

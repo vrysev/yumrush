@@ -23,7 +23,7 @@ app.use('/api/users', userRoutes);
 
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 1972;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -15,7 +15,7 @@ Backend API for YumRush food ordering application built with Node.js, Express, T
    NODE_ENV=development
    JWT_SECRET=your_jwt_secret
    MONGODB_URI=your_mongodb_atlas_uri
-   BACKEND_URL=http://localhost:5000/images
+   BACKEND_URL=http://localhost:1972/images
    ```
 4. Initialize the database:
    ```

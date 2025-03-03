@@ -11,7 +11,7 @@ Backend API for YumRush food ordering application built with Node.js, Express, T
    ```
 3. Create `.env` file in the root directory (copy from `.env.example`):
    ```
-   PORT=5000
+   PORT=1972
    NODE_ENV=development
    JWT_SECRET=your_jwt_secret
    MONGODB_URI=your_mongodb_atlas_uri
@@ -82,7 +82,7 @@ After running `npm run init-db`, the following admin user is created:
 ## Image Handling
 
 Images are stored in the `/src/public/images` directory and served at `/images` endpoint. The path to images in the database should be stored as full URLs, like:
-`http://localhost:5000/images/pizzas/margherita.png`
+`http://localhost:1972/images/pizzas/margherita.png`
 
 ## Database Structure
 

@@ -101,6 +101,14 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
       // Create order in database
       if (session.metadata?.userId && session.metadata.userId !== 'guest') {
         try {
+          // Check if order already exists for this session
+          const existingOrder = await Order.findOne({ 'paymentResult.id': session.id });
+          
+          if (existingOrder) {
+            console.log('Order already exists for this session, skipping order creation:', existingOrder._id);
+            break;
+          }
+          
           // Get line items from the session
           const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
           
@@ -157,6 +165,14 @@ export const getPaymentStatus = async (req: Request, res: Response): Promise<voi
       try {
         console.log('Development mode: Simulating webhook for completed checkout');
         console.log('Session data:', session);
+        
+        // Check if order already exists for this session
+        const existingOrder = await Order.findOne({ 'paymentResult.id': session.id });
+        
+        if (existingOrder) {
+          console.log('Order already exists for this session, skipping order creation:', existingOrder._id);
+          return;
+        }
         
         // Simulate webhook by making a request to our own webhook endpoint
         const webhookData = {
@@ -253,6 +269,19 @@ export const triggerWebhookTest = async (req: Request, res: Response): Promise<v
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
     
     if (session.metadata?.userId && session.metadata.userId !== 'guest') {
+      // Check if order already exists for this session
+      const existingOrder = await Order.findOne({ 'paymentResult.id': session.id });
+      
+      if (existingOrder) {
+        console.log('Order already exists for this session, skipping order creation:', existingOrder._id);
+        res.status(200).json({ 
+          success: true, 
+          message: 'Order already exists for this session',
+          order: existingOrder
+        });
+        return;
+      }
+      
       const newOrder = await Order.create({
         user: session.metadata.userId,
         orderItems: lineItems.data.map((item: Stripe.LineItem) => ({

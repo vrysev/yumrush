@@ -1,7 +1,15 @@
 @function color($key) {
-    @return map-get($colors, $key);
-  }
-  
+  @return map-get($colors, $key);
+}
+
 @function breakpoint($key) {
-    @return map-get($breakpoints, $key);
+  @return map-get($breakpoints, $key);
+}
+
+@function font-size($key) {
+  @return map-get($font-sizes, $key);
+}
+
+@function spacing($key) {
+  @return map-get($spacing, $key);
 }

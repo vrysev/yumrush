@@ -1,23 +1,25 @@
 import ContentLoader from 'react-content-loader';
-function SkeletonProduct(props) {
+
+const SkeletonProduct = (props) => {
   return (
-    <ContentLoader
-      speed={2}
-      width={620}
-      height={260}
-      viewBox="0 0 600 260"
-      backgroundColor="#fafafa"
-      foregroundColor="#ededed"
-      {...props}
-    >
-      <circle cx="90" cy="141" r="85" />
-      <rect x="209" y="76" rx="0" ry="0" width="363" height="20" />
-      <rect x="208" y="122" rx="0" ry="0" width="183" height="20" />
-      <rect x="209" y="158" rx="0" ry="0" width="183" height="20" />
-      <rect x="432" y="190" rx="15" ry="15" width="138" height="30" />
-      <rect x="210" y="191" rx="0" ry="0" width="62" height="30" />
-    </ContentLoader>
+    <div className="product product--skeleton">
+      <ContentLoader
+        speed={2}
+        width={350}
+        height={160}
+        viewBox="0 0 350 160"
+        backgroundColor="#f3f3f3"
+        foregroundColor="#ecebeb"
+        {...props}
+      >
+        <circle cx="80" cy="80" r="60" />
+        <rect x="160" y="30" rx="4" ry="4" width="150" height="20" />
+        <rect x="160" y="70" rx="3" ry="3" width="100" height="15" />
+        <rect x="160" y="110" rx="3" ry="3" width="70" height="20" />
+        <rect x="245" y="110" rx="8" ry="8" width="80" height="25" />
+      </ContentLoader>
+    </div>
   );
-}
+};
 
 export default SkeletonProduct;

@@ -1,62 +1,67 @@
 import { FC, useEffect, useState } from 'react';
 import * as Icons from '@assets/icons';
-import './Navbar.scss';
 import { IconsType } from '@/types/icons';
+import './Navbar.scss';
 
-type NavItem = 'menu' | 'person' | 'balance' | 'settings' | 'email' | 'piechart' | 'chat';
-
-interface ExpandButtonProps {
-  expand: boolean;
-  setExpand: (value: boolean) => void;
+interface NavItemProps {
+  icon: string;
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
 }
 
-const ExpandButton: FC<ExpandButtonProps> = ({ expand, setExpand }) => (
-  <button onClick={() => setExpand(!expand)} className="navbar__expand-btn">
-    <img src={(Icons as IconsType)['expand']} alt="Toggle navigation" />
-  </button>
+
+const NavItem: FC<NavItemProps> = ({ icon, label, isActive, onClick }) => (
+  <li 
+    className={`navbar__item ${isActive ? 'navbar__item--active' : ''}`}
+    onClick={onClick}
+  >
+    <a href="#" className="navbar__link">
+      <img 
+        src={(Icons as IconsType)[icon]} 
+        alt={label} 
+        className="navbar__icon" 
+      />
+      <span className="navbar__label">{label}</span>
+    </a>
+  </li>
 );
+
 
 const Navbar: FC = () => {
   const [active, setActive] = useState<number>(0);
-  const [expand, setExpand] = useState<boolean>(true);
-  const navItems: NavItem[] = ['menu', 'person', 'balance', 'settings', 'email', 'piechart', 'chat'];
-
-  useEffect(() => {
-    const updateViewportStatus = (): void => {
-      setExpand(window.innerWidth > 1480);
-    };
-
-    updateViewportStatus();
-    window.addEventListener('resize', updateViewportStatus);
-    return () => window.removeEventListener('resize', updateViewportStatus);
-  }, []);
-
-  if (!expand) {
-    return <ExpandButton expand={expand} setExpand={setExpand} />;
-  }
+  
+  const navItems = [
+    { icon: 'menu', label: 'Menu' },
+    { icon: 'person', label: 'Profile' },
+    { icon: 'balance', label: 'Orders' },
+    { icon: 'settings', label: 'Settings' },
+    { icon: 'email', label: 'Messages' },
+    { icon: 'piechart', label: 'Analytics' },
+    { icon: 'chat', label: 'Support' }
+  ];
 
   return (
     <div className="navbar">
+      <div className="navbar__logo">
+        <h2>YumRush</h2>
+      </div>
       <nav className="navbar__nav">
-        <ExpandButton expand={expand} setExpand={setExpand} />
         <ul className="navbar__list">
           {navItems.map((item, index) => (
-            <li
+            <NavItem
               key={index}
+              icon={item.icon}
+              label={item.label}
+              isActive={active === index}
               onClick={() => setActive(index)}
-              className={`navbar__item ${active === index ? 'navbar__item--active' : ''}`}
-            >
-              <a href="#" className="navbar__link">
-                <img 
-                  src={(Icons as IconsType)[item]} 
-                  alt={item} 
-                  className="navbar__icon" 
-                />
-              </a>
-            </li>
+            />
           ))}
         </ul>
       </nav>
+      <div className="navbar__footer">
+        <p>© 2025 YumRush</p>
+      </div>
     </div>
   );
 };

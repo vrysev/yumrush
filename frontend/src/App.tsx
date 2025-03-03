@@ -1,14 +1,15 @@
 import '@styles/main.scss';
-import Navbar from '@components/common/Navbar/Navbar.tsx';
+import Navbar from '@components/common/Navbar/Navbar';
 import { Outlet } from 'react-router-dom';
+
 function App() {
   return (
-    <>
+    <div className="app">
       <Navbar />
-      <div className="wrapper">
+      <main className="wrapper">
         <Outlet />
-      </div>
-    </>
+      </main>
+    </div>
   );
 }
 

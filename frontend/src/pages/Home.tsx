@@ -4,22 +4,15 @@ import Header from '@/components/common/Header/Header';
 import Hero from '@/components/common/Hero/Hero';
 import Categories from '@/components/categories/Categories';
 import SkeletonProduct from '@components/products/SkeletonProduct';
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { ProductType, RootState } from '@/types/product';
 import Product from '@/components/products/Product';
+
 // Constants
 const SORT_TYPES = ['rating', 'title', 'time', 'price'] as const;
 const CATEGORY_TYPES = ['pizzas', 'burgers'] as const;
-
-const API_BASE_URL = 'http://localhost:5000/api/';
 const SKELETON_COUNT = 6;
-
-// API instance
-const api: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 5000,
-});
 
 function Home(): JSX.Element {
   // Redux selectors
@@ -46,7 +39,7 @@ function Home(): JSX.Element {
           order: 'desc' as const,
         };
 
-        const { data } = await api.get<ProductType[]>('products',  { params });
+        const { data } = await axios.get<ProductType[]>('/api/products', { params });
 
         if (data === 'Not found') {
           setProducts([]);
@@ -76,27 +69,27 @@ function Home(): JSX.Element {
 
     if (hasError || products.length === 0) {
       return (
-        <div className="text-center py-8 text-gray-600">
+        <div className="no-products">
           No products found. Try adjusting your search or filters.
         </div>
       );
     }
 
-    return products.map((product) => <Product key={product.id} {...product} />);
+    return products.map((product) => <Product key={product._id} {...product} />);
   };
 
   return (
-    <>
+    <div className="home">
       <Outlet />
       <Header />
       <Hero />
       <Categories />
-      <section className="products">
+      <section className="products-section">
         <div className="container">
           <div className="products">{renderProducts()}</div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

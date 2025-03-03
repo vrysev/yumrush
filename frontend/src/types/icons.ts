@@ -7,6 +7,5 @@ export interface IconsType {
     email: string;
     piechart: string;
     chat: string;
-    expand: string;
   }
   

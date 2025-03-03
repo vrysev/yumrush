@@ -4,7 +4,8 @@ $colors: (
   'white': #FFFFFF,
   'primary': #FF8A00,
   'light-gray': rgba(180, 188, 207, 0.41),
-  'background': #FFFFFF
+  'background': #FFFFFF,
+  'success': #01C550
 );
 
 $container: (
@@ -19,4 +20,23 @@ $breakpoints: (
   'lg': 992px,
   'xl': 1200px,
   'xxl': 1400px
+);
+
+$font-sizes: (
+  'xs': 12px,
+  'sm': 14px,
+  'base': 16px,
+  'md': 18px,
+  'lg': 20px,
+  'xl': 24px,
+  '2xl': 30px
+);
+
+$spacing: (
+  'xs': 4px,
+  'sm': 8px,
+  'md': 16px,
+  'lg': 24px,
+  'xl': 32px,
+  '2xl': 48px
 );

@@ -1,5 +1,4 @@
 import { FC, useState, MouseEvent } from 'react';
-import './Product.scss';
 
 interface ProductProps {
   imageUrl: string;

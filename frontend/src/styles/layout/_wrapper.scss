@@ -1,6 +1,11 @@
 .wrapper {
-    height: 100%;
-    background-color: color('white');
-    border-radius: 10px;
-    @include container;
+  min-height: 100vh;
+  height: 100%;
+  background-color: color('white');
+  border-radius: 0;
+  padding-left: 80px;
+  
+  @include media-up('md') {
+    padding-left: 250px;
+  }
 }

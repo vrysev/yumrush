@@ -8,51 +8,29 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    padding-top: 50px;
-    font-size: 24px;
-
-    @media (max-width: 1165px) {
-      font-size: 18px;
-    }
-
-    @media (max-width: 850px) {
-      font-size: 16px;
-    }
-
-    @media (max-width: 755px) {
-      font-size: 13px;
-    }
-
-    @media (max-width: 660px) {
-      font-size: 10px;
-    }
-
-    @media (max-width: 463px) {
-      font-size: 8px;
-    }
+    padding-top: 30px;
   }
 
   &__welcome {
     display: flex;
     flex-direction: column;
-    row-gap: 0.5em;
-
-    @media (max-width: 1165px) {
-      padding: 10px;
-      column-gap: 25px;
-      font-size: 1.7em;
-    }
+    gap: 8px;
   }
 
   &__greeting {
     color: color('gray');
     font-weight: 500;
+    font-size: 16px;
   }
 
   &__message {
     color: color('black');
-    font-size: 1.5em;
+    font-size: 24px;
     font-weight: 700;
+    
+    @include media-down('md') {
+      font-size: 20px;
+    }
   }
 }
 
@@ -60,17 +38,27 @@
   position: relative;
 
   &__input {
-    padding: 0 3em 0 5em;
-    border-radius: 0.6em;
+    padding: 0 40px 0 48px;
+    border-radius: 12px;
     background: color('light-gray');
-    width: 15em;
-    font-size: 1em;
-    height: 3em;
+    width: 240px;
+    font-size: 16px;
+    height: 48px;
     border: none;
     transition: 0.2s ease-in-out;
 
     &:focus {
-      width: 21em;
+      width: 300px;
+      
+      @include media-down('md') {
+        width: 240px;
+      }
+    }
+    
+    @include media-down('md') {
+      width: 200px;
+      height: 40px;
+      font-size: 14px;
     }
   }
 
@@ -80,22 +68,32 @@
     transform: translateY(-50%);
 
     img {
-      width: 2em;
-      height: 2em;
+      width: 24px;
+      height: 24px;
+      
+      @include media-down('md') {
+        width: 20px;
+        height: 20px;
+      }
     }
 
     &--find {
-      left: 5%;
+      left: 16px;
     }
 
     &--close {
-      right: 5%;
+      right: 16px;
       z-index: 1;
       cursor: pointer;
 
       img {
-        width: 1.5em;
-        height: 1.5em;
+        width: 16px;
+        height: 16px;
+        
+        @include media-down('md') {
+          width: 14px;
+          height: 14px;
+        }
       }
     }
   }

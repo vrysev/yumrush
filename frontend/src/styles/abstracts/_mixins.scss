@@ -1,21 +1,47 @@
 @mixin noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-@mixin container {
-    width: map-get($container, 'width');
-    max-width: map-get($container, 'max-width');
-    margin: 0 auto;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-  
+
+@mixin container {
+  width: map-get($container, 'width');
+  max-width: map-get($container, 'max-width');
+  margin: 0 auto;
+  padding: 0 map-get($spacing, 'md');
+}
+
+@mixin flex($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
 @mixin media-up($breakpoint) {
-    @media screen and (min-width: breakpoint($breakpoint)) {
-        @content;
-    }
+  @media screen and (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+@mixin media-down($breakpoint) {
+  @media screen and (max-width: map-get($breakpoints, $breakpoint) - 1px) {
+    @content;
+  }
+}
+
+@mixin font-size($size) {
+  font-size: map-get($font-sizes, $size);
+}
+
+@mixin spacing($property, $size) {
+  #{$property}: map-get($spacing, $size);
+}
+
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
 }
   

@@ -1,3 +1,17 @@
 .container {
-    @include container;
+  @include container;
+  
+  &--fluid {
+    width: 100%;
+    padding: 0 spacing('md');
+    margin: 0 auto;
+  }
+  
+  &--padded {
+    padding: spacing('lg');
+    
+    @include media-up('md') {
+      padding: spacing('xl');
+    }
+  }
 }

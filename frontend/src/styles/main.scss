@@ -11,3 +11,15 @@
 // Layout
 @import 'layout/wrapper';
 @import 'layout/container';
+
+// Pages
+@import 'pages/home';
+
+// Components
+@import '../components/products/Product';
+@import '../components/common/Navbar/Navbar';
+@import '../components/common/Header/Header';
+@import '../components/common/Hero/Hero';
+@import '../components/categories/Categories';
+@import '../components/cart/CartList';
+@import '../components/cart/CartItem/CartItem';

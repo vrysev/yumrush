@@ -14,6 +14,12 @@
   border-radius: 24px;
   background: color('white');
   box-shadow: 2px 6px 30px 0px rgba(0, 0, 0, 0.10);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 2px 10px 30px 0px rgba(0, 0, 0, 0.15);
+  }
   
   @include media-up('md') {
     width: 350px;
@@ -30,6 +36,11 @@
     display: block;
     max-width: 100%;
     height: auto;
+    transition: transform 0.3s ease;
+    
+    .product:hover & {
+      transform: scale(1.05);
+    }
   }
 
   &__content {
@@ -64,55 +75,5 @@
     @include font-size('xl');
     font-weight: 700;
     letter-spacing: 1px;
-  }
-
-  &__button {
-    @include flex(row, center, center);
-    column-gap: spacing('xs');
-    border: 2px solid color('primary');
-    background: none;
-    border-radius: 20px;
-    padding: 4px 16px;
-    color: color('primary');
-    @include font-size('xs');
-    font-weight: bold;
-    @include transition(all, 0.3s, ease-in);
-    cursor: pointer;
-
-    &:hover {
-      background: color('primary');
-      color: color('white');
-
-      .product__counter {
-        background-color: color('white');
-        color: color('primary');
-      }
-
-      .product__counter-decrease {
-        background: color('primary');
-        color: color('white');
-      }
-    }
-  }
-
-  &__counter {
-    @include flex(row, center, center);
-    background-color: color('primary');
-    color: color('white');
-    border-radius: 20px;
-    cursor: pointer;
-    padding: 4px 8px;
-    width: 24px;
-    @include transition(all, 0.3s, ease-in);
-  }
-
-  &__counter-decrease {
-    @include flex(row, center, center);
-    background: color('white');
-    color: color('primary');
-    border-radius: 20px;
-    margin-right: 5px;
-    height: 4px;
-    @include transition(all, 0.3s, ease-in);
   }
 }

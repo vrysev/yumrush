@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/User';
+import User, { IUser } from '../models/User';
+import mongoose from 'mongoose';
 
 // Generate JWT
 const generateToken = (id: string): string => {
@@ -12,7 +13,7 @@ const generateToken = (id: string): string => {
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: Request, res: Response): Promise<void> => {
   const { name, email, password } = req.body;
 
   try {
@@ -20,7 +21,8 @@ export const registerUser = async (req: Request, res: Response) => {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      res.status(400).json({ message: 'User already exists' });
+      return;
     }
 
     // Create user
@@ -31,12 +33,13 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     if (user) {
+      const userDoc = user as unknown as IUser;
       res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id.toString())
+        _id: userDoc._id,
+        name: userDoc.name,
+        email: userDoc.email,
+        isAdmin: userDoc.isAdmin,
+        token: generateToken(userDoc._id.toString())
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
@@ -50,7 +53,7 @@ export const registerUser = async (req: Request, res: Response) => {
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   try {
@@ -59,12 +62,13 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // Check if user exists and password matches
     if (user && (await user.matchPassword(password))) {
+      const userDoc = user as unknown as IUser;
       res.json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id.toString())
+        _id: userDoc._id,
+        name: userDoc.name,
+        email: userDoc.email,
+        isAdmin: userDoc.isAdmin,
+        token: generateToken(userDoc._id.toString())
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
@@ -78,20 +82,22 @@ export const loginUser = async (req: Request, res: Response) => {
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
-export const getUserProfile = async (req: Request, res: Response) => {
+export const getUserProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!req.user) {
-      return res.status(401).json({ message: 'Not authorized' });
+      res.status(401).json({ message: 'Not authorized' });
+      return;
     }
 
     const user = await User.findById(req.user._id);
 
     if (user) {
+      const userDoc = user as unknown as IUser;
       res.json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
+        _id: userDoc._id,
+        name: userDoc.name,
+        email: userDoc.email,
+        isAdmin: userDoc.isAdmin,
       });
     } else {
       res.status(404).json({ message: 'User not found' });
@@ -105,10 +111,11 @@ export const getUserProfile = async (req: Request, res: Response) => {
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
-export const updateUserProfile = async (req: Request, res: Response) => {
+export const updateUserProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!req.user) {
-      return res.status(401).json({ message: 'Not authorized' });
+      res.status(401).json({ message: 'Not authorized' });
+      return;
     }
 
     const user = await User.findById(req.user._id);
@@ -122,13 +129,14 @@ export const updateUserProfile = async (req: Request, res: Response) => {
       }
 
       const updatedUser = await user.save();
+      const userDoc = updatedUser as unknown as IUser;
 
       res.json({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        isAdmin: updatedUser.isAdmin,
-        token: generateToken(updatedUser._id.toString())
+        _id: userDoc._id,
+        name: userDoc.name,
+        email: userDoc.email,
+        isAdmin: userDoc.isAdmin,
+        token: generateToken(userDoc._id.toString())
       });
     } else {
       res.status(404).json({ message: 'User not found' });

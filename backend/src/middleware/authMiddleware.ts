@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-export const protect = async (req: Request, res: Response, next: NextFunction) => {
+export const protect = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -30,19 +30,22 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
       req.user = await User.findById(decoded.id).select('-password');
 
       next();
+      return;
     } catch (error) {
       console.error(error);
       res.status(401).json({ message: 'Not authorized, token failed' });
+      return;
     }
   }
 
   if (!token) {
     res.status(401).json({ message: 'Not authorized, no token' });
+    return;
   }
 };
 
 // Admin middleware
-export const admin = (req: Request, res: Response, next: NextFunction) => {
+export const admin = (req: Request, res: Response, next: NextFunction): void => {
   if (req.user && req.user.isAdmin) {
     next();
   } else {

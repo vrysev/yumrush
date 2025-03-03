@@ -32,6 +32,53 @@
       font-size: 20px;
     }
   }
+  
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+    @include media-down('sm') {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 15px;
+    }
+  }
+  
+  &__login-btn, &__logout-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    @include media-down('md') {
+      padding: 8px 20px;
+      font-size: 14px;
+    }
+  }
+  
+  &__login-btn {
+    background-color: color('primary');
+    color: color('white');
+    border: 2px solid color('primary');
+    
+    &:hover {
+      background-color: darken(#FF8A00, 5%);
+      border-color: darken(#FF8A00, 5%);
+    }
+  }
+  
+  &__logout-btn {
+    background-color: transparent;
+    color: color('primary');
+    border: 2px solid color('primary');
+    
+    &:hover {
+      background-color: rgba(255, 138, 0, 0.1);
+    }
+  }
 }
 
 .search {

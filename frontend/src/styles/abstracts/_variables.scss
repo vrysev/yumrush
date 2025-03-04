@@ -2,7 +2,9 @@ $colors: (
   'black': #2F2F2F,
   'gray': #B4BCCF,
   'white': #FFFFFF,
-  'primary': #FF8A00,
+  'primary': rgba(255, 111, 0, 0.7),
+  'lightOrange': rgba(255, 111, 0, 0.2),
+  'lightRed': rgba(255, 0, 0, 0.494),
   'light-gray': rgba(180, 188, 207, 0.41),
   'background': #FFFFFF,
   'success': #01C550
@@ -10,7 +12,7 @@ $colors: (
 
 $container: (
   'max-width': 1400px,
-  'width': 90%
+  'width': 100%
 );
 
 $breakpoints: (
@@ -29,7 +31,7 @@ $font-sizes: (
   'md': 18px,
   'lg': 20px,
   'xl': 24px,
-  '2xl': 30px
+  '2xl': 28px
 );
 
 $spacing: (

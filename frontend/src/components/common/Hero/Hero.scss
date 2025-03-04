@@ -9,9 +9,10 @@
     margin: 50px 0;
     font-size: 24px;
     width: 100%;
-    color: color('white');
+    color: color('black');
     border-radius: 40px;
-    background: color('black');
+    background: color('white');
+    box-shadow: 30px -30px 1px 0 rgba(0, 0, 0, 0.05);
     height: 430px;
 
     @media (max-width: 815px) {
@@ -59,7 +60,7 @@
   }
 
   &__title {
-    color: color('white');
+    color: color('black');
     font-size: 2em;
     font-weight: 700;
     line-height: 3rem;
@@ -69,7 +70,7 @@
     font-size: 0.7em;
     font-weight: 400;
     letter-spacing: 0.48px;
-    color: color('white');
+    color: color('black');
   }
 
   &__button {
@@ -79,15 +80,15 @@
     width: 15em;
     height: 3em;
     border-radius: 1em;
-    background: color('primary');
-    color: color('white');
+    background: color('lightOrange');
+    color: color('lightRed');
     font-size: 0.75em;
     font-weight: 500;
     cursor: pointer;
     transition: 0.15s ease-in;
 
     &:hover {
-      background: darken(color('primary'), 10%);
+      background: darken(color('lightOrange'), 10%);
       transition: 0.15s ease-in;
     }
   }

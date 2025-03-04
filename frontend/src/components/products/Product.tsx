@@ -15,15 +15,15 @@ const Product: FC<ProductType> = (product) => {
 
   return (
     <div className="product">
-      <div className="product__image-wrapper">
-        <img 
-          src={displayImage} 
-          alt={title} 
-          className="product__image"
-          onError={handleImageError}
-        />
-      </div>
       <div className="product__content">
+      <div className="product__image-wrapper">
+            <img 
+            src={displayImage} 
+            alt={title} 
+            className="product__image"
+            onError={handleImageError}
+            />
+         </div>
         <h2 className="product__title">{title}</h2>
         <p className="product__prep-time">{preparationTime}</p>
         <div className="product__footer">

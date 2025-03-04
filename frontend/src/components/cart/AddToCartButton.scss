@@ -15,16 +15,16 @@
     width: 100%;
     padding: 10px 16px;
     border-radius: 50px;
-    background-color: color('primary');
-    color: color('white');
+    background-color: color('lightOrange');
+    color: color('lightRed');
     font-weight: 600;
-    font-size: 14px;
+    @include font-size('base');
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
     
     &:hover {
-      background-color: darken(#FF8A00, 5%);
+      background-color: darken(color('lightOrange'), 15%);
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(255, 138, 0, 0.2);
     }
@@ -44,7 +44,7 @@
     width: 100%;
     height: 40px;
     background-color: color('white');
-    border: 2px solid color('primary');
+    border: 2px solid color('lightRed');
     border-radius: 50px;
     overflow: hidden;
   }
@@ -55,8 +55,8 @@
     justify-content: center;
     width: 40px;
     height: 100%;
-    background-color: color('primary');
-    color: color('white');
+    background-color: color('lightOrange');
+    color: color('lightRed');
     font-size: 18px;
     font-weight: 600;
     border: none;
@@ -64,7 +64,7 @@
     transition: background-color 0.2s ease;
     
     &:hover {
-      background-color: darken(#FF8A00, 5%);
+      background-color: darken(color('lightOrange'), 5%);
     }
     
     &:disabled {
@@ -76,6 +76,6 @@
   &__quantity {
     font-weight: 600;
     font-size: 16px;
-    color: color('primary');
+    color: color('lightRed');
   }
 }

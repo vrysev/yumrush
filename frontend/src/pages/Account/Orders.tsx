@@ -141,17 +141,8 @@ const Orders: FC = () => {
                     <div key={item._id} className="order-item">
                       <div className="order-item-image">
                         <img 
-                          src={item.image && item.image.startsWith('/') 
-                            ? `/images${item.image}` 
-                            : item.image.startsWith('http') 
-                              ? item.image 
-                              : `/images/${item.image}`} 
+                          src={item.image}
                           alt={item.name}
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.onerror = null; // Prevent infinite loop
-                            target.src = '/images/default-image.png';
-                          }}
                         />
                       </div>
                       <div className="order-item-details">

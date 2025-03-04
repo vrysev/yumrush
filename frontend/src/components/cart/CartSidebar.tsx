@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { closeCart, removeFromCart, updateQuantity, clearCart } from '../../redux/slices/cartSlice';
 import { RootState, AppDispatch } from '../../redux/store';
 import { createCheckoutSession } from '../../api/paymentApi';
@@ -7,9 +8,11 @@ import './CartSidebar.scss';
 
 const CartSidebar: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { items, isOpen, totalQuantity, totalAmount } = useSelector((state: RootState) => state.cart);
   const { user } = useSelector((state: RootState) => state.auth);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [addressError, setAddressError] = useState<string | null>(null);
   
   const handleCloseCart = () => {
     dispatch(closeCart());
@@ -28,8 +31,19 @@ const CartSidebar: FC = () => {
   };
   
   const handleCheckout = async () => {
+    setAddressError(null);
+    
     if (!user) {
       alert('Please log in to checkout');
+      return;
+    }
+    
+    // Check if user has completed their profile with address
+    const hasAddress = user.address && user.city && user.postalCode;
+    
+    if (!hasAddress) {
+      setAddressError('Please complete your delivery address in Profile Settings');
+      handleGoToProfile(); // Automatically redirect to profile settings
       return;
     }
     
@@ -51,6 +65,11 @@ const CartSidebar: FC = () => {
     } finally {
       setIsCheckingOut(false);
     }
+  };
+  
+  const handleGoToProfile = () => {
+    dispatch(closeCart());
+    navigate('/account/profile');
   };
   
   return (
@@ -93,11 +112,6 @@ const CartSidebar: FC = () => {
                     src={item.imageUrl} 
                     alt={item.title} 
                     className="cart-sidebar__item-image"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null; // Prevent infinite loop
-                      target.src = '/images/default-image.png';
-                    }}
                   />
                   <div className="cart-sidebar__item-details">
                     <div>
@@ -165,6 +179,17 @@ const CartSidebar: FC = () => {
               <p className="cart-sidebar__footer-login-notice">
                 Please log in to checkout
               </p>
+            )}
+            {addressError && (
+              <div className="cart-sidebar__footer-address-error">
+                <p>{addressError}</p>
+                <button 
+                  className="cart-sidebar__footer-profile-button"
+                  onClick={handleGoToProfile}
+                >
+                  Go to Profile Settings
+                </button>
+              </div>
             )}
           </div>
         )}

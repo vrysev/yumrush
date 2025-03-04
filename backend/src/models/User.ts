@@ -7,6 +7,11 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   isAdmin: boolean;
+  address?: string;
+  city?: string;
+  postalCode?: string;
+  country?: string;
+  phone?: string;
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -30,6 +35,26 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
+    },
+    address: {
+      type: String,
+      default: 'Default address',
+    },
+    city: {
+      type: String,
+      default: 'Default city',
+    },
+    postalCode: {
+      type: String,
+      default: '12345',
+    },
+    country: {
+      type: String,
+      default: 'US',
+    },
+    phone: {
+      type: String,
+      default: '',
     },
   },
   {

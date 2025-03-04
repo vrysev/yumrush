@@ -45,9 +45,9 @@ const Navbar: FC = () => {
   // Base navigation items
   let navItems = [
     { icon: 'menu', label: 'Menu', path: '/' },
-    { icon: 'person', label: 'Profile', path: '/profile' },
+    { icon: 'person', label: 'Profile', path: '/account/profile' },
     { icon: 'balance', label: 'Orders', path: '/account/orders' },
-    { icon: 'settings', label: 'Settings', path: '/settings' },
+    { icon: 'settings', label: 'Settings', path: '/account/profile' },
   ];
   
   // Add admin dashboard for admin users

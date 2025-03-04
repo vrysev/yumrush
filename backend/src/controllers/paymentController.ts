@@ -2,11 +2,54 @@ import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import Order from '../models/Order';
+import User from '../models/User';
+import mongoose from 'mongoose';
 
 // Ensure Stripe typings are available
 type StripeType = typeof Stripe;
 
 dotenv.config();
+
+// Helper functions to get user address details
+const getUserAddress = async (userId: string): Promise<string> => {
+  try {
+    const user = await User.findById(userId);
+    return user?.address || 'Default address';
+  } catch (error) {
+    console.error('Error fetching user address:', error);
+    return 'Default address';
+  }
+};
+
+const getUserCity = async (userId: string): Promise<string> => {
+  try {
+    const user = await User.findById(userId);
+    return user?.city || 'Default city';
+  } catch (error) {
+    console.error('Error fetching user city:', error);
+    return 'Default city';
+  }
+};
+
+const getUserPostalCode = async (userId: string): Promise<string> => {
+  try {
+    const user = await User.findById(userId);
+    return user?.postalCode || '12345';
+  } catch (error) {
+    console.error('Error fetching user postal code:', error);
+    return '12345';
+  }
+};
+
+const getUserCountry = async (userId: string): Promise<string> => {
+  try {
+    const user = await User.findById(userId);
+    return user?.country || 'US';
+  } catch (error) {
+    console.error('Error fetching user country:', error);
+    return 'US';
+  }
+};
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('STRIPE_SECRET_KEY is not defined in environment variables');
@@ -119,14 +162,16 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
               name: item.description || 'Product',
               quantity: item.quantity || 1,
               price: (item.amount_total || 0) / 100, // Convert from cents to dollars
-              image: 'default-image.png', // Default image to satisfy validation 
-              product: '650e9b47ac76b6b95de0201c', // Placeholder product ID to satisfy validation
+              image: item.description?.toLowerCase().includes('burger') ? 'burgers/classic-burger.png' : 
+                     item.description?.toLowerCase().includes('pizza') ? 'pizzas/margherita.png' : 
+                     item.description?.toLowerCase().includes('fries') ? 'fries/classic-fries.png' : 'default-image.png',
+              product: '650e9b47ac76b6b95de0201c' // Placeholder product ID to satisfy validation
             })),
             shippingAddress: {
-              address: 'Default address', // These should be collected during checkout
-              city: 'Default city',
-              postalCode: '12345',
-              country: 'US',
+              address: session.metadata.userId ? await getUserAddress(session.metadata.userId) : 'Default address',
+              city: session.metadata.userId ? await getUserCity(session.metadata.userId) : 'Default city',
+              postalCode: session.metadata.userId ? await getUserPostalCode(session.metadata.userId) : '12345',
+              country: session.metadata.userId ? await getUserCountry(session.metadata.userId) : 'US',
             },
             paymentMethod: 'Stripe',
             paymentResult: {
@@ -196,14 +241,16 @@ export const getPaymentStatus = async (req: Request, res: Response): Promise<voi
               name: item.description || 'Product',
               quantity: item.quantity || 1,
               price: (item.amount_total || 0) / 100,
-              image: 'default-image.png', // Provide a default image to satisfy validation
-              product: '650e9b47ac76b6b95de0201c', // Use a placeholder product ID
+              image: item.description?.toLowerCase().includes('burger') ? 'burgers/classic-burger.png' : 
+                     item.description?.toLowerCase().includes('pizza') ? 'pizzas/margherita.png' : 
+                     item.description?.toLowerCase().includes('fries') ? 'fries/classic-fries.png' : 'default-image.png',
+              product: '650e9b47ac76b6b95de0201c' // Use a placeholder product ID
             })),
             shippingAddress: {
-              address: 'Default address',
-              city: 'Default city',
-              postalCode: '12345',
-              country: 'US',
+              address: session.metadata.userId ? await getUserAddress(session.metadata.userId) : 'Default address',
+              city: session.metadata.userId ? await getUserCity(session.metadata.userId) : 'Default city',
+              postalCode: session.metadata.userId ? await getUserPostalCode(session.metadata.userId) : '12345',
+              country: session.metadata.userId ? await getUserCountry(session.metadata.userId) : 'US',
             },
             paymentMethod: 'Stripe',
             paymentResult: {
@@ -288,14 +335,16 @@ export const triggerWebhookTest = async (req: Request, res: Response): Promise<v
           name: item.description || 'Product',
           quantity: item.quantity || 1,
           price: (item.amount_total || 0) / 100,
-          image: 'default-image.png', // Default image to satisfy validation
-          product: '650e9b47ac76b6b95de0201c', // Placeholder product ID to satisfy validation 
+          image: item.description?.toLowerCase().includes('burger') ? 'burgers/classic-burger.png' : 
+                 item.description?.toLowerCase().includes('pizza') ? 'pizzas/margherita.png' : 
+                 item.description?.toLowerCase().includes('fries') ? 'fries/classic-fries.png' : 'default-image.png',
+          product: '650e9b47ac76b6b95de0201c' // Placeholder product ID to satisfy validation
         })),
         shippingAddress: {
-          address: 'Default address',
-          city: 'Default city',
-          postalCode: '12345',
-          country: 'US',
+          address: session.metadata.userId ? await getUserAddress(session.metadata.userId) : 'Default address',
+          city: session.metadata.userId ? await getUserCity(session.metadata.userId) : 'Default city',
+          postalCode: session.metadata.userId ? await getUserPostalCode(session.metadata.userId) : '12345',
+          country: session.metadata.userId ? await getUserCountry(session.metadata.userId) : 'US',
         },
         paymentMethod: 'Stripe',
         paymentResult: {

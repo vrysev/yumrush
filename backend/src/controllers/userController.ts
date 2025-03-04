@@ -40,6 +40,11 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         name: userDoc.name,
         email: userDoc.email,
         isAdmin: userDoc.isAdmin,
+        address: userDoc.address,
+        city: userDoc.city,
+        postalCode: userDoc.postalCode,
+        country: userDoc.country,
+        phone: userDoc.phone,
         token: generateToken(userDoc._id.toString())
       });
     } else {
@@ -69,6 +74,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         name: userDoc.name,
         email: userDoc.email,
         isAdmin: userDoc.isAdmin,
+        address: userDoc.address,
+        city: userDoc.city,
+        postalCode: userDoc.postalCode,
+        country: userDoc.country,
+        phone: userDoc.phone,
         token: generateToken(userDoc._id.toString())
       });
     } else {
@@ -99,6 +109,11 @@ export const getUserProfile = async (req: Request, res: Response): Promise<void>
         name: userDoc.name,
         email: userDoc.email,
         isAdmin: userDoc.isAdmin,
+        address: userDoc.address,
+        city: userDoc.city,
+        postalCode: userDoc.postalCode,
+        country: userDoc.country,
+        phone: userDoc.phone,
       });
     } else {
       res.status(404).json({ message: 'User not found' });
@@ -124,6 +139,11 @@ export const updateUserProfile = async (req: Request, res: Response): Promise<vo
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
+      user.address = req.body.address !== undefined ? req.body.address : user.address;
+      user.city = req.body.city !== undefined ? req.body.city : user.city;
+      user.postalCode = req.body.postalCode !== undefined ? req.body.postalCode : user.postalCode;
+      user.country = req.body.country !== undefined ? req.body.country : user.country;
+      user.phone = req.body.phone !== undefined ? req.body.phone : user.phone;
       
       if (req.body.password) {
         user.password = req.body.password;
@@ -137,6 +157,11 @@ export const updateUserProfile = async (req: Request, res: Response): Promise<vo
         name: userDoc.name,
         email: userDoc.email,
         isAdmin: userDoc.isAdmin,
+        address: userDoc.address,
+        city: userDoc.city,
+        postalCode: userDoc.postalCode,
+        country: userDoc.country,
+        phone: userDoc.phone,
         token: generateToken(userDoc._id.toString())
       });
     } else {
@@ -203,6 +228,11 @@ export const createAdminUser = async (req: Request, res: Response): Promise<void
         name: userDoc.name,
         email: userDoc.email,
         isAdmin: userDoc.isAdmin,
+        address: userDoc.address,
+        city: userDoc.city,
+        postalCode: userDoc.postalCode,
+        country: userDoc.country,
+        phone: userDoc.phone,
         token: generateToken(userDoc._id.toString())
       });
     } else {

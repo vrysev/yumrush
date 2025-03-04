@@ -6,10 +6,10 @@ import Home from '@pages/Home';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import NotFound from './pages/NotFound';
-import Cart from './pages/Cart';
 import Admin from './pages/Admin';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import Orders from './pages/Account/Orders';
+import ProfileSettings from './pages/Account/ProfileSettings';
 
 const router = createBrowserRouter([
   {
@@ -22,10 +22,6 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'cart',
-        element: <Cart />,
-      },
-      {
         path: 'admin',
         element: <Admin />,
       },
@@ -36,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: 'account/orders',
         element: <Orders />,
+      },
+      {
+        path: 'account/profile',
+        element: <ProfileSettings />,
       },
     ],
   },

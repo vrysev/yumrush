@@ -1,0 +1,163 @@
+.profile-settings {
+  padding: 2rem 0;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    color: #555;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  &__section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__form-group {
+    margin-bottom: 1.25rem;
+    width: 100%;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    small {
+      display: block;
+      margin-top: 0.4rem;
+      color: #777;
+      font-size: 0.8rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: #ff6b4a;
+        outline: none;
+      }
+
+      &::placeholder {
+        color: #aaa;
+      }
+    }
+  }
+
+  &__form-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    @media (min-width: 768px) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__password-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__toggle-btn {
+    background: none;
+    border: none;
+    color: #ff6b4a;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+
+    &:hover {
+      color: darken(#ff6b4a, 10%);
+    }
+  }
+
+  &__message {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+
+    &--success {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+
+    &--error {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+
+  &__save-btn {
+    background-color: #ff6b4a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: darken(#ff6b4a, 10%);
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  @media (max-width: 576px) {
+    &__container {
+      padding: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+    }
+  }
+}

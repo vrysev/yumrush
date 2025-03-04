@@ -7,37 +7,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: color('primary');
-  color: color('white');
+  background: transparent;
+  color: color('text');
   border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-weight: 600;
-  font-size: 16px;
+  padding: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  
-  @include media-down('md') {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
+  transition: all 0.2s ease;
   
   &:hover {
-    background-color: darken(#FF8A00, 5%);
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
   
   &__icon {
-    margin-right: 8px;
-    
-    svg {
-      width: 20px;
-      height: 20px;
-      
-      @include media-down('md') {
-        width: 18px;
-        height: 18px;
-      }
-    }
+    width: 24px;
+    height: 24px;
   }
   
   &__count {
@@ -45,15 +32,16 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: -8px;
-    right: -8px;
-    background-color: color('white');
-    color: color('primary');
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: 12px;
-    font-weight: 700;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    top: 0;
+    right: 0;
+    background-color: color('primary');
+    color: color('white');
+    min-width: 18px;
+    height: 18px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 0 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   }
 }

@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin';
 import CheckoutSuccess from './pages/CheckoutSuccess';
+import Orders from './pages/Account/Orders';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: 'checkout/success',
         element: <CheckoutSuccess />,
+      },
+      {
+        path: 'account/orders',
+        element: <Orders />,
       },
     ],
   },

@@ -7,4 +7,5 @@ export { default as piechart } from './piechart.svg';
 export { default as settings } from './settings.svg';
 export { default as search } from './search.svg';
 export { default as close } from './close.svg';
-``;
+export { default as notification } from './notification.svg';
+export { default as cart } from './cart.svg';

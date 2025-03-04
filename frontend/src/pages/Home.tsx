@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '@/components/common/Header/Header';
 import Hero from '@/components/common/Hero/Hero';
 import Categories from '@/components/categories/Categories';
 import SkeletonProduct from '@components/products/SkeletonProduct';
@@ -81,7 +80,6 @@ function Home(): JSX.Element {
   return (
     <div className="home">
       <Outlet />
-      <Header />
       <Hero />
       <Categories />
       <section className="products-section">

@@ -92,7 +92,12 @@ const CartSidebar: FC = () => {
                   <img 
                     src={item.imageUrl} 
                     alt={item.title} 
-                    className="cart-sidebar__item-image" 
+                    className="cart-sidebar__item-image"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null; // Prevent infinite loop
+                      target.src = '/images/default-image.png';
+                    }}
                   />
                   <div className="cart-sidebar__item-details">
                     <div>

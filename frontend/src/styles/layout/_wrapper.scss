@@ -1,11 +1,8 @@
 .wrapper {
-  min-height: 100vh;
+  min-height: calc(100vh - 70px); /* Subtract header height */
   height: 100%;
   background-color: color('white');
   border-radius: 0;
-  padding-left: 80px;
-  
-  @include media-up('md') {
-    padding-left: 250px;
-  }
+  padding-top: 20px;
+  padding-bottom: 40px;
 }

@@ -213,7 +213,7 @@ export const getPaymentStatus = async (req: Request, res: Response): Promise<voi
         
         // Check if order already exists for this session
         const existingOrder = await Order.findOne({ 'paymentResult.id': session.id });
-        
+    
         if (existingOrder) {
           console.log('Order already exists for this session, skipping order creation:', existingOrder._id);
           return;

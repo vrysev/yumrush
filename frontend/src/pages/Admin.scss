@@ -108,24 +108,29 @@
   }
   
   &__order {
-    &--pending td {
-      border-left: 4px solid #f9a825; /* Orange-yellow for pending */
+    &--pending {
+      background-color: rgba(249, 168, 37, 0.1); /* Orange-yellow for pending */
+      border-left: 5px solid rgb(249, 168, 37);
     }
     
-    &--processing td {
-      border-left: 4px solid #1e88e5; /* Blue for processing */
+    &--processing {
+      background-color: rgba(30, 136, 229, 0.1); /* Blue for processing */
+      border-left: 5px solid rgb(30, 136, 229);
     }
     
-    &--ready td {
-      border-left: 4px solid #7cb342; /* Green for ready */
+    &--ready {
+      background-color: rgba(124, 179, 66, 0.1); /* Green for ready */
+      border-left: 5px solid rgb(124, 179, 66);
     }
     
-    &--delivered td {
-      border-left: 4px solid #2e7d32; /* Darker green for delivered */
+    &--delivered {
+      background-color: rgba(46, 125, 50, 0.2); /* Darker green for delivered */
+      border-left: 5px solid rgb(46, 125, 50);
     }
     
-    &--cancelled td {
-      border-left: 4px solid #d32f2f; /* Red for cancelled */
+    &--cancelled {
+      background-color: rgba(211, 47, 47, 0.1); /* Red for cancelled */
+      border-left: 5px solid rgb(211, 47, 47);
     }
     
     td:first-child {

@@ -231,6 +231,12 @@ export const getPaymentStatus = async (req: Request, res: Response): Promise<voi
     
         if (existingOrder) {
           console.log('Order already exists for this session, skipping order creation:', existingOrder._id);
+          res.status(200).json({
+            success: true,
+            session,
+            order: existingOrder,
+            message: 'Order already exists'
+          });
           return;
         }
         

@@ -68,6 +68,11 @@ export const createCheckoutSession = async (req: Request, res: Response): Promis
       return;
     }
 
+    const imagesJson = JSON.stringify(
+        cartItems.map((item: { imageUrl: string }) => item.imageUrl)
+    );
+    
+
     // Format line items for Stripe
     const lineItems = cartItems.map((item: { title: string; imageUrl: string; price: number; quantity: number }) => ({
       price_data: {
@@ -90,6 +95,7 @@ export const createCheckoutSession = async (req: Request, res: Response): Promis
       cancel_url: `${process.env.CLIENT_URL}/cart`,
       metadata: {
         userId: userId || 'guest',
+        imagesJson: imagesJson,
       },
     });
 
@@ -154,19 +160,28 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
           
           // Get line items from the session
           const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+          let images: string[] = [];
+          try {
+            if (session.metadata?.imagesJson) {
+                images = JSON.parse(session.metadata.imagesJson);
+                console.log('Parsed images:', images);
+            }
+          } catch (err) {
+            console.error('Error parsing images metadata:', err);
+          }
           
           // Create new order
           await Order.create({
             user: session.metadata.userId,
-            orderItems: lineItems.data.map((item: Stripe.LineItem) => ({
+            orderItems: lineItems.data.map((item: Stripe.LineItem, index: number) => {
+            const imageUrl = (index < images.length) ? images[index] : '/images/default-image.png';
+            return {
               name: item.description || 'Product',
               quantity: item.quantity || 1,
               price: (item.amount_total || 0) / 100, // Convert from cents to dollars
-              image: item.description?.toLowerCase().includes('burger') ? 'burgers/classic-burger.png' : 
-                     item.description?.toLowerCase().includes('pizza') ? 'pizzas/margherita.png' : 
-                     item.description?.toLowerCase().includes('fries') ? 'fries/classic-fries.png' : 'default-image.png',
+              image: imageUrl,
               product: '650e9b47ac76b6b95de0201c' // Placeholder product ID to satisfy validation
-            })),
+            }}),
             shippingAddress: {
               address: session.metadata.userId ? await getUserAddress(session.metadata.userId) : 'Default address',
               city: session.metadata.userId ? await getUserCity(session.metadata.userId) : 'Default city',
@@ -234,18 +249,28 @@ export const getPaymentStatus = async (req: Request, res: Response): Promise<voi
         
         if (session.metadata?.userId && session.metadata.userId !== 'guest') {
           console.log('Creating order for user:', session.metadata.userId);
+
+          let images: string[] = [];
+          try {
+            if (session.metadata?.imagesJson) {
+                images = JSON.parse(session.metadata.imagesJson);
+                console.log('Parsed images:', images);
+            }
+          } catch (err) {
+            console.error('Error parsing images metadata:', err);
+          }
           
           const newOrder = await Order.create({
             user: session.metadata.userId,
-            orderItems: lineItems.data.map((item: Stripe.LineItem) => ({
-              name: item.description || 'Product',
-              quantity: item.quantity || 1,
-              price: (item.amount_total || 0) / 100,
-              image: item.description?.toLowerCase().includes('burger') ? 'burgers/classic-burger.png' : 
-                     item.description?.toLowerCase().includes('pizza') ? 'pizzas/margherita.png' : 
-                     item.description?.toLowerCase().includes('fries') ? 'fries/classic-fries.png' : 'default-image.png',
-              product: '650e9b47ac76b6b95de0201c' // Use a placeholder product ID
-            })),
+            orderItems: lineItems.data.map((item: Stripe.LineItem, index: number) => {
+                const imageUrl = (index < images.length) ? images[index] : '/images/default-image.png';
+                return {
+                name: item.description || 'Product',
+                quantity: item.quantity || 1,
+                price: (item.amount_total || 0) / 100, // Convert from cents to dollars
+                image: imageUrl,
+                product: '650e9b47ac76b6b95de0201c' // Placeholder product ID to satisfy validation
+                }}),
             shippingAddress: {
               address: session.metadata.userId ? await getUserAddress(session.metadata.userId) : 'Default address',
               city: session.metadata.userId ? await getUserCity(session.metadata.userId) : 'Default city',
@@ -329,17 +354,27 @@ export const triggerWebhookTest = async (req: Request, res: Response): Promise<v
         return;
       }
       
+      let images: string[] = [];
+      try {
+        if (session.metadata?.imagesJson) {
+            images = JSON.parse(session.metadata.imagesJson);
+            console.log('Parsed images:', images);
+        }
+      } catch (err) {
+        console.error('Error parsing images metadata:', err);
+      }
+
       const newOrder = await Order.create({
         user: session.metadata.userId,
-        orderItems: lineItems.data.map((item: Stripe.LineItem) => ({
-          name: item.description || 'Product',
-          quantity: item.quantity || 1,
-          price: (item.amount_total || 0) / 100,
-          image: item.description?.toLowerCase().includes('burger') ? 'burgers/classic-burger.png' : 
-                 item.description?.toLowerCase().includes('pizza') ? 'pizzas/margherita.png' : 
-                 item.description?.toLowerCase().includes('fries') ? 'fries/classic-fries.png' : 'default-image.png',
-          product: '650e9b47ac76b6b95de0201c' // Placeholder product ID to satisfy validation
-        })),
+        orderItems: lineItems.data.map((item: Stripe.LineItem, index: number) => {
+            const imageUrl = (index < images.length) ? images[index] : '/images/default-image.png';
+            return {
+            name: item.description || 'Product',
+            quantity: item.quantity || 1,
+            price: (item.amount_total || 0) / 100, // Convert from cents to dollars
+            image: imageUrl,
+            product: '650e9b47ac76b6b95de0201c' // Placeholder product ID to satisfy validation
+            }}),
         shippingAddress: {
           address: session.metadata.userId ? await getUserAddress(session.metadata.userId) : 'Default address',
           city: session.metadata.userId ? await getUserCity(session.metadata.userId) : 'Default city',

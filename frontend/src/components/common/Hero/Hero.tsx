@@ -1,6 +1,10 @@
 import './Hero.scss';
 
 function Hero() {
+    function scrollToMenu() {
+        
+    }
+
   return (
     <div className="hero">
       <div className="container">

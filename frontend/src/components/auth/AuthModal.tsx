@@ -91,7 +91,7 @@ const AuthModal: FC<AuthModalProps> = ({ isOpen, onClose }) => {
     <div className={`auth-modal ${isOpen ? 'auth-modal--open' : ''}`}>
       <div className="auth-modal__content">
         <div className="auth-modal__header">
-          <h2>Welcome to YumRush</h2>
+          <h2>Welcome to YUMRUSH</h2>
           <div className="auth-modal__header-tabs">
             <div
               className={`auth-modal__tab ${activeTab === 'login' ? 'auth-modal__tab--active' : ''}`}

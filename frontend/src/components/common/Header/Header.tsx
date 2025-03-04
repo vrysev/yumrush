@@ -113,14 +113,14 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
 
   // Menu items
   const mainNavItems = [
-    { name: 'Menu', path: '/', icon: 'menu' },
-    { name: 'About', path: '/about', icon: 'menu' },
-    { name: 'Contact', path: '/contact', icon: 'email' }
+    { name: 'MENU', path: '/', icon: 'menu' },
+    { name: 'ABOUT', path: '/about', icon: 'menu' },
+    { name: 'CONTACT`', path: '/contact', icon: 'email' }
   ];
   
   // Profile settings items
   const profileItems = [
-    { name: 'Profile', path: '/profile', icon: 'person' },
+    { name: 'Profile', path: '/account/profile', icon: 'person' },
     { name: 'My Orders', path: '/account/orders', icon: 'balance' },
     { name: 'Settings', path: '/settings', icon: 'settings' },
     { name: 'Addresses', path: '/addresses', icon: 'menu' },
@@ -144,7 +144,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               e.preventDefault(); 
               navigate('/');
             }}>
-              <h1>YumRush</h1>
+              <h1>YUMRUSH</h1>
             </a>
           </div>
           
@@ -175,7 +175,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                       navigate('/admin');
                     }}
                   >
-                    Admin
+                    ADMIN
                   </a>
                 </li>
               )}
@@ -183,35 +183,35 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
           </nav>
           
           <div className="header__actions">
-            <div className="header__search">
-              <div className="search">
-                <img 
-                  src={(Icons as IconsType)['search']} 
-                  alt="Search" 
-                  className="search__icon" 
-                />
-                <input
-                  type="search"
-                  className="search__input"
-                  name="search"
-                  placeholder="Search products..."
-                  value={value}
-                  onChange={handleSearch}
-                />
-                {value && (
-                  <button 
-                    className="search__clear" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      dispatch(setSearchValue(''));
-                      setValue('');
-                    }}
-                  >
-                    <img src={(Icons as IconsType)['close']} alt="Clear search" />
-                  </button>
-                )}
-              </div>
-            </div>
+          <div className="header__search">
+        <div className="search">
+            <img 
+            src={(Icons as IconsType)['search']} 
+            alt="Search" 
+            className="search__icon" 
+            />
+            <input
+            type="search"
+            className="search__input"
+            name="desktop-search"
+            placeholder="Search..."
+            value={value}
+            onChange={handleSearch}
+            />
+            {value && (
+            <button 
+                className="search__clear" 
+                onClick={(e) => {
+                e.preventDefault();
+                dispatch(setSearchValue(''));
+                setValue('');
+                }}
+            >
+                <img src={(Icons as IconsType)['close']} alt="Clear" />
+            </button>
+            )}
+        </div>
+        </div>
             
             <div className="header__icon-wrapper" ref={notificationsRef}>
               <button 
@@ -345,33 +345,33 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
       {/* Mobile Menu */}
       <div className={`header__mobile-menu ${isMobileMenuOpen ? 'header__mobile-menu--open' : ''}`} ref={mobileMenuRef}>
         <div className="header__mobile-search">
-          <div className="search search--mobile">
+        <div className="search search--mobile">
             <img 
-              src={(Icons as IconsType)['search']} 
-              alt="Search" 
-              className="search__icon" 
+            src={(Icons as IconsType)['search']} 
+            alt="Search" 
+            className="search__icon" 
             />
             <input
-              type="search"
-              className="search__input"
-              name="mobile-search"
-              placeholder="Search products..."
-              value={value}
-              onChange={handleSearch}
+            type="search"
+            className="search__input"
+            name="mobile-search"
+            placeholder="Search..."
+            value={value}
+            onChange={handleSearch}
             />
             {value && (
-              <button 
+            <button 
                 className="search__clear" 
                 onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(setSearchValue(''));
-                  setValue('');
+                e.preventDefault();
+                dispatch(setSearchValue(''));
+                setValue('');
                 }}
-              >
-                <img src={(Icons as IconsType)['close']} alt="Clear search" />
-              </button>
+            >
+                <img src={(Icons as IconsType)['close']} alt="Clear" />
+            </button>
             )}
-          </div>
+        </div>
         </div>
         
         <div className="header__mobile-content">

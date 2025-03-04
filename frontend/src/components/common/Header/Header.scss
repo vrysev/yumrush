@@ -46,11 +46,15 @@
       list-style: none;
       margin: 0;
       padding: 0;
-      gap: 32px;
+      gap: 80px;
     }
     
     &-item {
       position: relative;
+      a {
+        font-size: 20px;
+        font-weight: 400;
+      }
     }
     
     &-link {
@@ -78,23 +82,6 @@
           height: 2px;
           background-color: color('primary');
           border-radius: 1px;
-        }
-      }
-    }
-    
-    &-item--admin {
-      .header__nav-link {
-        background-color: rgba(255, 138, 0, 0.1);
-        padding: 5px 12px;
-        border-radius: 4px;
-        font-weight: 600;
-        
-        &:hover {
-          background-color: rgba(255, 138, 0, 0.2);
-        }
-        
-        &:after {
-          bottom: 0;
         }
       }
     }
@@ -150,26 +137,6 @@
     height: 8px;
     background-color: red;
     border-radius: 50%;
-  }
-  
-  &__search {
-    margin-right: 16px;
-    flex: 1;
-    max-width: 350px;
-    min-width: 200px;
-    
-    @include media-down('lg') {
-      max-width: 300px;
-    }
-    
-    @include media-down('md') {
-      max-width: 220px;
-      min-width: 150px;
-    }
-    
-    @include media-down('sm') {
-      display: none;
-    }
   }
   
   &__dropdown {
@@ -482,11 +449,6 @@
     }
   }
   
-  &__mobile-search {
-    padding: 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
   &__mobile-content {
     flex: 1;
     padding: 16px;
@@ -601,90 +563,100 @@
 }
 
 .search {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background: color('light-gray');
-  border-radius: 30px;
-  padding: 0 8px;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background: darken(color('light-gray'), 2%);
-  }
-  
-  &:focus-within {
-    background: white;
-    box-shadow: 0 0 0 2px rgba(255, 138, 0, 0.3);
-  }
-  
-  &__icon {
-    width: 18px;
-    height: 18px;
-    opacity: 0.6;
-    margin-left: 10px;
-    margin-right: 8px;
-    flex-shrink: 0;
-  }
-  
-  &__input {
-    border: none;
-    background: transparent;
-    padding: 8px 0;
-    height: 36px;
-    font-size: 14px;
-    flex: 1;
-    min-width: 0; // Important for flex item to respect parent width
-    color: color('text');
-    
-    &::placeholder {
-      color: color('gray');
-      opacity: 0.7;
-    }
-    
-    &:focus {
-      outline: none;
-    }
-    
-    @include media-down('md') {
-      font-size: 13px;
-    }
-  }
-  
-  &__clear {
-    background: none;
-    border: none;
-    padding: 4px;
-    cursor: pointer;
-    border-radius: 50%;
+    position: relative;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-left: 4px;
-    flex-shrink: 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0 12px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
     
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
+      background: #f1f3f5;
     }
-    
-    img {
-      width: 14px;
-      height: 14px;
-      opacity: 0.6;
-    }
-  }
-  
-  &--mobile {
-    border-radius: 6px;
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     
     &:focus-within {
+      background: white;
       border-color: color('primary');
     }
+    
+    &__icon {
+      width: 18px;
+      height: 18px;
+      opacity: 0.7;
+      margin-right: 10px;
+      flex-shrink: 0;
+      color: #555;
+    }
+    
+    &__input {
+      border: none;
+      background: transparent;
+      padding: 12px 0;
+      height: 42px;
+      font-size: 15px;
+      font-weight: 400;
+      flex: 1;
+      min-width: 0;
+      color: #333;
+      
+      &::placeholder {
+        color: #888;
+        font-weight: 300;
+      }
+      
+      &:focus {
+        outline: none;
+      }
+    }
+    
+    &__clear {
+      background: none;
+      border: none;
+      padding: 6px;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      flex-shrink: 0;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      
+      img {
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+      }
+      
+      &:hover img {
+        opacity: 1;
+      }
+    }
+    
+    /* Mobile search styles */
+    &--mobile {
+      border-radius: 8px;
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      margin: 12px 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      
+      .search__input {
+        font-size: 14px;
+      }
+      
+      &:focus-within {
+        border-color: color('primary');
+      }
+    }
   }
-}
 
 @keyframes fadeIn {
   from {

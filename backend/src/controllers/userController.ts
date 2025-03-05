@@ -243,3 +243,169 @@ export const createAdminUser = async (req: Request, res: Response): Promise<void
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+// @desc    Update user admin status
+// @route   PATCH /api/users/:id
+// @access  Admin
+export const updateUserAdminStatus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Check if user making the request is an admin
+    if (!req.user) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const adminUser = await User.findById(req.user._id);
+    
+    if (!adminUser?.isAdmin) {
+      res.status(401).json({ message: 'Not authorized as admin' });
+      return;
+    }
+
+    // Validate user ID
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json({ message: 'Invalid user ID' });
+      return;
+    }
+
+    // Get user to update
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    // Check if isAdmin field is provided
+    if (req.body.isAdmin === undefined) {
+      res.status(400).json({ message: 'isAdmin field is required' });
+      return;
+    }
+
+    // Update isAdmin status
+    user.isAdmin = Boolean(req.body.isAdmin);
+    
+    // Save updated user
+    const updatedUser = await user.save();
+    
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      address: updatedUser.address,
+      city: updatedUser.city,
+      postalCode: updatedUser.postalCode,
+      country: updatedUser.country,
+      phone: updatedUser.phone,
+    });
+  } catch (error) {
+    console.error('Update user admin status error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Get user by ID (admin only)
+// @route   GET /api/users/:id
+// @access  Admin
+export const getUserById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Check if user making the request is an admin
+    if (!req.user) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const adminUser = await User.findById(req.user._id);
+    
+    if (!adminUser?.isAdmin) {
+      res.status(401).json({ message: 'Not authorized as admin' });
+      return;
+    }
+
+    // Validate user ID
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json({ message: 'Invalid user ID' });
+      return;
+    }
+
+    // Get user by ID
+    const user = await User.findById(req.params.id).select('-password');
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Get user by ID error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Update user by ID (admin only)
+// @route   PUT /api/users/:id
+// @access  Admin
+export const updateUserById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Check if user making the request is an admin
+    if (!req.user) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const adminUser = await User.findById(req.user._id);
+    
+    if (!adminUser?.isAdmin) {
+      res.status(401).json({ message: 'Not authorized as admin' });
+      return;
+    }
+
+    // Validate user ID
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json({ message: 'Invalid user ID' });
+      return;
+    }
+
+    // Get user to update
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    // Update user fields if provided
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = req.body.isAdmin !== undefined ? req.body.isAdmin : user.isAdmin;
+    user.address = req.body.address !== undefined ? req.body.address : user.address;
+    user.city = req.body.city !== undefined ? req.body.city : user.city;
+    user.postalCode = req.body.postalCode !== undefined ? req.body.postalCode : user.postalCode;
+    user.country = req.body.country !== undefined ? req.body.country : user.country;
+    user.phone = req.body.phone !== undefined ? req.body.phone : user.phone;
+    
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    // Save updated user
+    const updatedUser = await user.save();
+    
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      address: updatedUser.address,
+      city: updatedUser.city,
+      postalCode: updatedUser.postalCode,
+      country: updatedUser.country,
+      phone: updatedUser.phone,
+    });
+  } catch (error) {
+    console.error('Update user by ID error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

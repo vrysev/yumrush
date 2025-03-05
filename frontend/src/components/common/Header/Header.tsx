@@ -123,8 +123,6 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
     { name: 'Profile', path: '/account/profile', icon: 'person' },
     { name: 'My Orders', path: '/account/orders', icon: 'balance' },
     { name: 'Settings', path: '/settings', icon: 'settings' },
-    { name: 'Addresses', path: '/addresses', icon: 'menu' },
-    { name: 'Payment Methods', path: '/payment-methods', icon: 'balance' }
   ];
   
   // Admin items

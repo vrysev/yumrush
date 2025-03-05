@@ -5,7 +5,10 @@ import {
   getUserProfile, 
   updateUserProfile,
   getUsers,
-  createAdminUser
+  createAdminUser,
+  getUserById,
+  updateUserById,
+  updateUserAdminStatus
 } from '../controllers/userController';
 import { protect } from '../middleware/authMiddleware';
 
@@ -21,8 +24,14 @@ router.route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 
-// Admin routes (protection is checked in the controller)
+// Admin routes (protection is checked in the controllers)
 router.route('/')
   .get(protect, getUsers);
+
+// User management routes (admin only)
+router.route('/:id')
+  .get(protect, getUserById)
+  .put(protect, updateUserById)
+  .patch(protect, updateUserAdminStatus);
 
 export default router;

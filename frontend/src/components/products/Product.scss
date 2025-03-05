@@ -1,5 +1,5 @@
 .products {
-  @include flex(row, center, flex-start);
+  @include flex(row, flex-start, flex-start);
   width: 100%;
   gap: spacing('md');
   margin-top: spacing('xl');

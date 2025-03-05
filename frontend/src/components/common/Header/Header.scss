@@ -42,6 +42,8 @@
   }
   
   &__nav {
+    margin-right: auto;
+    margin-left: 5em;
     @include media-down('md') {
       display: none;
     }
@@ -49,16 +51,15 @@
     &-list {
       display: flex;
       list-style: none;
-      margin: 0;
       padding: 0;
-      gap: 80px;
+      gap: 60px;
     }
     
     &-item {
       position: relative;
       a {
-        font-size: 20px;
-        font-weight: 400;
+        font-size: 16px;
+        font-weight: 600;
       }
     }
     
@@ -465,7 +466,7 @@
     background: none;
     border: none;
     padding: 8px;
-    margin-left: 8px;
+    margin-right: 2rem;
     cursor: pointer;
     
     .header--scrolled & {

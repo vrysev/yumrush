@@ -71,14 +71,9 @@ const Categories: FC<CategoriesProps> = ({ mode = 'default', onToggleMobileMenu 
   // Add scroll effects
   useEffect(() => {
     const handleScrollEffect = () => {
-      // Hero height is approximately 500px
-      const heroHeight = 500;
-      
-      // Main header height is approximately 70px
-      const headerHeight = 70;
       
       // Add scrolled class to categories when scrolled past hero section
-      if (window.scrollY > headerHeight) {
+      if (window.scrollY > 650) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -106,7 +101,7 @@ const Categories: FC<CategoriesProps> = ({ mode = 'default', onToggleMobileMenu 
         );
         
         // If section is in view and close to top of viewport (header + categories height = ~120px)
-        if (rect.top <= 120 && rect.bottom >= 120 && categoryIndex !== -1 && categoryIndex !== category) {
+        if (rect.top <= 150 && rect.bottom >= 150 && categoryIndex !== -1 && categoryIndex !== category) {
           dispatch(setActiveCategory(categoryIndex));
           
           // Scroll active category into view in the categories bar

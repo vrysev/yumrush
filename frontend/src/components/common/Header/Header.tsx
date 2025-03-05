@@ -83,7 +83,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
     const handleScroll = () => {
       // At what scroll position should we show the categories in header
       // This should be just after the hero section ends (around 500px)
-      const scrollThreshold = 500;
+      const scrollThreshold = 650;
       
       if (window.scrollY > scrollThreshold) {
         setIsScrolled(true);
@@ -341,20 +341,6 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                     onChange={handleSearch}
                     autoFocus
                   />
-                  {value && (
-                    <button 
-                      type="button"
-                      className="search__clear" 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        dispatch(setSearchValue(''));
-                        setValue('');
-                      }}
-                    >
-                      <img src={(Icons as IconsType)['close']} alt="Clear" />
-                    </button>
-                  )}
                   <button 
                     type="button"
                     className="search__close" 

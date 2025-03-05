@@ -4,12 +4,14 @@ interface SortState {
   sortType: number;
   popUp: boolean;
   category: number;
+  categoryId: string;
 }
 
 const initialState: SortState = {
   sortType: 0,
   popUp: false,
   category: 0,
+  categoryId: 'pizza',
 };
 
 const sortSlice = createSlice({
@@ -25,8 +27,11 @@ const sortSlice = createSlice({
     setActiveCategory: (state, action: PayloadAction<number>) => {
       state.category = action.payload;
     },
+    scrollToCategory: (state, action: PayloadAction<string>) => {
+      state.categoryId = action.payload.toLowerCase();
+    },
   },
 });
 
-export const { setSortType, setPopupActive, setActiveCategory } = sortSlice.actions;
+export const { setSortType, setPopupActive, setActiveCategory, scrollToCategory } = sortSlice.actions;
 export default sortSlice.reducer;

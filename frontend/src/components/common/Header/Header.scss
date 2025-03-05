@@ -8,6 +8,11 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: all 0.3s ease;
+  
+  &--scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
   
   &__content {
     display: flex;
@@ -90,7 +95,83 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 15px;
+    flex-shrink: 0; /* Prevent actions from shrinking when search expands */
+  }
+  
+  &__search {
+    position: relative;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+    z-index: 100; // Higher than some elements
+    
+    // Expanded mode only takes over the navigation area
+    &--expanded {
+      position: absolute;
+      top: 0;
+      left: 210px; // Leave space for logo
+      right: 160px; // Leave space for user actions
+      height: 100%;
+      background-color: white;
+      z-index: 100;
+      margin-right: 0;
+      
+      @include media-down('lg') {
+        left: 170px;
+        right: 150px;
+      }
+      
+      @include media-down('md') {
+        left: 120px;
+        right: 120px;
+      }
+      
+      @include media-down('sm') {
+        left: 80px;
+        right: 60px;
+      }
+    }
+  }
+  
+  &__search-expanded {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    animation: fadeIn 0.2s forwards;
+    border-radius: 20px;
+    background: rgba(248, 249, 250, 0.95);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  &__search-icon-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    
+    .header__search--expanded & {
+      display: none;
+    }
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    img {
+      width: 24px;
+      height: 24px;
+      opacity: 0.7;
+    }
   }
   
   &__icon-wrapper {
@@ -379,6 +460,61 @@
   }
   
   /* Mobile menu styles */
+  &__nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    margin-left: 8px;
+    cursor: pointer;
+    
+    .header--scrolled & {
+      display: block;
+    }
+    
+    @include media-down('sm') {
+      display: none;
+    }
+  }
+  
+  &__toggle-icon {
+    display: block;
+    position: relative;
+    width: 24px;
+    height: 2px;
+    background-color: #000;
+    transition: background-color 0.3s ease;
+    
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background-color: #000;
+      transition: transform 0.3s ease;
+    }
+    
+    &:before {
+      top: -7px;
+    }
+    
+    &:after {
+      bottom: -7px;
+    }
+    
+    &--open {
+      background-color: transparent;
+      
+      &:before {
+        transform: translateY(7px) rotate(45deg);
+      }
+      
+      &:after {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+  }
+  
   &__mobile-toggle {
     display: none;
     background: none;
@@ -387,6 +523,7 @@
     margin-left: 8px;
     cursor: pointer;
     
+    // Only show on smaller screens
     @include media-down('sm') {
       display: block;
     }
@@ -446,6 +583,66 @@
     
     &--open {
       transform: translateX(0);
+    }
+    
+    // Different behavior based on screen size and scroll state
+    @include media-up('md') {
+      // For desktop devices, don't show the mobile menu when scrolled
+      .header--scrolled & {
+        display: none !important;
+      }
+      
+      // For desktop devices, ensure the menu is closed when not scrolled
+      .header:not(.header--scrolled) &.header__mobile-menu--open {
+        transform: translateX(100%);
+      }
+    }
+  }
+  
+  &__mobile-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  &__mobile-close {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  &__mobile-close-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      top: 50%;
+      left: 0;
+      background-color: #000;
+    }
+    
+    &:before {
+      transform: rotate(45deg);
+    }
+    
+    &:after {
+      transform: rotate(-45deg);
     }
   }
   
@@ -556,6 +753,18 @@
     opacity: 0.7;
   }
   
+  &__mobile-category-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 138, 0, 0.1);
+    padding: 4px;
+  }
+  
   &__mobile-footer {
     padding-top: 16px;
     margin-top: auto;
@@ -565,6 +774,7 @@
 .search {
     position: relative;
     width: 100%;
+    max-width: 300px; /* Limit maximum width of search */
     display: flex;
     align-items: center;
     background: #f8f9fa;
@@ -572,6 +782,14 @@
     padding: 0 12px;
     transition: all 0.3s ease;
     border: 1px solid transparent;
+    
+    // Full-width search style
+    &--full {
+      max-width: 100%;
+      padding: 0 10px;
+      background: transparent;
+      border: none;
+    }
     
     &:hover {
       background: #f1f3f5;
@@ -634,6 +852,10 @@
       margin-left: 6px;
       flex-shrink: 0;
       
+      .search--full & {
+        padding: 8px;
+      }
+      
       &:hover {
         background-color: rgba(0, 0, 0, 0.05);
       }
@@ -647,6 +869,48 @@
       
       &:hover img {
         opacity: 1;
+      }
+    }
+    
+    &__close {
+      background: none;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 8px;
+      flex-shrink: 0;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+    
+    &__close-icon {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        top: 50%;
+        left: 0;
+        background-color: #777;
+        transition: background-color 0.2s ease;
+      }
+      
+      &:before {
+        transform: rotate(45deg);
+      }
+      
+      &:after {
+        transform: rotate(-45deg);
       }
     }
     

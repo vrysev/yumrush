@@ -1,7 +1,9 @@
 import * as Icons from '../../../assets/icons/index.jsx';
+import * as Images from '@assets/img';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchValue } from '../../../redux/slices/searchSlice';
 import { logout } from '../../../redux/slices/authSlice';
+import { setActiveCategory } from '../../../redux/slices/sortSlice';
 import { debounce } from 'lodash';
 import './Header.scss';
 import { IconsType } from '@/types/icons';
@@ -12,27 +14,41 @@ import CartSidebar from '../../cart/CartSidebar';
 import { RootState, AppDispatch } from '../../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import Categories, { CATEGORIES } from '../../categories/Categories';
 
 interface HeaderProps {
   showSearch?: boolean;
 }
 
+interface ImagesType {
+  [key: string]: string;
+  pizza: string;
+  burger: string;
+  fries: string;
+  pack: string;
+}
+
 const Header: FC<HeaderProps> = ({ showSearch = true }) => {
   const [value, setValue] = useState<string>('');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
-  // No longer need search open state as it's always visible
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState<boolean>(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [showNavigation, setShowNavigation] = useState<boolean>(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState<boolean>(false);
   
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
   
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { category } = useSelector((state: RootState) => state.sort);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -46,6 +62,9 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         setIsMobileMenuOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchExpanded(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -58,6 +77,31 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+  
+  // Add scroll effect for header
+  useEffect(() => {
+    const handleScroll = () => {
+      // At what scroll position should we show the categories in header
+      // This should be just after the hero section ends (around 500px)
+      const scrollThreshold = 500;
+      
+      if (window.scrollY > scrollThreshold) {
+        setIsScrolled(true);
+      } else {
+        // When scrolling back to top, reset the header view
+        if (isScrolled) {
+          // Reset all states when scrolling back to top
+          setShowNavigation(false);
+          setIsMobileMenuOpen(false);
+          setIsSearchExpanded(false);
+        }
+        setIsScrolled(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isScrolled]);
 
   const handleClearSearch = (event: MouseEvent<HTMLDivElement>): void => {
     event.preventDefault();
@@ -102,15 +146,50 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
     setIsUserDropdownOpen(false);
   };
   
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  // Toggle between categories and navigation in header when scrolled
+  const toggleHeaderView = () => {
+    if (isScrolled && window.innerWidth >= 768) {
+      // Simple toggle between showing categories or navigation
+      setShowNavigation(!showNavigation);
+      setIsUserDropdownOpen(false);
+      setIsNotificationsOpen(false);
+    } else if (window.innerWidth < 768) {
+      // On mobile, just open the menu
+      openMobileMenu();
+    }
+  };
+  
+  // Switch to showing navigation (for search button)
+  const showNavigationView = () => {
+    setShowNavigation(true);
+  };
+  
+  // Open mobile menu specifically for mobile devices
+  const openMobileMenu = () => {
+    setIsMobileMenuOpen(true);
     setIsUserDropdownOpen(false);
     setIsNotificationsOpen(false);
+  };
+  
+  // Close mobile menu
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
   
   const navigateTo = (path: string) => {
     navigate(path);
     setIsUserDropdownOpen(false);
+  };
+  
+  // Handle category click for mobile menu
+  const handleCategoryClick = (index: number, categoryName: string): void => {
+    dispatch(setActiveCategory(index));
+    
+    // Scroll to category section
+    const sectionElement = document.getElementById(`section-${categoryName.toLowerCase()}`);
+    if (sectionElement) {
+      sectionElement.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   // Mock notifications - in a real app, these would come from an API
@@ -142,8 +221,23 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
     { name: 'Users', path: '/admin/users', icon: 'person' }
   ];
 
+  // Toggle search expanded state
+  const toggleSearch = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsSearchExpanded(!isSearchExpanded);
+    
+    // When expanding search, make sure navigation is shown if we're scrolled
+    if (!isSearchExpanded && isScrolled) {
+      setShowNavigation(true);
+    }
+  };
+  
   return (
-    <header className="header">
+    <header 
+      ref={headerRef} 
+      className={`header ${isScrolled ? 'header--scrolled' : ''} ${showNavigation ? 'show-nav' : ''}`}
+    >
       <div className="container">
         <div className="header__content">
           <div className="header__logo">
@@ -155,7 +249,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
             </a>
           </div>
           
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Hidden when scrolled */}
           <nav className="header__nav">
             <ul className="header__nav-list">
               {mainNavItems.map((item, index) => (
@@ -189,43 +283,78 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
             </ul>
           </nav>
           
+          {/* Categories in header - Only visible when scrolled */}
+          <Categories mode="header" onToggleMobileMenu={toggleHeaderView} />
+          
           <div className="header__actions">
-          <div className="header__search">
-        <form onSubmit={handleSearchSubmit} className="search">
+          {/* Search Icon Button - Always visible */}
+          <div className={`header__search ${isSearchExpanded ? 'header__search--expanded' : ''}`} ref={searchRef}>
             <button 
-              type="submit" 
-              className="search__icon-btn"
-              aria-label="Search"
+              className="header__search-icon-btn"
+              onClick={toggleSearch}
+              aria-label="Toggle search"
+              title="Search"
             >
               <img 
                 src={(Icons as IconsType)['search']} 
                 alt="Search" 
-                className="search__icon" 
               />
             </button>
-            <input
-              type="search"
-              className="search__input"
-              name="desktop-search"
-              placeholder="Search products..."
-              value={value}
-              onChange={handleSearch}
-            />
-            {value && (
-              <button 
-                type="button"
-                className="search__clear" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(setSearchValue(''));
-                  setValue('');
-                }}
-              >
-                <img src={(Icons as IconsType)['close']} alt="Clear" />
-              </button>
+            
+            {/* Expanded Search Form - Only visible when expanded */}
+            {isSearchExpanded && (
+              <div className="header__search-expanded">
+                <form onSubmit={handleSearchSubmit} className="search search--full">
+                  <button 
+                    type="submit" 
+                    className="search__icon-btn"
+                    aria-label="Search"
+                  >
+                    <img 
+                      src={(Icons as IconsType)['search']} 
+                      alt="Search" 
+                      className="search__icon" 
+                    />
+                  </button>
+                  <input
+                    type="search"
+                    className="search__input"
+                    name="desktop-search"
+                    placeholder="Search products..."
+                    value={value}
+                    onChange={handleSearch}
+                    autoFocus
+                  />
+                  {value && (
+                    <button 
+                      type="button"
+                      className="search__clear" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dispatch(setSearchValue(''));
+                        setValue('');
+                      }}
+                    >
+                      <img src={(Icons as IconsType)['close']} alt="Clear" />
+                    </button>
+                  )}
+                  <button 
+                    type="button"
+                    className="search__close" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleSearch(e);
+                    }}
+                    aria-label="Close search"
+                  >
+                    <span className="search__close-icon"></span>
+                  </button>
+                </form>
+              </div>
             )}
-        </form>
-        </div>
+          </div>
             
             <div className="header__icon-wrapper" ref={notificationsRef}>
               <button 
@@ -344,13 +473,29 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               )}
             </div>
             
-            {/* Mobile Menu Toggle */}
+            {/* Toggle between Categories/Navigation when scrolled */}
+            {isScrolled && (
+              <button 
+                className="header__nav-toggle"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleHeaderView();
+                }}
+                aria-label={showNavigation ? "Show Categories" : "Show Navigation"}
+                title={showNavigation ? "Show Categories" : "Show Navigation"}
+              >
+                <span className={`header__toggle-icon ${showNavigation ? 'header__toggle-icon--open' : ''}`}></span>
+              </button>
+            )}
+            
+            {/* Mobile Menu Toggle - only show on small screens */}
             <button 
               className="header__mobile-toggle"
-              onClick={toggleMobileMenu}
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              onClick={openMobileMenu}
+              aria-label="Open menu"
             >
-              <span className={`header__mobile-icon ${isMobileMenuOpen ? 'header__mobile-icon--open' : ''}`}></span>
+              <span className="header__mobile-icon"></span>
             </button>
           </div>
         </div>
@@ -358,6 +503,15 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
       
       {/* Mobile Menu */}
       <div className={`header__mobile-menu ${isMobileMenuOpen ? 'header__mobile-menu--open' : ''}`} ref={mobileMenuRef}>
+        <div className="header__mobile-header">
+          <button 
+            className="header__mobile-close"
+            onClick={closeMobileMenu}
+            aria-label="Close menu"
+          >
+            <span className="header__mobile-close-icon"></span>
+          </button>
+        </div>
         <div className="header__mobile-search">
         <form onSubmit={handleSearchSubmit} className="search search--mobile">
             <button 
@@ -430,6 +584,35 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
           )}
           
           <nav className="header__mobile-nav">
+            {/* Food Categories Section */}
+            <h3 className="header__mobile-heading">Food Categories</h3>
+            <ul className="header__mobile-list">
+              {CATEGORIES.map((item, index) => (
+                <li key={item.id} className="header__mobile-item">
+                  <a 
+                    href={`#section-${item.name.toLowerCase()}`} 
+                    className={`header__mobile-link ${
+                      category === index ? 'active' : ''
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleCategoryClick(index, item.name);
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    <div className="header__mobile-category-icon">
+                      <img 
+                        src={(Images as ImagesType)[item.name.toLowerCase()]} 
+                        alt={`${item.name} category`}
+                        className="header__mobile-icon-img"
+                      />
+                    </div>
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            
             <h3 className="header__mobile-heading">Menu</h3>
             <ul className="header__mobile-list">
               {mainNavItems.map((item, index) => (

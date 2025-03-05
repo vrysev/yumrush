@@ -31,6 +31,10 @@ const ProductSchema = new mongoose.Schema({
   preparationTime: { 
     type: String, 
     required: true 
+  },
+  description: {
+    type: String,
+    required: true
   }
 });
 

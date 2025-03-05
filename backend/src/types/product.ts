@@ -6,4 +6,5 @@ export interface IProduct {
     category: number;
     rating: number;
     preparationTime: string;
+    description: string;
   }

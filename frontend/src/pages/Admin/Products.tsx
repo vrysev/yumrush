@@ -12,6 +12,7 @@ interface Product {
   category: number;
   rating: number;
   preparationTime: string;
+  description: string;
 }
 
 const AdminProducts: FC = () => {
@@ -27,6 +28,7 @@ const AdminProducts: FC = () => {
     price: 0,
     category: 1,
     preparationTime: '',
+    description: '',
     imageUrl: '',
     rating: 5,
   });
@@ -99,6 +101,7 @@ const AdminProducts: FC = () => {
       price: product.price,
       category: product.category,
       preparationTime: product.preparationTime,
+      description: product.description,
       imageUrl: product.imageUrl,
       rating: product.rating,
     });
@@ -114,6 +117,7 @@ const AdminProducts: FC = () => {
       price: 0,
       category: 1,
       preparationTime: '15-20 min',
+      description: '',
       imageUrl: '',
       rating: 5,
     });
@@ -126,7 +130,7 @@ const AdminProducts: FC = () => {
     
     let parsedValue = value;
     if (type === 'number' && value !== '') {
-      parsedValue = parseFloat(value);
+      parsedValue = parseFloat(value).toString();
     }
     
     setFormData({
@@ -237,6 +241,7 @@ const AdminProducts: FC = () => {
                   <th>Price</th>
                   <th>Rating</th>
                   <th>Prep Time</th>
+                  <th>Description</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -255,6 +260,7 @@ const AdminProducts: FC = () => {
                     <td>${product.price.toFixed(2)}</td>
                     <td>{product.rating}</td>
                     <td>{product.preparationTime}</td>
+                    <td>{product.description}</td>
                     <td className="admin-dashboard__actions">
                       <button
                         className="admin-dashboard__action-btn admin-dashboard__action-btn--edit"
@@ -353,6 +359,18 @@ const AdminProducts: FC = () => {
                     id="preparationTime"
                     name="preparationTime"
                     value={formData.preparationTime}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="admin-dashboard__form-group">
+                  <label htmlFor="description">Description</label>
+                  <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    value={formData.description}
                     onChange={handleChange}
                     required
                   />

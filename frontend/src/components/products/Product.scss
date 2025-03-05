@@ -13,6 +13,7 @@
   box-shadow: 2px 6px 30px 0px rgba(0, 0, 0, 0.03);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   gap: 30px;
+  max-width: 350px;
   
   &:hover {
     transform: translateY(-3px);
@@ -50,6 +51,16 @@
     font-weight: 700;
     margin-top: spacing('lg');
   }
+
+	&__description {
+		height: 70px; 
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		margin: 15px 0;
+	}
 
   &__prep-time {
     color: color('gray');

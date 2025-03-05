@@ -73,7 +73,8 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       imageUrl,
       category,
       rating,
-      preparationTime
+      preparationTime,
+      description
     } = req.body;
 
     const productExists = await Product.findOne({ productId });
@@ -90,7 +91,8 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       imageUrl,
       category,
       rating,
-      preparationTime
+      preparationTime,
+      description
     });
 
     res.status(201).json(product);
@@ -111,7 +113,8 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       imageUrl,
       category,
       rating,
-      preparationTime
+      preparationTime,
+      description
     } = req.body;
 
     const product = await Product.findById(req.params.id);
@@ -123,6 +126,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       product.category = category !== undefined ? category : product.category;
       product.rating = rating || product.rating;
       product.preparationTime = preparationTime || product.preparationTime;
+      product.description = description || product.description
 
       const updatedProduct = await product.save();
       res.json(updatedProduct);

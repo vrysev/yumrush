@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { RootState } from '../../redux/store';
 import { getAllOrders } from '../../api/orderApi';
 import '../Admin.scss';
@@ -29,6 +30,7 @@ interface ProductStats {
 
 const AdminDashboard: FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
+  const { t } = useTranslation();
   const [orderStats, setOrderStats] = useState<OrderStats>({
     total: 0,
     pending: 0,
@@ -131,26 +133,27 @@ const AdminDashboard: FC = () => {
   }, [user]);
 
   const getCategoryName = (categoryId: number) => {
-    const categories = {
-      1: 'Burgers',
-      2: 'Pizzas',
-      3: 'Fries',
-      4: 'Drinks',
-      5: 'Desserts',
+    const categoryKeys = {
+      0: 'Pizza',
+      1: 'Burger',
+      2: 'Fries',
+      3: 'Drink',
+      4: 'Dessert',
     };
-    return categories[categoryId as keyof typeof categories] || 'Unknown';
+    const key = categoryKeys[categoryId as keyof typeof categoryKeys] || 'Unknown';
+    return t(key);
   };
 
   return (
     <div className="admin-dashboard-page">
       <div className="admin-section-header">
-        <h2>Dashboard</h2>
-        <p>Overview of your business performance</p>
+        <h2>{t('Dashboard')}</h2>
+        <p>{t('dashboardOverview')}</p>
       </div>
 
       <div className="admin-content-section">
         {loading ? (
-          <div className="admin-dashboard__loading">Loading dashboard data...</div>
+          <div className="admin-dashboard__loading">{t('loading')} {t('Dashboard').toLowerCase()}...</div>
         ) : error ? (
           <div className="admin-dashboard__error">{error}</div>
         ) : (
@@ -158,27 +161,27 @@ const AdminDashboard: FC = () => {
             {/* Orders Summary Card */}
             <div className="admin-dashboard-card">
               <div className="admin-dashboard-card__header">
-                <h3>Orders Summary</h3>
+                <h3>{t('ordersSummary')}</h3>
                 <Link to="/admin/orders" className="admin-dashboard-card__link">
-                  View All
+                  {t('viewAll')}
                 </Link>
               </div>
               <div className="admin-dashboard-card__content">
                 <div className="admin-dashboard-stats">
                   <div className="admin-dashboard-stat">
                     <span className="admin-dashboard-stat__value">{orderStats.total}</span>
-                    <span className="admin-dashboard-stat__label">Total Orders</span>
+                    <span className="admin-dashboard-stat__label">{t('totalOrders')}</span>
                   </div>
                   <div className="admin-dashboard-stat">
                     <span className="admin-dashboard-stat__value">${orderStats.totalRevenue.toFixed(2)}</span>
-                    <span className="admin-dashboard-stat__label">Total Revenue</span>
+                    <span className="admin-dashboard-stat__label">{t('totalRevenue')}</span>
                   </div>
                 </div>
                 
                 <div className="admin-dashboard-status-bars">
                   <div className="admin-dashboard-status-bar">
                     <div className="admin-dashboard-status-bar__label">
-                      <span>Pending</span>
+                      <span>{t('pending')}</span>
                       <span>{orderStats.pending}</span>
                     </div>
                     <div className="admin-dashboard-status-bar__track">
@@ -190,7 +193,7 @@ const AdminDashboard: FC = () => {
                   </div>
                   <div className="admin-dashboard-status-bar">
                     <div className="admin-dashboard-status-bar__label">
-                      <span>Processing</span>
+                      <span>{t('processing')}</span>
                       <span>{orderStats.processing}</span>
                     </div>
                     <div className="admin-dashboard-status-bar__track">
@@ -202,7 +205,7 @@ const AdminDashboard: FC = () => {
                   </div>
                   <div className="admin-dashboard-status-bar">
                     <div className="admin-dashboard-status-bar__label">
-                      <span>Ready</span>
+                      <span>{t('ready')}</span>
                       <span>{orderStats.ready}</span>
                     </div>
                     <div className="admin-dashboard-status-bar__track">
@@ -214,7 +217,7 @@ const AdminDashboard: FC = () => {
                   </div>
                   <div className="admin-dashboard-status-bar">
                     <div className="admin-dashboard-status-bar__label">
-                      <span>Delivered</span>
+                      <span>{t('delivered')}</span>
                       <span>{orderStats.delivered}</span>
                     </div>
                     <div className="admin-dashboard-status-bar__track">
@@ -226,7 +229,7 @@ const AdminDashboard: FC = () => {
                   </div>
                   <div className="admin-dashboard-status-bar">
                     <div className="admin-dashboard-status-bar__label">
-                      <span>Cancelled</span>
+                      <span>{t('cancelled')}</span>
                       <span>{orderStats.cancelled}</span>
                     </div>
                     <div className="admin-dashboard-status-bar__track">

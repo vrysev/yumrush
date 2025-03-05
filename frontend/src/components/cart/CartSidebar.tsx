@@ -5,10 +5,12 @@ import { closeCart, removeFromCart, updateQuantity, clearCart } from '../../redu
 import { RootState, AppDispatch } from '../../redux/store';
 import { createCheckoutSession } from '../../api/paymentApi';
 import './CartSidebar.scss';
+import { useTranslation } from 'react-i18next';
 
 const CartSidebar: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { items, isOpen, totalQuantity, totalAmount } = useSelector((state: RootState) => state.cart);
   const { user } = useSelector((state: RootState) => state.auth);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -34,7 +36,7 @@ const CartSidebar: FC = () => {
     setAddressError(null);
     
     if (!user) {
-      alert('Please log in to checkout');
+      alert(t('pleaseLoginToCheckout'));
       return;
     }
     
@@ -42,7 +44,7 @@ const CartSidebar: FC = () => {
     const hasAddress = user.address && user.city && user.postalCode;
     
     if (!hasAddress) {
-      setAddressError('Please complete your delivery address in Profile Settings');
+      setAddressError(t('completeDeliveryAddress'));
       handleGoToProfile(); // Automatically redirect to profile settings
       return;
     }
@@ -61,7 +63,7 @@ const CartSidebar: FC = () => {
       window.location.href = result.url;
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      alert('There was an error processing your payment. Please try again.');
+      alert(t('errorProcessingPayment'));
     } finally {
       setIsCheckingOut(false);
     }
@@ -81,7 +83,7 @@ const CartSidebar: FC = () => {
       <div className={`cart-sidebar ${isOpen ? 'cart-sidebar--open' : ''}`}>
         <div className="cart-sidebar__header">
           <h2>
-            Your Cart
+            {t('yourCart')}
             {totalQuantity > 0 && (
               <span className="cart-sidebar__header-count">{totalQuantity}</span>
             )}
@@ -101,8 +103,8 @@ const CartSidebar: FC = () => {
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
-              <p>Your cart is empty</p>
-              <button onClick={handleCloseCart}>Continue Shopping</button>
+              <p>{t('emptyCart')}</p>
+              <button onClick={handleCloseCart}>{t('continueShopping')}</button>
             </div>
           ) : (
             <div className="cart-sidebar__items">
@@ -140,7 +142,7 @@ const CartSidebar: FC = () => {
                         className="cart-sidebar__item-remove"
                         onClick={() => handleRemoveItem(item._id)}
                       >
-                        Remove
+                        {t('remove')}
                       </button>
                     </div>
                   </div>
@@ -153,11 +155,11 @@ const CartSidebar: FC = () => {
         {items.length > 0 && (
           <div className="cart-sidebar__footer">
             <div className="cart-sidebar__footer-subtotal">
-              <span>Subtotal</span>
+              <span>{t('subtotal')}</span>
               <span>${totalAmount.toFixed(2)}</span>
             </div>
             <div className="cart-sidebar__footer-total">
-              <span>Total</span>
+              <span>{t('total')}</span>
               <span>${totalAmount.toFixed(2)}</span>
             </div>
             <div className="cart-sidebar__footer-buttons">
@@ -166,18 +168,18 @@ const CartSidebar: FC = () => {
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
               >
-                {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
+                {isCheckingOut ? t('processing') : t('proceedToCheckout')}
               </button>
               <button 
                 className="cart-sidebar__footer-continue"
                 onClick={handleClearCart}
               >
-                Clear Cart
+                {t('clearCart')}
               </button>
             </div>
             {!user && (
               <p className="cart-sidebar__footer-login-notice">
-                Please log in to checkout
+                {t('pleaseLoginToCheckout')}
               </p>
             )}
             {addressError && (
@@ -187,7 +189,7 @@ const CartSidebar: FC = () => {
                   className="cart-sidebar__footer-profile-button"
                   onClick={handleGoToProfile}
                 >
-                  Go to Profile Settings
+                  {t('goToProfileSettings')}
                 </button>
               </div>
             )}

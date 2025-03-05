@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, register, clearError } from '../../redux/slices/authSlice';
 import './AuthModal.scss';
 import { AppDispatch, RootState } from '../../redux/store';
+import { useTranslation } from 'react-i18next';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ const AuthModal: FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formError, setFormError] = useState('');
+  const { t } = useTranslation();
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error, isAuthenticated } = useSelector((state: RootState) => state.auth);
@@ -51,23 +53,23 @@ const AuthModal: FC<AuthModalProps> = ({ isOpen, onClose }) => {
     setFormError('');
 
     if (!email.trim() || !password.trim()) {
-      setFormError('Please fill in all fields');
+      setFormError(t('fillAllFields'));
       return false;
     }
 
     if (activeTab === 'register') {
       if (!name.trim()) {
-        setFormError('Please enter your name');
+        setFormError(t('enterName'));
         return false;
       }
 
       if (password !== confirmPassword) {
-        setFormError('Passwords do not match');
+        setFormError(t('passwordsDontMatch'));
         return false;
       }
 
       if (password.length < 6) {
-        setFormError('Password must be at least 6 characters');
+        setFormError(t('passwordMinLength'));
         return false;
       }
     }
@@ -91,19 +93,19 @@ const AuthModal: FC<AuthModalProps> = ({ isOpen, onClose }) => {
     <div className={`auth-modal ${isOpen ? 'auth-modal--open' : ''}`}>
       <div className="auth-modal__content">
         <div className="auth-modal__header">
-          <h2>Welcome to YUMRUSH</h2>
+          <h2>{t('welcomeToYumrush')}</h2>
           <div className="auth-modal__header-tabs">
             <div
               className={`auth-modal__tab ${activeTab === 'login' ? 'auth-modal__tab--active' : ''}`}
               onClick={() => switchTab('login')}
             >
-              Login
+              {t('Login')}
             </div>
             <div
               className={`auth-modal__tab ${activeTab === 'register' ? 'auth-modal__tab--active' : ''}`}
               onClick={() => switchTab('register')}
             >
-              Register
+              {t('Register')}
             </div>
           </div>
           <button className="auth-modal__close" onClick={onClose}>
@@ -114,68 +116,68 @@ const AuthModal: FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <form className="auth-modal__form" onSubmit={handleSubmit}>
             {activeTab === 'register' && (
               <div className="auth-modal__field">
-                <label htmlFor="name">Full Name</label>
+                <label htmlFor="name">{t('fullName')}</label>
                 <input
                   type="text"
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your name"
+                  placeholder={t('enterYourName')}
                 />
               </div>
             )}
             <div className="auth-modal__field">
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">{t('emailAddress')}</label>
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder={t('enterYourEmail')}
               />
             </div>
             <div className="auth-modal__field">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">{t('password')}</label>
               <input
                 type="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
+                placeholder={t('enterYourPassword')}
               />
             </div>
             {activeTab === 'register' && (
               <div className="auth-modal__field">
-                <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="confirmPassword">{t('confirmPassword')}</label>
                 <input
                   type="password"
                   id="confirmPassword"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm your password"
+                  placeholder={t('confirmYourPassword')}
                 />
               </div>
             )}
             {(formError || error) && <div className="auth-modal__error">{formError || error}</div>}
             <button type="submit" className="auth-modal__submit" disabled={loading}>
               {loading
-                ? 'Please wait...'
+                ? t('pleaseWait')
                 : activeTab === 'login'
-                ? 'Sign In'
-                : 'Create Account'}
+                ? t('signIn')
+                : t('createAccount')}
             </button>
           </form>
         </div>
         <div className="auth-modal__footer">
           {activeTab === 'login' ? (
             <p>
-              Don't have an account?{' '}
-              <a onClick={() => switchTab('register')}>Register now</a>
+              {t('dontHaveAccount')}{' '}
+              <a onClick={() => switchTab('register')}>{t('registerNow')}</a>
             </p>
           ) : (
             <p>
-              Already have an account?{' '}
-              <a onClick={() => switchTab('login')}>Sign in</a>
+              {t('alreadyHaveAccount')}{' '}
+              <a onClick={() => switchTab('login')}>{t('signIn')}</a>
             </p>
           )}
         </div>

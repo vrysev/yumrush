@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { ProductType, RootState } from '@/types/product';
 import Product from '@/components/products/Product';
+import { useTranslation } from 'react-i18next';
 
 // Constants
 const SORT_TYPES = ['rating', 'title', 'rating', 'price'] as const; // Replace 'time' with 'rating' as fallback
@@ -20,7 +21,12 @@ const CATEGORY_MAP: Record<string, number> = {
 const SKELETON_COUNT = 3;
 const ITEMS_PER_PAGE = 8;
 
+
+
 function Home(): JSX.Element {
+  // Translation
+  const { t } = useTranslation();
+  
   // Redux selectors
   const sort = useSelector((state: RootState) => state.sort.sortType);
   const search = useSelector((state: RootState) => state.search.searchValue);
@@ -181,7 +187,7 @@ function Home(): JSX.Element {
           className="products-section"
         >
           <div className="container">
-            <h2 className="section-title">{categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}</h2>
+            <h2 className="section-title">{t(categoryName.charAt(0).toUpperCase() + categoryName.slice(1))}</h2>
             <div className="products">
               {renderCategoryProducts(categoryName)}
             </div>

@@ -4,6 +4,7 @@ import { addToCart, updateQuantity } from '../../redux/slices/cartSlice';
 import { ProductType } from '@/types/product';
 import { RootState, AppDispatch } from '../../redux/store';
 import './AddToCartButton.scss';
+import { useTranslation } from 'react-i18next';
 
 interface AddToCartButtonProps {
   product: ProductType;
@@ -12,6 +13,7 @@ interface AddToCartButtonProps {
 const AddToCartButton: FC<AddToCartButtonProps> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const { t } = useTranslation();
   
   // Find if product is already in cart and get its quantity
   const cartItem = cartItems.find(item => item._id === product._id);
@@ -50,7 +52,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product }) => {
           aria-label="Add to cart"
         >
           <CartIcon />
-          Add
+          {t('add')}
         </button>
       ) : (
         // Quantity controls when items are already in cart

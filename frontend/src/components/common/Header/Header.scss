@@ -185,6 +185,38 @@
     }
   }
   
+  &__language-selector {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    
+    @include media-down('sm') {
+      display: none; // Hide on mobile
+    }
+  }
+  
+  &__language-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 0.85rem;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    &--active {
+      background: rgba(255, 138, 0, 0.15);
+      color: color('primary');
+      font-weight: 600;
+    }
+  }
+  
   &__icon-btn {
     background: transparent;
     border: none;
@@ -769,6 +801,30 @@
   &__mobile-footer {
     padding-top: 16px;
     margin-top: auto;
+  }
+  
+  &__mobile-language {
+    display: flex;
+    gap: 8px;
+    margin: 15px 0;
+    justify-content: center;
+    
+    .header__language-btn {
+      color: color('text');
+      border: 1px solid #e0e0e0;
+      padding: 8px 15px;
+      display: block;
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+      
+      &--active {
+        background: rgba(255, 138, 0, 0.1);
+        color: color('primary');
+        border-color: transparent;
+      }
+    }
   }
 }
 

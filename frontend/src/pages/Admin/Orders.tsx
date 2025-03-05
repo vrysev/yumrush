@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { RootState } from '../../redux/store';
 import { getAllOrders, updateOrderStatus, markOrderAsDelivered } from '../../api/orderApi';
 import '../Admin.scss';
@@ -27,6 +28,7 @@ interface Order {
 
 const AdminOrders: FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
+  const { t } = useTranslation();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -94,8 +96,8 @@ const AdminOrders: FC = () => {
   return (
     <div className="admin-orders">
       <div className="admin-section-header">
-        <h2>Orders Management</h2>
-        <p>View and manage all customer orders</p>
+        <h2>{t('ordersManagement')}</h2>
+        <p>{t('viewAndManageOrders')}</p>
       </div>
 
       <div className="admin-dashboard__tabs">
@@ -103,52 +105,52 @@ const AdminOrders: FC = () => {
           className={`admin-dashboard__tab ${activeTab === 'all' ? 'admin-dashboard__tab--active' : ''}`}
           onClick={() => setActiveTab('all')}
         >
-          All Orders
+          {t('allOrders')}
         </button>
         <button
           className={`admin-dashboard__tab ${activeTab === 'pending' ? 'admin-dashboard__tab--active' : ''}`}
           onClick={() => setActiveTab('pending')}
         >
-          Pending
+          {t('pending')}
         </button>
         <button
           className={`admin-dashboard__tab ${activeTab === 'processing' ? 'admin-dashboard__tab--active' : ''}`}
           onClick={() => setActiveTab('processing')}
         >
-          Processing
+          {t('processing')}
         </button>
         <button
           className={`admin-dashboard__tab ${activeTab === 'ready' ? 'admin-dashboard__tab--active' : ''}`}
           onClick={() => setActiveTab('ready')}
         >
-          Ready
+          {t('ready')}
         </button>
         <button
           className={`admin-dashboard__tab ${activeTab === 'delivered' ? 'admin-dashboard__tab--active' : ''}`}
           onClick={() => setActiveTab('delivered')}
         >
-          Delivered
+          {t('delivered')}
         </button>
       </div>
 
       <div className="admin-content-section">
         {loading ? (
-          <div className="admin-dashboard__loading">Loading orders...</div>
+          <div className="admin-dashboard__loading">{t('loading')} {t('Orders').toLowerCase()}...</div>
         ) : error ? (
           <div className="admin-dashboard__error">{error}</div>
         ) : filteredOrders.length === 0 ? (
-          <div className="admin-dashboard__empty">No orders found</div>
+          <div className="admin-dashboard__empty">{t('noOrdersFound')}</div>
         ) : (
           <div className="admin-dashboard__orders">
             <table className="admin-dashboard__table">
               <thead>
                 <tr>
-                  <th>Order ID</th>
-                  <th>Date</th>
-                  <th>Customer</th>
-                  <th>Total</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th>{t('orderId')}</th>
+                  <th>{t('date')}</th>
+                  <th>{t('customer')}</th>
+                  <th>{t('total')}</th>
+                  <th>{t('status')}</th>
+                  <th>{t('actions')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,7 +162,7 @@ const AdminOrders: FC = () => {
                     <td>${order.totalPrice.toFixed(2)}</td>
                     <td>
                       <span className={`admin-dashboard__status admin-dashboard__status--${order.status}`}>
-                        {order.status}
+                        {t(order.status)}
                       </span>
                     </td>
                     <td className="admin-dashboard__actions">
@@ -168,7 +170,7 @@ const AdminOrders: FC = () => {
                         className="admin-dashboard__action-btn admin-dashboard__action-btn--view"
                         onClick={() => setSelectedOrder(order)}
                       >
-                        View
+                        {t('view')}
                       </button>
                       <select
                         value={order.status}
@@ -180,18 +182,18 @@ const AdminOrders: FC = () => {
                         }
                         className="admin-dashboard__status-select"
                       >
-                        <option value="pending">Pending</option>
-                        <option value="processing">Processing</option>
-                        <option value="ready">Ready</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="pending">{t('pending')}</option>
+                        <option value="processing">{t('processing')}</option>
+                        <option value="ready">{t('ready')}</option>
+                        <option value="delivered">{t('delivered')}</option>
+                        <option value="cancelled">{t('cancelled')}</option>
                       </select>
                       {order.status === 'ready' && !order.isDelivered && (
                         <button
                           className="admin-dashboard__action-btn admin-dashboard__action-btn--deliver"
                           onClick={() => handleMarkDelivered(order._id)}
                         >
-                          Mark Delivered
+                          {t('markDelivered')}
                         </button>
                       )}
                     </td>
@@ -207,7 +209,7 @@ const AdminOrders: FC = () => {
         <div className="admin-dashboard__modal">
           <div className="admin-dashboard__modal-content">
             <div className="admin-dashboard__modal-header">
-              <h2>Order Details</h2>
+              <h2>{t('orderDetails')}</h2>
               <button
                 className="admin-dashboard__modal-close"
                 onClick={() => setSelectedOrder(null)}
@@ -218,37 +220,37 @@ const AdminOrders: FC = () => {
             <div className="admin-dashboard__modal-body">
               <div className="admin-dashboard__order-info">
                 <div className="admin-dashboard__order-section">
-                  <h3>Customer Information</h3>
-                  <p><strong>Name:</strong> {selectedOrder.user?.name || 'Guest'}</p>
-                  <p><strong>Email:</strong> {selectedOrder.user?.email || 'N/A'}</p>
+                  <h3>{t('customerInformation')}</h3>
+                  <p><strong>{t('name')}:</strong> {selectedOrder.user?.name || 'Guest'}</p>
+                  <p><strong>{t('email')}:</strong> {selectedOrder.user?.email || 'N/A'}</p>
                 </div>
                 
                 <div className="admin-dashboard__order-section">
-                  <h3>Order Information</h3>
-                  <p><strong>Order ID:</strong> {selectedOrder._id}</p>
-                  <p><strong>Date:</strong> {new Date(selectedOrder.createdAt).toLocaleString()}</p>
-                  <p><strong>Status:</strong> {selectedOrder.status}</p>
-                  <p><strong>Total:</strong> ${selectedOrder.totalPrice.toFixed(2)}</p>
-                  <p><strong>Paid:</strong> {selectedOrder.isPaid ? 'Yes' : 'No'}</p>
+                  <h3>{t('orderInformation')}</h3>
+                  <p><strong>{t('orderId')}:</strong> {selectedOrder._id}</p>
+                  <p><strong>{t('date')}:</strong> {new Date(selectedOrder.createdAt).toLocaleString()}</p>
+                  <p><strong>{t('status')}:</strong> {t(selectedOrder.status)}</p>
+                  <p><strong>{t('total')}:</strong> ${selectedOrder.totalPrice.toFixed(2)}</p>
+                  <p><strong>{t('paid')}:</strong> {selectedOrder.isPaid ? t('yes') : t('no')}</p>
                   {selectedOrder.isPaid && (
-                    <p><strong>Paid At:</strong> {new Date(selectedOrder.paidAt).toLocaleString()}</p>
+                    <p><strong>{t('paidAt')}:</strong> {new Date(selectedOrder.paidAt).toLocaleString()}</p>
                   )}
-                  <p><strong>Delivered:</strong> {selectedOrder.isDelivered ? 'Yes' : 'No'}</p>
+                  <p><strong>{t('delivered')}:</strong> {selectedOrder.isDelivered ? t('yes') : t('no')}</p>
                   {selectedOrder.isDelivered && (
-                    <p><strong>Delivered At:</strong> {new Date(selectedOrder.deliveredAt).toLocaleString()}</p>
+                    <p><strong>{t('deliveredAt')}:</strong> {new Date(selectedOrder.deliveredAt).toLocaleString()}</p>
                   )}
                 </div>
               </div>
               
               <div className="admin-dashboard__order-items">
-                <h3>Order Items</h3>
+                <h3>{t('orderItems')}</h3>
                 <table className="admin-dashboard__items-table">
                   <thead>
                     <tr>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
-                      <th>Total</th>
+                      <th>{t('product')}</th>
+                      <th>{t('quantity')}</th>
+                      <th>{t('price')}</th>
+                      <th>{t('total')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -275,11 +277,11 @@ const AdminOrders: FC = () => {
                   }
                   className="admin-dashboard__status-select"
                 >
-                  <option value="pending">Pending</option>
-                  <option value="processing">Processing</option>
-                  <option value="ready">Ready</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="cancelled">Cancelled</option>
+                  <option value="pending">{t('pending')}</option>
+                  <option value="processing">{t('processing')}</option>
+                  <option value="ready">{t('ready')}</option>
+                  <option value="delivered">{t('delivered')}</option>
+                  <option value="cancelled">{t('cancelled')}</option>
                 </select>
                 
                 {selectedOrder.status === 'ready' && !selectedOrder.isDelivered && (
@@ -290,7 +292,7 @@ const AdminOrders: FC = () => {
                       setSelectedOrder(null);
                     }}
                   >
-                    Mark Delivered
+                    {t('markDelivered')}
                   </button>
                 )}
               </div>

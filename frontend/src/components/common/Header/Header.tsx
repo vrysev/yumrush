@@ -15,6 +15,7 @@ import { RootState, AppDispatch } from '../../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import Categories, { CATEGORIES } from '../../categories/Categories';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   showSearch?: boolean;
@@ -29,6 +30,8 @@ interface ImagesType {
 }
 
 const Header: FC<HeaderProps> = ({ showSearch = true }) => {
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const [value, setValue] = useState<string>('');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState<boolean>(false);
@@ -201,24 +204,24 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
 
   // Menu items
   const mainNavItems = [
-    { name: 'MENU', path: '/', icon: 'menu' },
-    { name: 'ABOUT', path: '/about', icon: 'menu' },
-    { name: 'CONTACT`', path: '/contact', icon: 'email' }
+    { name: t('MENU'), path: '/', icon: 'menu' },
+    { name: t('ABOUT'), path: '/about', icon: 'menu' },
+    { name: t('CONTACT'), path: '/contact', icon: 'email' }
   ];
   
   // Profile settings items
   const profileItems = [
-    { name: 'Profile', path: '/account/profile', icon: 'person' },
-    { name: 'My Orders', path: '/account/orders', icon: 'balance' },
-    { name: 'Settings', path: '/settings', icon: 'settings' },
+    { name: t('Profile'), path: '/account/profile', icon: 'person' },
+    { name: t('My Orders'), path: '/account/orders', icon: 'balance' },
+    { name: t('Settings'), path: '/settings', icon: 'settings' },
   ];
   
   // Admin items
   const adminItems = [
-    { name: 'Dashboard', path: '/admin', icon: 'piechart' },
-    { name: 'Products', path: '/admin/products', icon: 'menu' },
-    { name: 'Orders', path: '/admin/orders', icon: 'balance' },
-    { name: 'Users', path: '/admin/users', icon: 'person' }
+    { name: t('Dashboard'), path: '/admin', icon: 'piechart' },
+    { name: t('Products'), path: '/admin/products', icon: 'menu' },
+    { name: t('Orders'), path: '/admin/orders', icon: 'balance' },
+    { name: t('Users'), path: '/admin/users', icon: 'person' }
   ];
 
   // Toggle search expanded state
@@ -245,7 +248,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               e.preventDefault(); 
               navigate('/');
             }}>
-              <h1>YUMRUSH</h1>
+              <h1>{t('appName')}</h1>
             </a>
           </div>
           
@@ -276,7 +279,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                       navigate('/admin');
                     }}
                   >
-                    ADMIN
+                    {t('ADMIN')}
                   </a>
                 </li>
               )}
@@ -316,6 +319,8 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               />
             </button>
 
+        
+
             
             {/* Expanded Search Form - Only visible when expanded */}
             {isSearchExpanded && (
@@ -336,7 +341,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                     type="search"
                     className="search__input"
                     name="desktop-search"
-                    placeholder="Search products..."
+                    placeholder={t('searchPlaceholder')}
                     value={value}
                     onChange={handleSearch}
                     autoFocus
@@ -358,6 +363,21 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
             )}
           </div>
             
+          <div className="header__language-selector">
+              <button 
+                className={`header__language-btn ${i18n.language === 'en' ? 'header__language-btn--active' : ''}`}
+                onClick={() => i18n.changeLanguage('en')}
+              >
+                EN
+              </button>
+              <button 
+                className={`header__language-btn ${i18n.language === 'cz' ? 'header__language-btn--active' : ''}`}
+                onClick={() => i18n.changeLanguage('cz')}
+              >
+                CZ
+              </button>
+            </div>
+
             <div className="header__icon-wrapper" ref={notificationsRef}>
               <button 
                 className="header__icon-btn" 
@@ -372,7 +392,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               
               {isNotificationsOpen && (
                 <div className="header__dropdown header__notifications">
-                  <h3 className="header__dropdown-title">Notifications</h3>
+                  <h3 className="header__dropdown-title">{t('notifications')}</h3>
                   <ul className="header__notifications-list">
                     {notifications.length > 0 ? notifications.map(notification => (
                       <li 
@@ -384,12 +404,12 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                       </li>
                     )) : (
                       <li className="header__notification-item header__notification-item--empty">
-                        No notifications
+                        {t('noNotifications')}
                       </li>
                     )}
                   </ul>
                   <div className="header__dropdown-footer">
-                    <button className="header__dropdown-btn">Mark all as read</button>
+                    <button className="header__dropdown-btn">{t('markAllAsRead')}</button>
                   </div>
                 </div>
               )}
@@ -458,7 +478,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                       
                       <div className="header__dropdown-footer">
                         <button onClick={handleLogout} className="header__logout-btn">
-                          Logout
+                          {t('logout')}
                         </button>
                       </div>
                     </div>
@@ -515,7 +535,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               type="search"
               className="search__input"
               name="mobile-search"
-              placeholder="Search products..."
+              placeholder={t('searchPlaceholder')}
               value={value}
               onChange={handleSearch}
             />
@@ -555,7 +575,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                   setIsMobileMenuOpen(false);
                 }}
               >
-                Sign In
+                {t('signIn')}
               </button>
               <button 
                 className="header__mobile-btn header__mobile-btn--outline"
@@ -564,14 +584,14 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                   setIsMobileMenuOpen(false);
                 }}
               >
-                Sign Up
+                {t('signUp')}
               </button>
             </div>
           )}
           
           <nav className="header__mobile-nav">
             {/* Food Categories Section */}
-            <h3 className="header__mobile-heading">Food Categories</h3>
+            <h3 className="header__mobile-heading">{t('foodCategories')}</h3>
             <ul className="header__mobile-list">
               {CATEGORIES.map((item, index) => (
                 <li key={item.id} className="header__mobile-item">
@@ -599,7 +619,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
               ))}
             </ul>
             
-            <h3 className="header__mobile-heading">Menu</h3>
+            <h3 className="header__mobile-heading">{t('menu')}</h3>
             <ul className="header__mobile-list">
               {mainNavItems.map((item, index) => (
                 <li key={index} className="header__mobile-item">
@@ -621,7 +641,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
             
             {isAuthenticated && (
               <>
-                <h3 className="header__mobile-heading">Profile</h3>
+                <h3 className="header__mobile-heading">{t('profile')}</h3>
                 <ul className="header__mobile-list">
                   {profileItems.map((item, index) => (
                     <li key={index} className="header__mobile-item">
@@ -645,7 +665,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
             
             {user?.isAdmin && (
               <>
-                <h3 className="header__mobile-heading">Admin</h3>
+                <h3 className="header__mobile-heading">{t('Admin')}</h3>
                 <ul className="header__mobile-list">
                   {adminItems.map((item, index) => (
                     <li key={index} className="header__mobile-item">
@@ -668,10 +688,25 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
             )}
           </nav>
           
+          <div className="header__mobile-language">
+            <button 
+              className={`header__language-btn ${i18n.language === 'en' ? 'header__language-btn--active' : ''}`}
+              onClick={() => i18n.changeLanguage('en')}
+            >
+              English
+            </button>
+            <button 
+              className={`header__language-btn ${i18n.language === 'cz' ? 'header__language-btn--active' : ''}`}
+              onClick={() => i18n.changeLanguage('cz')}
+            >
+              Čeština
+            </button>
+          </div>
+          
           {isAuthenticated && (
             <div className="header__mobile-footer">
               <button onClick={handleLogout} className="header__logout-btn header__logout-btn--full">
-                Logout
+                {t('logout')}
               </button>
             </div>
           )}

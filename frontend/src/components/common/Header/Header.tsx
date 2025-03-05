@@ -77,6 +77,15 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
     setValue(event.target.value);
     debounceSearch(event.target.value);
   };
+  
+  const handleSearchSubmit = (event: React.FormEvent): void => {
+    event.preventDefault();
+    dispatch(setSearchValue(value));
+    // If we're on a different page, navigate to home to see search results
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
 
   const handleLogout = (): void => {
     dispatch(logout());
@@ -182,33 +191,40 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
           
           <div className="header__actions">
           <div className="header__search">
-        <div className="search">
-            <img 
-            src={(Icons as IconsType)['search']} 
-            alt="Search" 
-            className="search__icon" 
-            />
+        <form onSubmit={handleSearchSubmit} className="search">
+            <button 
+              type="submit" 
+              className="search__icon-btn"
+              aria-label="Search"
+            >
+              <img 
+                src={(Icons as IconsType)['search']} 
+                alt="Search" 
+                className="search__icon" 
+              />
+            </button>
             <input
-            type="search"
-            className="search__input"
-            name="desktop-search"
-            placeholder="Search..."
-            value={value}
-            onChange={handleSearch}
+              type="search"
+              className="search__input"
+              name="desktop-search"
+              placeholder="Search products..."
+              value={value}
+              onChange={handleSearch}
             />
             {value && (
-            <button 
+              <button 
+                type="button"
                 className="search__clear" 
                 onClick={(e) => {
-                e.preventDefault();
-                dispatch(setSearchValue(''));
-                setValue('');
+                  e.preventDefault();
+                  dispatch(setSearchValue(''));
+                  setValue('');
                 }}
-            >
+              >
                 <img src={(Icons as IconsType)['close']} alt="Clear" />
-            </button>
+              </button>
             )}
-        </div>
+        </form>
         </div>
             
             <div className="header__icon-wrapper" ref={notificationsRef}>
@@ -343,33 +359,40 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
       {/* Mobile Menu */}
       <div className={`header__mobile-menu ${isMobileMenuOpen ? 'header__mobile-menu--open' : ''}`} ref={mobileMenuRef}>
         <div className="header__mobile-search">
-        <div className="search search--mobile">
-            <img 
-            src={(Icons as IconsType)['search']} 
-            alt="Search" 
-            className="search__icon" 
-            />
+        <form onSubmit={handleSearchSubmit} className="search search--mobile">
+            <button 
+              type="submit" 
+              className="search__icon-btn"
+              aria-label="Search"
+            >
+              <img 
+                src={(Icons as IconsType)['search']} 
+                alt="Search" 
+                className="search__icon" 
+              />
+            </button>
             <input
-            type="search"
-            className="search__input"
-            name="mobile-search"
-            placeholder="Search..."
-            value={value}
-            onChange={handleSearch}
+              type="search"
+              className="search__input"
+              name="mobile-search"
+              placeholder="Search products..."
+              value={value}
+              onChange={handleSearch}
             />
             {value && (
-            <button 
+              <button 
+                type="button"
                 className="search__clear" 
                 onClick={(e) => {
-                e.preventDefault();
-                dispatch(setSearchValue(''));
-                setValue('');
+                  e.preventDefault();
+                  dispatch(setSearchValue(''));
+                  setValue('');
                 }}
-            >
+              >
                 <img src={(Icons as IconsType)['close']} alt="Clear" />
-            </button>
+              </button>
             )}
-        </div>
+        </form>
         </div>
         
         <div className="header__mobile-content">

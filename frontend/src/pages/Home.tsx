@@ -32,7 +32,8 @@ function Home(): JSX.Element {
         setHasError(false);
 
         const params = {
-          category: category,
+          // Only include category if search is not active or category is explicitly selected
+          ...(search ? {} : { category }),
           sortBy: SORT_TYPES[sort],
           search,
           order: 'desc' as const,

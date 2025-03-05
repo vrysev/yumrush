@@ -582,6 +582,16 @@
       border-color: color('primary');
     }
     
+    &__icon-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
     &__icon {
       width: 18px;
       height: 18px;

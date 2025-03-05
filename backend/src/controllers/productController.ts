@@ -10,11 +10,13 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
     
     let query: any = {};
     
-    if (category) {
+    // Apply category filter only if it's provided and we're not doing a global search
+    if (category && (!search || search === '')) {
       query.category = Number(category);
     }
     
-    if (search) {
+    // Apply search filter if provided - search in title and make it case insensitive
+    if (search && search !== '') {
       query.title = { $regex: search, $options: 'i' };
     }
 

@@ -287,6 +287,21 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
           <Categories mode="header" onToggleMobileMenu={toggleHeaderView} />
           
           <div className="header__actions">
+            {/* Toggle between Categories/Navigation when scrolled */}
+          {isScrolled && (
+            <button 
+                className="header__nav-toggle"
+                onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleHeaderView();
+                }}
+                aria-label={showNavigation ? "Show Categories" : "Show Navigation"}
+                title={showNavigation ? "Show Categories" : "Show Navigation"}
+            >
+                <span className={`header__toggle-icon ${showNavigation ? 'header__toggle-icon--open' : ''}`}></span>
+            </button>
+          )}
           {/* Search Icon Button - Always visible */}
           <div className={`header__search ${isSearchExpanded ? 'header__search--expanded' : ''}`} ref={searchRef}>
             <button 
@@ -300,6 +315,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                 alt="Search" 
               />
             </button>
+
             
             {/* Expanded Search Form - Only visible when expanded */}
             {isSearchExpanded && (
@@ -472,22 +488,6 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                 </button>
               )}
             </div>
-            
-            {/* Toggle between Categories/Navigation when scrolled */}
-            {isScrolled && (
-              <button 
-                className="header__nav-toggle"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  toggleHeaderView();
-                }}
-                aria-label={showNavigation ? "Show Categories" : "Show Navigation"}
-                title={showNavigation ? "Show Categories" : "Show Navigation"}
-              >
-                <span className={`header__toggle-icon ${showNavigation ? 'header__toggle-icon--open' : ''}`}></span>
-              </button>
-            )}
             
             {/* Mobile Menu Toggle - only show on small screens */}
             <button 

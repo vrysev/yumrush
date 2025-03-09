@@ -24,7 +24,7 @@ GitHub Actions are used to automate testing and deployment. The pipeline is conf
 ## Deployment Overview
 
 - **Backend**: Automatically deployed to Render via webhook triggered by GitHub Actions
-- **Frontend**: Automatically deployed to Vercel via Vercel's GitHub integration
+- **Frontend**: Automatically deployed to Vercel via GitHub Actions
 
 ## Setting Up GitHub Actions
 
@@ -36,6 +36,9 @@ You need to configure the following secrets in your repository:
 2. Add the following secrets:
 
    - `RENDER_DEPLOY_HOOK`: The webhook URL for Render deployment
+   - `VERCEL_TOKEN`: Your Vercel API token
+   - `VERCEL_ORG_ID`: Your Vercel organization ID
+   - `VERCEL_PROJECT_ID`: Your Vercel project ID
 
 ### 2. Getting the Render Deploy Hook
 
@@ -46,34 +49,47 @@ You need to configure the following secrets in your repository:
 5. Name it "GitHub Actions" and select the `main` branch
 6. Copy the generated URL and save it as the `RENDER_DEPLOY_HOOK` secret in GitHub
 
-### 3. Setting Up Vercel Deployment
+### 3. Obtaining Vercel Tokens and IDs
 
-For frontend deployment, we use Vercel's built-in GitHub integration:
+For frontend deployment through GitHub Actions, you need to get the following credentials:
 
-1. Create a Vercel account at [vercel.com](https://vercel.com) if you don't have one
-2. Go to the Vercel dashboard and click "Add New..." → "Project"
-3. Select your GitHub repository
-4. Configure project settings:
-   - Framework Preset: `Vite`
-   - Root Directory: `frontend`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-5. Add environment variables if needed:
-   - `VITE_API_URL`: URL of your backend on Render (e.g., https://yumrush-backend.onrender.com)
-6. Click "Deploy"
+1. **VERCEL_TOKEN**:
+   - Go to [vercel.com](https://vercel.com) and sign in
+   - Navigate to Settings → Tokens
+   - Click "Create" to generate a new token
+   - Give it a name like "GitHub Actions" and select "Full Account" scope
+   - Copy the token value
 
-Vercel will automatically deploy your frontend whenever changes are pushed to the main branch. This approach is much more reliable than using GitHub Actions for Vercel deployment.
+2. **VERCEL_ORG_ID** and **VERCEL_PROJECT_ID**:
+   - Run the following steps in your terminal:
+   ```bash
+   # Install Vercel CLI
+   npm install -g vercel
+   
+   # Login to Vercel
+   vercel login
+   
+   # Navigate to your frontend directory
+   cd frontend
+   
+   # Link to Vercel
+   vercel link
+   ```
+   - After linking, check the `.vercel/project.json` file
+   - Copy the `orgId` and `projectId` values
+
+3. Add all these values as secrets in your GitHub repository
 
 ## Verifying CI/CD Setup
 
-After setting up the GitHub integration for Vercel and the webhook for Render:
+After setting up all the secrets and webhooks:
 
 1. Push a change to the `main` branch
 2. Go to the `Actions` section of your GitHub repository
 3. You should see the "YumRush CI/CD Pipeline" workflow running
 4. After successful test completion:
    - The Render webhook will be triggered to deploy the backend
-   - Vercel will automatically detect the push and deploy the frontend
+   - The Vercel CLI will deploy the frontend using your Vercel credentials
 
 5. Check deployment status:
    - Backend: Go to your Render dashboard to monitor deployment
@@ -96,19 +112,21 @@ If you encounter issues with CI/CD:
 
 ### Troubleshooting Vercel Deployment
 
-If you encounter errors with Vercel's GitHub integration:
+If you encounter errors with the Vercel deployment in GitHub Actions:
 
-1. Go to your Vercel project dashboard
-2. Check the deployment logs for errors
-3. Verify your project settings:
-   - Root Directory should be set to `frontend`
-   - Framework preset should be `Vite`
-   - Build command should be `npm run build`
-4. If needed, you can also deploy manually:
-   - Navigate to the `frontend` directory locally
-   - Run `npm install -g vercel` to install the Vercel CLI
-   - Run `vercel login` to sign in
-   - Run `vercel` to deploy manually
+1. Check the GitHub Actions logs for the specific error message
+2. Verify that all secrets are correctly set:
+   - `VERCEL_TOKEN`: Your Vercel API token
+   - `VERCEL_ORG_ID`: Your Vercel organization ID
+   - `VERCEL_PROJECT_ID`: Your Vercel project ID
+3. Make sure the token has the right permissions (Full Account access)
+4. Verify the project link by running `vercel link` in the frontend directory locally
+5. Try a manual deployment with the Vercel CLI locally:
+   ```bash
+   cd frontend
+   vercel deploy --prod
+   ```
+6. Check if your token has expired and regenerate if needed
 
 ### Troubleshooting Render Deployment
 

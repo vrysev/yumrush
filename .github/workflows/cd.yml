@@ -10,10 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Vercel Deployment Note
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+        
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          echo "✅ Frontend deployment is handled by Vercel's GitHub integration"
-          echo "🔗 Visit https://vercel.com to check deployment status"
+          cd frontend
+          echo "Installing dependencies..."
+          npm ci
+          echo "Deploying to Vercel..."
+          vercel deploy --prod --token=${VERCEL_TOKEN}
   
   deploy-backend:
     runs-on: ubuntu-latest

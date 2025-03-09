@@ -6,6 +6,12 @@ cp package.json package.json.bak
 # Use the production-ready package.json
 cp package.prod.json package.json
 
+# Backup tsconfig.json
+cp tsconfig.json tsconfig.json.bak
+
+# Use Vercel-optimized tsconfig
+cp tsconfig.vercel.json tsconfig.json
+
 # Create necessary directories for types
 mkdir -p src/types
 

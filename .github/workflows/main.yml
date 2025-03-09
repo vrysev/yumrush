@@ -1,4 +1,4 @@
-name: YumRush CI/CD Pipeline
+name: YumRush CI/CD
 
 on:
   push:

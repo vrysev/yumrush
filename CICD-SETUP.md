@@ -1,30 +1,28 @@
 # CI/CD Setup for YumRush
 
-> **Note about CI/CD workflow files**: This project has three workflow files in `.github/workflows/`:
-> - `main.yml`: The primary CI/CD pipeline that runs tests and triggers deployments
-> - `ci.yml`: A secondary CI pipeline that includes E2E tests
-> - `cd.yml`: A dedicated CD pipeline with additional checks
->
-> All three files are active but configured to work together without conflicts.
-
 This document contains instructions for setting up Continuous Integration and Continuous Deployment (CI/CD) for the YumRush project.
 
-## GitHub Actions
+## CI/CD Pipeline Overview
 
-GitHub Actions are used to automate testing and deployment. The pipeline is configured in the `.github/workflows/main.yml` file and performs the following steps:
+The YumRush project uses a single CI/CD pipeline that performs two main tasks:
 
-1. On each push or PR to the `main` branch:
-   - Runs tests, linting, and type checking for the backend
-   - Runs tests, linting, and type checking for the frontend
+1. **Continuous Integration (CI)**: Tests the code to ensure it meets quality standards
+2. **Continuous Deployment (CD)**: Automatically deploys the code to production environments
 
-2. On successful tests and push to the `main` branch:
-   - Triggers backend deployment to Render
-   - Notifies that frontend tests passed (actual deployment handled by Vercel's GitHub integration)
+The pipeline is configured in `.github/workflows/main.yml` and follows this flow:
 
-## Deployment Overview
+```
+[Code Push to main] → [Run Tests] → [If Tests Pass and branch is main] → [Deploy to Production]
+```
 
-- **Backend**: Automatically deployed to Render via webhook triggered by GitHub Actions
-- **Frontend**: Automatically deployed to Vercel via GitHub Actions
+## How the Pipeline Works
+
+1. When code is pushed to any branch or a pull request is created:
+   - The CI job runs tests for both the backend and frontend
+
+2. When code is pushed to the main branch and all tests pass:
+   - The CD job deploys the backend to Render
+   - The CD job deploys the frontend to Vercel
 
 ## Setting Up GitHub Actions
 
@@ -82,30 +80,26 @@ For frontend deployment through GitHub Actions, you need to get the following cr
 
 ## Verifying CI/CD Setup
 
-After setting up all the secrets and webhooks:
+After setting up all the secrets:
 
 1. Push a change to the `main` branch
 2. Go to the `Actions` section of your GitHub repository
-3. You should see the "YumRush CI/CD Pipeline" workflow running
-4. After successful test completion:
-   - The Render webhook will be triggered to deploy the backend
-   - The Vercel CLI will deploy the frontend
-
-5. Check deployment status:
-   - Backend: Go to your Render dashboard to monitor deployment
-   - Frontend: Go to your Vercel dashboard to monitor deployment
+3. You should see the "YumRush CI/CD" workflow running
+4. The workflow will:
+   - First run all tests (CI job)
+   - If tests pass and the branch is main, deploy to production (CD job)
 
 ## Manual Deployment
 
 You can also manually trigger deployment:
 
 1. Go to the `Actions` tab in your GitHub repository
-2. Select the "YumRush CD" workflow
+2. Select the "YumRush CI/CD" workflow
 3. Click "Run workflow"
 4. Select the branch (usually `main`)
 5. Click "Run workflow"
 
-This is useful when you want to redeploy without making code changes.
+This will run the tests first and then deploy if the tests pass.
 
 ## Deployment Monitoring
 
@@ -120,37 +114,25 @@ If you encounter issues with CI/CD:
 2. Ensure all secrets are properly configured
 3. Verify that tokens haven't expired
 4. Make sure the Render webhook URL is correct and active
-5. Check Vercel project settings (working directory, build scripts, etc.)
 
-### Troubleshooting Vercel Deployment
+### Troubleshooting Frontend Deployment
 
-If you encounter errors with the Vercel deployment in GitHub Actions:
+If you encounter issues with frontend deployment:
 
-1. Check the GitHub Actions logs for the specific error message
-2. Verify that all secrets are correctly set:
-   - `VERCEL_TOKEN`: Your Vercel API token
-   - `VERCEL_ORG_ID`: Your Vercel organization ID
-   - `VERCEL_PROJECT_ID`: Your Vercel project ID
-3. Make sure the token has the right permissions (Full Account access)
-4. Verify the project link by running `vercel link` in the frontend directory locally
-5. Try a manual deployment with the Vercel CLI locally:
-   ```bash
-   cd frontend
-   vercel deploy --prod
-   ```
-6. Check if your token has expired and regenerate if needed
+1. Check GitHub Actions logs for specific errors
+2. Verify that all Vercel tokens and IDs are correct
+3. Try deploying locally with `vercel` to debug any issues
 
-### Troubleshooting Render Deployment
+### Troubleshooting Backend Deployment
 
-If you encounter issues with Render deployment:
+If you encounter issues with backend deployment:
 
-1. Make sure the webhook URL is correct and active
-2. Check deployment logs in the Render dashboard
-3. If necessary, perform a manual deployment through the Render dashboard
-4. Ensure that the configuration in `render.yaml` matches the settings in the dashboard
+1. Verify that the Render webhook URL is correct
+2. Check the Render logs for any deployment errors
+3. Try a manual deployment through the Render dashboard
 
 ## Additional Resources
 
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [Vercel CI/CD Documentation](https://vercel.com/docs/concepts/git/vercel-for-github)
-- [Render Deploy Hooks Documentation](https://render.com/docs/deploy-hooks)
+- [Vercel Deployment Documentation](https://vercel.com/docs)
+- [Render Webhooks Documentation](https://render.com/docs/deploy-hooks)

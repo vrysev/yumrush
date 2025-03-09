@@ -4,25 +4,33 @@ This document contains instructions for setting up Continuous Integration and Co
 
 ## CI/CD Pipeline Overview
 
-The YumRush project uses a single CI/CD pipeline that performs two main tasks:
+The YumRush project uses a single CI/CD pipeline that performs sequential testing and deployment:
 
-1. **Continuous Integration (CI)**: Tests the code to ensure it meets quality standards
-2. **Continuous Deployment (CD)**: Automatically deploys the code to production environments
+1. **Backend Tests**: Validates the backend code
+2. **Frontend Tests**: Validates the frontend code
+3. **End-to-End Tests**: (Prepared for future implementation)
+4. **Deployment**: Deploys code to production environments
 
 The pipeline is configured in `.github/workflows/main.yml` and follows this flow:
 
 ```
-[Code Push to main] → [Run Tests] → [If Tests Pass and branch is main] → [Deploy to Production]
+                                 [Only on push to main]
+                                          ↓
+[Code Push/PR] → [Backend Tests] → [Frontend Tests] → [E2E Tests*] → [Deploy to Production]
+                                                        (*future)
 ```
 
 ## How the Pipeline Works
 
 1. When code is pushed to any branch or a pull request is created:
-   - The CI job runs tests for both the backend and frontend
+   - First, backend tests run
+   - If backend tests pass, frontend tests run
+   - (In the future: if frontend tests pass, E2E tests will run)
 
 2. When code is pushed to the main branch and all tests pass:
-   - The CD job deploys the backend to Render
-   - The CD job deploys the frontend to Vercel
+   - The deploy job runs after all tests have passed
+   - Backend is deployed to Render
+   - Frontend is deployed to Vercel
 
 ## Setting Up GitHub Actions
 
@@ -84,14 +92,15 @@ After setting up all the secrets:
 
 1. Push a change to the `main` branch
 2. Go to the `Actions` section of your GitHub repository
-3. You should see the "YumRush CI/CD" workflow running
-4. The workflow will:
-   - First run all tests (CI job)
-   - If tests pass and the branch is main, deploy to production (CD job)
+3. You should see the "YumRush CI/CD" workflow running with the following jobs:
+   - Backend Tests
+   - Frontend Tests
+   - (E2E Tests - will be added in the future)
+   - Deploy to Production (only runs on main branch and if tests pass)
 
 ## Manual Deployment
 
-You can also manually trigger deployment:
+You can also manually trigger the entire CI/CD process:
 
 1. Go to the `Actions` tab in your GitHub repository
 2. Select the "YumRush CI/CD" workflow
@@ -99,7 +108,7 @@ You can also manually trigger deployment:
 4. Select the branch (usually `main`)
 5. Click "Run workflow"
 
-This will run the tests first and then deploy if the tests pass.
+This will run all tests in sequence, and if the branch is `main`, it will deploy after all tests pass.
 
 ## Deployment Monitoring
 

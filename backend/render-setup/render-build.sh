@@ -54,3 +54,12 @@ if [ -d "./src/public" ]; then
   mkdir -p ./dist/public
   cp -r ./src/public/* ./dist/public/
 fi
+
+# Verify health route existence in the compiled code
+echo "Verifying health endpoint in the compiled code..."
+if grep -q "'/api/health'" ./dist/app.js; then
+  echo "✅ Health endpoint found in compiled code"
+else
+  echo "⚠️ Warning: Health endpoint not found in compiled code. This may cause deployment issues."
+  echo "Ensure that app.use('/api/health', healthRoutes) is in your app.ts file"
+fi

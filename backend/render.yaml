@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: yumrush-backend
+    runtime: node
+    plan: free
+    buildCommand: ./render-setup/render-build.sh
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false # This will be manually set in the Render dashboard
+      - key: JWT_SECRET
+        sync: false # This will be manually set in the Render dashboard
+      - key: PORT
+        value: 3000

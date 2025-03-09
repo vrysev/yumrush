@@ -1,3 +1,12 @@
+#!/usr/bin/env bash
+# exit on error
+set -o errexit
+
+# Create types directory if it doesn't exist
+mkdir -p ./src/types
+
+# Create global type definitions file
+cat > ./src/types/global.d.ts << 'EOF'
 // Global type definitions for tests and external modules
 
 // Jest globals
@@ -202,3 +211,10 @@ declare module 'jsonwebtoken' {
 
 // This is needed to make the file a module
 export {};
+EOF
+
+# Update tsconfig.json with typeRoots
+sed -i 's/"paths": {/"typeRoots": ["\.\/node_modules\/@types", "\.\/src\/types"],\n      "paths": {/' ./tsconfig.json
+
+# Build the app
+npm run build

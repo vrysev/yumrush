@@ -9,6 +9,13 @@ const __dirname = path.dirname(__filename);
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true, // Отключить предупреждения от SASS
+      },
+    },
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true,

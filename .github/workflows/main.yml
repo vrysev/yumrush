@@ -1,86 +1,65 @@
-name: YumRush CI/CD Pipeline (Deprecated)
+name: YumRush CI/CD Pipeline
 
 on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
-  # This workflow is now split into backend.yml and frontend.yml
-  # This file is kept for backwards compatibility but won't run automatically
 
 jobs:
-  test-backend:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: './backend/package-lock.json'
-      
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Type checking
-        run: npm run typecheck
-        
-      - name: Linting
-        run: echo "Skipping lint for now due to ESLint v9 compatibility issues"
-        
-      - name: Run backend tests
-        run: npm test
-        
-  test-frontend:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
-    
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: './frontend/package-lock.json'
-      
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Type checking
-        run: npm run typecheck
-        
-      - name: Linting
-        run: echo "Skipping lint for now due to ESLint v9 compatibility issues"
-        
-      - name: Run frontend tests
-        run: npm test
-        
-  deploy-backend:
-    needs: [test-backend, test-frontend]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  test:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Trigger Render Deployment
-        run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
-          echo "🚀 Backend deployment triggered on Render"
-          
-  deploy-frontend:
-    needs: [test-backend, test-frontend]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
       
       - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      # Backend test
+      - name: Install backend dependencies
+        run: cd backend && npm install
+      
+      - name: Run backend tests
+        run: cd backend && npm test
+      
+      # Frontend test
+      - name: Fix React version compatibility
+        run: |
+          cd frontend
+          sed -i 's/"react-test-renderer": ".*"/"react-test-renderer": "^18.2.0"/' package.json
+          sed -i 's/"react-is": ".*"/"react-is": "^18.2.0"/' package.json
+          if ! grep -q "react-shallow-renderer" package.json; then
+            sed -i '/"dependencies": {/a \    "react-shallow-renderer": "^16.15.0",' package.json
+          fi
+      
+      - name: Install frontend dependencies
+        run: cd frontend && npm install
+      
+      - name: Run frontend tests
+        run: cd frontend && npm test
+  
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Deploy backend
+      - name: Deploy backend to Render
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          echo "🚀 Backend deployed to Render"
+      
+      # Deploy frontend
+      - name: Setup Node.js for frontend deployment
         uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -88,14 +67,13 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       
-      - name: Deploy to Vercel
+      - name: Deploy frontend to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           cd frontend
-          echo "Installing dependencies..."
           npm install
-          echo "Deploying to Vercel..."
           vercel deploy --prod --token=${VERCEL_TOKEN}
+          echo "🚀 Frontend deployed to Vercel"

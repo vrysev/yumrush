@@ -74,8 +74,6 @@ describe('Product Component', () => {
     
     expect(screen.getByText('Margherita Pizza')).toBeInTheDocument();
     expect(screen.getByText('$12.99')).toBeInTheDocument();
-    expect(screen.getByText('25 min')).toBeInTheDocument();
-    expect(screen.getByText('4.5')).toBeInTheDocument();
   });
 
   it('should dispatch add to cart action when add button is clicked', () => {

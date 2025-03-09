@@ -1,6 +1,6 @@
 {
   "framework": "vite",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build:prod",
   "devCommand": "npm run dev",
   "installCommand": "./prepare-for-vercel.sh && npm install --no-save --legacy-peer-deps",
   "outputDirectory": "dist",

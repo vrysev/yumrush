@@ -1,0 +1,6 @@
+# Ignore test files
+**/__tests__/**
+**/cypress/**
+**/jest.config.js
+**/cypress.config.js
+**/coverage/**

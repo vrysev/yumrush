@@ -8,6 +8,7 @@
 - Redux Toolkit ⚛️
 - Axios 🕸️
 - Vite ⚡️
+- i18next 🌐
 
 ## Features
 
@@ -17,6 +18,12 @@
 - Redux state management
 - API integration with the backend
 - Product catalog with search and filter functionality
+- User authentication and profile management
+- Shopping cart with persistent state
+- Secure checkout process
+- Order history and tracking
+- Multi-language support (i18n)
+- Cookie consent management
 
 ## Getting Started
 
@@ -59,16 +66,26 @@ yarn build
 frontend/
 ├── public/              # Static files
 ├── src/
+│   ├── api/             # API integration services
 │   ├── assets/          # Images, icons, and other assets
 │   ├── components/      # Reusable components
+│   │   ├── auth/        # Authentication components
+│   │   ├── cart/        # Shopping cart components
+│   │   ├── categories/  # Product category components
+│   │   └── common/      # Shared UI components
 │   ├── pages/           # Page components
+│   │   ├── Account/     # User account pages
+│   │   └── Admin/       # Admin dashboard pages
 │   ├── redux/           # Redux store and slices
+│   │   └── slices/      # Feature-specific Redux slices
 │   ├── styles/          # Global styles and SCSS mixins/variables
 │   │   ├── abstracts/   # Variables, mixins, and functions
 │   │   ├── base/        # Base styles
 │   │   ├── layout/      # Layout styles
 │   │   └── pages/       # Page-specific styles
 │   ├── types/           # TypeScript type definitions
+│   ├── utils/           # Utility functions
+│   ├── i18n.ts          # Internationalization configuration
 │   ├── App.tsx          # Main application component
 │   └── main.tsx         # Application entry point
 └── package.json         # Dependencies and scripts

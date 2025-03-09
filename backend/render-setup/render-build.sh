@@ -50,6 +50,7 @@ declare global {
       mockResolvedValueOnce(value: T): this;
       mockRejectedValue(value: any): this;
       mockRejectedValueOnce(value: any): this;
+      mockReturnThis(): this;
       mockClear(): this;
       mockReset(): this;
       mockRestore(): this;
@@ -215,6 +216,30 @@ EOF
 
 # Update tsconfig.json with typeRoots
 sed -i 's/"paths": {/"typeRoots": ["\.\/node_modules\/@types", "\.\/src\/types"],\n      "paths": {/' ./tsconfig.json
+
+# Make sure the node_modules types are installed
+npm install --save-dev @types/jest @types/supertest @types/jsonwebtoken
+
+# Create a simple test file to verify imports are working
+cat > ./src/test-imports.ts << 'EOF'
+// Test imports
+import supertest from 'supertest';
+import jwt from 'jsonwebtoken';
+import { describe, it, expect, jest } from '@jest/globals';
+
+// This file is just to verify type imports
+const testFn = () => {
+  const mock = jest.fn().mockReturnThis();
+  const token = jwt.sign({ id: '123' }, 'secret');
+  const request = supertest({});
+  return { mock, token, request };
+};
+
+export default testFn;
+EOF
+
+# Fix imports in test files to use @jest/globals
+find ./src/__tests__ -name "*.ts" -type f -exec sed -i '1s/^/import { describe, it, expect, jest, beforeAll, afterAll, beforeEach, afterEach } from "@jest\/globals";\n/' {} \;
 
 # Build the app
 npm run build

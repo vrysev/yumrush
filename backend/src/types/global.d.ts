@@ -41,6 +41,7 @@ declare global {
       mockResolvedValueOnce(value: T): this;
       mockRejectedValue(value: any): this;
       mockRejectedValueOnce(value: any): this;
+      mockReturnThis(): this;
       mockClear(): this;
       mockReset(): this;
       mockRestore(): this;

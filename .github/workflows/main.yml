@@ -23,7 +23,7 @@ jobs:
           cache-dependency-path: './backend/package-lock.json'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       
       - name: Type checking
         run: npm run typecheck
@@ -50,7 +50,7 @@ jobs:
           cache-dependency-path: './frontend/package-lock.json'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       
       - name: Type checking
         run: npm run typecheck
@@ -97,6 +97,6 @@ jobs:
         run: |
           cd frontend
           echo "Installing dependencies..."
-          npm ci
+          npm install
           echo "Deploying to Vercel..."
           vercel deploy --prod --token=${VERCEL_TOKEN}

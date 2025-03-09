@@ -1,5 +1,12 @@
 # CI/CD Setup for YumRush
 
+> **Note about CI/CD workflow files**: This project has three workflow files in `.github/workflows/`:
+> - `main.yml`: The primary CI/CD pipeline that runs tests and triggers deployments
+> - `ci.yml`: A secondary CI pipeline that includes E2E tests
+> - `cd.yml`: A dedicated CD pipeline with additional checks
+>
+> All three files are active but configured to work together without conflicts.
+
 This document contains instructions for setting up Continuous Integration and Continuous Deployment (CI/CD) for the YumRush project.
 
 ## GitHub Actions

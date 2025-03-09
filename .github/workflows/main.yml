@@ -72,38 +72,14 @@ jobs:
           curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
           echo "🚀 Backend deployment triggered on Render"
           
-  deploy-frontend:
+  notify-frontend:
     needs: [test-backend, test-frontend]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      
-      - name: Update CICD-SETUP.md with information
+      - name: Log frontend tests passed
         run: |
-          echo "## Important Note About Vercel Deployment" >> CICD-SETUP.md
-          echo "" >> CICD-SETUP.md
-          echo "For simplicity and reliability, we recommend using Vercel's GitHub integration for automatic deployments:" >> CICD-SETUP.md
-          echo "" >> CICD-SETUP.md
-          echo "1. Go to [Vercel](https://vercel.com) and create an account if you don't have one" >> CICD-SETUP.md
-          echo "2. Click 'Add New...' and select 'Project'" >> CICD-SETUP.md
-          echo "3. Import your GitHub repository" >> CICD-SETUP.md
-          echo "4. In the project settings:" >> CICD-SETUP.md
-          echo "   - Set the Framework Preset to 'Vite'" >> CICD-SETUP.md
-          echo "   - Set the Root Directory to 'frontend'" >> CICD-SETUP.md
-          echo "   - Add any required environment variables" >> CICD-SETUP.md
-          echo "5. Click 'Deploy'" >> CICD-SETUP.md
-          echo "" >> CICD-SETUP.md
-          echo "This approach is more reliable than using GitHub Actions for Vercel deployment." >> CICD-SETUP.md
-      
-      - name: Deployment message
-        run: |
-          echo "🚀 For frontend deployment, please use Vercel's GitHub integration."
-          echo "See CICD-SETUP.md for instructions."
+          echo "✅ Frontend tests passed successfully"
+          echo "ℹ️ The frontend will be automatically deployed by Vercel's GitHub integration"
+          echo "🔗 Visit https://vercel.com to check deployment status"

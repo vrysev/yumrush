@@ -23,7 +23,8 @@
   "scripts": {
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy-assets",
+    "copy-assets": "mkdir -p dist/public && cp -r src/public/* dist/public/ 2>/dev/null || :",
     "init-db": "ts-node src/scripts/initDB.ts",
     "test": "jest",
     "test:watch": "jest --watch",

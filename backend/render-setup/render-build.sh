@@ -47,3 +47,10 @@ EOF
 # Build the app using the simplified config
 echo "Building with simplified config to bypass type errors..."
 ./node_modules/.bin/tsc -p tsconfig.build.json
+
+# Copy static assets to the dist folder
+echo "Copying static assets..."
+if [ -d "./src/public" ]; then
+  mkdir -p ./dist/public
+  cp -r ./src/public/* ./dist/public/
+fi

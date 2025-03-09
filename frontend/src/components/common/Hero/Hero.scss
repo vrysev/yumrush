@@ -10,14 +10,13 @@
     font-size: 24px;
     width: 100%;
     color: color('black');
-    border-radius: 40px;
+    border-radius: 1.66em;
     background: color('white');
     box-shadow: 30px -20px 1px 0px rgba(0, 0, 0, 0.1);
     height: 430px;
     z-index: 100;
 
     @media (max-width: 815px) {
-      border-radius: 0;
       
       &::before {
         content: '';

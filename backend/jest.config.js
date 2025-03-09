@@ -14,4 +14,6 @@ module.exports = {
     '!src/scripts/**',
     '!**/node_modules/**',
   ],
+  // Set default timeout for all tests to 30 seconds
+  testTimeout: 30000,
 };

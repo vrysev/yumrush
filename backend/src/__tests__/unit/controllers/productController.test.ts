@@ -38,10 +38,9 @@ describe('Product Controller', () => {
         { _id: '2', title: 'Burger', price: 10.99 },
       ];
 
-      (Product.find as jest.Mock).mockImplementation(() => ({
-        sort: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(mockProducts),
-      }));
+      // Mock the select method to directly return the mock products
+      (Product.find as jest.Mock).mockReturnThis();
+      (Product as any).select = jest.fn().mockReturnValue(mockProducts);
 
       await getProducts(req as Request, res as Response);
 
@@ -53,10 +52,9 @@ describe('Product Controller', () => {
       req.query = { category: '1' };
       const mockProducts = [{ _id: '1', title: 'Pizza', price: 15.99, category: 1 }];
 
-      (Product.find as jest.Mock).mockImplementation(() => ({
-        sort: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(mockProducts),
-      }));
+      // Mock the select method to directly return the mock products
+      (Product.find as jest.Mock).mockReturnThis();
+      (Product as any).select = jest.fn().mockReturnValue(mockProducts);
 
       await getProducts(req as Request, res as Response);
 

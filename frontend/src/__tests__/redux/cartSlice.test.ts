@@ -1,82 +1,113 @@
 import cartReducer, { 
   addToCart, 
   removeFromCart, 
-  decreaseQuantity,
+  updateQuantity,
   clearCart
 } from '../../redux/slices/cartSlice';
+import { ProductType } from '@/types/product';
 
 describe('Cart Slice', () => {
   const initialState = {
-    cartItems: [],
-    showCart: false,
+    items: [],
+    isOpen: false,
+    totalQuantity: 0,
+    totalAmount: 0
   };
 
-  const mockProduct = {
+  const mockProduct: ProductType = {
     _id: '1',
     title: 'Margherita Pizza',
     price: 12.99,
     imageUrl: '/images/pizzas/margherita.png',
-    quantity: 1,
+    rating: 4.5,
+    preparationTime: '20 min',
+    category: 1,
+    description: 'Delicious pizza'
   };
 
   it('should handle initial state', () => {
-    expect(cartReducer(undefined, { type: 'unknown' })).toEqual({
-      cartItems: [],
-      showCart: false,
-    });
+    // We need to account for localStorage in the test now
+    const result = cartReducer(undefined, { type: 'unknown' });
+    expect(result.items).toEqual(expect.any(Array));
+    expect(result.isOpen).toBe(false);
   });
 
   it('should handle addToCart with new item', () => {
     const actual = cartReducer(initialState, addToCart(mockProduct));
-    expect(actual.cartItems.length).toEqual(1);
-    expect(actual.cartItems[0].title).toEqual('Margherita Pizza');
-    expect(actual.cartItems[0].quantity).toEqual(1);
+    expect(actual.items.length).toEqual(1);
+    expect(actual.items[0].title).toEqual('Margherita Pizza');
+    expect(actual.items[0].quantity).toEqual(1);
+    expect(actual.totalQuantity).toEqual(1);
+    expect(actual.totalAmount).toEqual(12.99);
   });
 
   it('should handle addToCart with existing item', () => {
     const stateWithItem = {
-      cartItems: [{ ...mockProduct, quantity: 1 }],
-      showCart: false,
+      items: [{ ...mockProduct, quantity: 1 }],
+      isOpen: false,
+      totalQuantity: 1,
+      totalAmount: 12.99
     };
     const actual = cartReducer(stateWithItem, addToCart(mockProduct));
-    expect(actual.cartItems.length).toEqual(1);
-    expect(actual.cartItems[0].quantity).toEqual(2);
+    expect(actual.items.length).toEqual(1);
+    expect(actual.items[0].quantity).toEqual(2);
+    expect(actual.totalQuantity).toEqual(2);
+    expect(actual.totalAmount).toEqual(25.98);
   });
 
   it('should handle removeFromCart', () => {
     const stateWithItem = {
-      cartItems: [mockProduct],
-      showCart: false,
+      items: [{ ...mockProduct, quantity: 1 }],
+      isOpen: false,
+      totalQuantity: 1,
+      totalAmount: 12.99
     };
     const actual = cartReducer(stateWithItem, removeFromCart('1'));
-    expect(actual.cartItems.length).toEqual(0);
+    expect(actual.items.length).toEqual(0);
+    expect(actual.totalQuantity).toEqual(0);
+    expect(actual.totalAmount).toEqual(0);
   });
 
-  it('should handle decreaseQuantity when quantity > 1', () => {
+  it('should handle updateQuantity to decrease when quantity > 1', () => {
     const stateWithItems = {
-      cartItems: [{ ...mockProduct, quantity: 2 }],
-      showCart: false,
+      items: [{ ...mockProduct, quantity: 2 }],
+      isOpen: false,
+      totalQuantity: 2,
+      totalAmount: 25.98
     };
-    const actual = cartReducer(stateWithItems, decreaseQuantity('1'));
-    expect(actual.cartItems.length).toEqual(1);
-    expect(actual.cartItems[0].quantity).toEqual(1);
+    const actual = cartReducer(stateWithItems, updateQuantity({ id: '1', quantity: 1 }));
+    expect(actual.items.length).toEqual(1);
+    expect(actual.items[0].quantity).toEqual(1);
+    expect(actual.totalQuantity).toEqual(1);
+    expect(actual.totalAmount).toEqual(12.99);
   });
 
-  it('should handle decreaseQuantity when quantity = 1', () => {
+  it('should handle updateQuantity to remove when quantity = 0', () => {
     const stateWithItems = {
-      cartItems: [{ ...mockProduct, quantity: 1 }],
-      showCart: false,
+      items: [{ ...mockProduct, quantity: 1 }],
+      isOpen: false,
+      totalQuantity: 1,
+      totalAmount: 12.99
     };
-    const actual = cartReducer(stateWithItems, decreaseQuantity('1'));
-    expect(actual.cartItems.length).toEqual(0);
+    const actual = cartReducer(stateWithItems, updateQuantity({ id: '1', quantity: 0 }));
+    expect(actual.items.length).toEqual(0);
+    expect(actual.totalQuantity).toEqual(0);
+    expect(actual.totalAmount).toEqual(0);
   });
 
   it('should handle clearCart', () => {
     const stateWithItems = {
-      cartItems: [mockProduct, { ...mockProduct, _id: '2', title: 'Burger' }],
-      showCart: false,
+      items: [
+        { ...mockProduct, quantity: 1 }, 
+        { ...mockProduct, _id: '2', title: 'Burger', quantity: 1 }
+      ],
+      isOpen: false,
+      totalQuantity: 2,
+      totalAmount: 25.98
     };
     const actual = cartReducer(stateWithItems, clearCart());
-    expect(actual.cartItems.length).toEqual(0);
+    expect(actual.items.length).toEqual(0);
+    expect(actual.totalQuantity).toEqual(0);
+    expect(actual.totalAmount).toEqual(0);
   });
 });

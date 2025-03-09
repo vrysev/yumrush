@@ -4,13 +4,36 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Product from '../../components/products/Product';
+import { ProductType } from '@/types/product';
+
+// Mock translation functions
+jest.mock('../../utils/translationUtils', () => ({
+  translateBackendData: (text: string) => text,
+  translateDescription: (text: string) => text
+}));
+
+// Mock image utils
+jest.mock('../../utils/imageUtils', () => ({
+  formatImageUrl: (url: string) => url,
+  getDefaultImage: () => '/default-image.png'
+}));
+
+// Mock i18next
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: {
+      changeLanguage: jest.fn(),
+    },
+  }),
+}));
 
 // Mock the redux store
 const mockStore = configureStore([]);
 
 describe('Product Component', () => {
   let store: any;
-  const mockProduct = {
+  const mockProduct: ProductType = {
     _id: '1',
     title: 'Margherita Pizza',
     price: 12.99,
@@ -18,12 +41,16 @@ describe('Product Component', () => {
     category: 1,
     rating: 4.5,
     preparationTime: '25 min',
+    description: 'Delicious pizza'
   };
 
   beforeEach(() => {
     store = mockStore({
       cart: {
-        cartItems: [],
+        items: [],
+        isOpen: false,
+        totalQuantity: 0,
+        totalAmount: 0
       },
       auth: {
         isAuthenticated: true,
@@ -36,7 +63,7 @@ describe('Product Component', () => {
     return render(
       <Provider store={store}>
         <BrowserRouter>
-          <Product product={mockProduct} />
+          <Product {...mockProduct} />
         </BrowserRouter>
       </Provider>
     );

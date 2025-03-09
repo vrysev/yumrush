@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+require('@testing-library/jest-dom');
 
 // Mock the i18n import
 jest.mock('react-i18next', () => ({
@@ -32,10 +32,10 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock SVG import
-jest.mock('./src/assets/icons/index.jsx', () => ({
+jest.mock('../src/assets/icons/index.jsx', () => ({
   CartIcon: 'cart-icon',
   CloseIcon: 'close-icon',
   MenuIcon: 'menu-icon',
   SearchIcon: 'search-icon',
   SortIcon: 'sort-icon',
-}));
+}), { virtual: true });

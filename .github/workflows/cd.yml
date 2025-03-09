@@ -6,71 +6,69 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-frontend:
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+      
+      - name: Deploy Frontend to Vercel
+        working-directory: ./frontend
+        run: >
+          vercel deploy 
+          --prod
+          --token ${{ secrets.VERCEL_TOKEN }}
+          --yes
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  
+  deploy-backend:
+    runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to Render
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+      
+      - name: Wait for deployment
+        run: sleep 120
+      
+      - name: Check backend health
+        run: curl -f ${{ secrets.BACKEND_URL }}/api/health || exit 1
+      
+      - name: Run init-db script if requested
+        if: ${{ github.event.inputs.init_db == 'true' }}
+        run: |
+          curl -X POST ${{ secrets.RENDER_INIT_DB_HOOK }}
+  
+  post-deployment:
+    needs: [deploy-frontend, deploy-backend]
+    runs-on: ubuntu-latest
     
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    
-    - name: Install backend dependencies
-      run: |
-        cd backend
-        npm ci
-    
-    - name: Install frontend dependencies
-      run: |
-        cd frontend
-        npm ci
-    
-    - name: Build frontend
-      run: |
-        cd frontend
-        npm run build
-    
-    - name: Build backend
-      run: |
-        cd backend
-        npm run build
-    
-    - name: Deploy to production
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /var/www/yumrush
-          git pull origin main
-          cd backend
-          npm ci --production
-          npm run build
-          cd ../frontend
-          npm ci --production
-          npm run build
-          pm2 restart yumrush-backend
-          pm2 restart yumrush-frontend
-    
-    - name: Post-deployment health check
-      run: |
-        sleep 30
-        curl -f https://${{ secrets.PRODUCTION_DOMAIN }}/api/health || exit 1
-        curl -f https://${{ secrets.PRODUCTION_DOMAIN }} || exit 1
-    
-    - name: Send deployment notification
-      if: always()
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_COLOR: ${{ job.status }}
-        SLACK_MESSAGE: 'YumRush deployment ${{ job.status }} :rocket:'
-        SLACK_TITLE: Deployment Status
+    steps:
+      - name: Check frontend
+        run: curl -f https://${{ secrets.FRONTEND_URL }} || exit 1
+      
+      - name: Check backend API
+        run: curl -f ${{ secrets.BACKEND_URL }}/api/health || exit 1
+      
+      - name: Send deployment notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: 'YumRush deployment ${{ job.status }} :rocket:'
+          SLACK_TITLE: 'Deployment Status'

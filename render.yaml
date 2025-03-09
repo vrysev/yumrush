@@ -1,0 +1,56 @@
+services:
+  - type: web
+    name: yumrush-backend
+    env: node
+    region: ohio
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGODB_URI
+        fromDatabase:
+          name: yumrush-db
+          property: connectionString
+      - key: BACKEND_URL
+        value: https://yumrush-backend.onrender.com/images
+      - key: CLIENT_URL
+        value: https://yumrush.vercel.app
+      - fromGroup: stripe-secrets
+
+  - type: web
+    name: yumrush-frontend-preview
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  - name: yumrush-db
+    plan: free
+    region: ohio
+
+envVarGroups:
+  - name: stripe-secrets
+    envVars:
+      - key: STRIPE_SECRET_KEY
+        # Replace with your Stripe secret key or use Render dashboard to set it
+        value: sk_test_your_secret_key
+      - key: STRIPE_PUBLIC_KEY
+        # Replace with your Stripe public key
+        value: pk_test_your_public_key
+      - key: STRIPE_WEBHOOK_SECRET
+        # Replace with your Stripe webhook secret
+        value: whsec_your_webhook_secret

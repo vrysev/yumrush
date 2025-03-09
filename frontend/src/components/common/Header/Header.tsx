@@ -6,7 +6,7 @@ import { logout } from '../../../redux/slices/authSlice';
 import { setActiveCategory } from '../../../redux/slices/sortSlice';
 import { debounce } from 'lodash';
 import './Header.scss';
-import { IconsType } from '@/types/icons';
+import { IconsType, ImagesType } from '@/types/icons';
 import { useState, useRef, useEffect, useCallback, MouseEvent, ChangeEvent, FC } from 'react';
 import AuthModal from '../../auth/AuthModal';
 import CartButton from '../../cart/CartButton';
@@ -21,13 +21,7 @@ interface HeaderProps {
   showSearch?: boolean;
 }
 
-interface ImagesType {
-  [key: string]: string;
-  pizza: string;
-  burger: string;
-  fries: string;
-  pack: string;
-}
+// Use imported ImagesType from icons.ts
 
 const Header: FC<HeaderProps> = ({ showSearch = true }) => {
   const { t } = useTranslation();
@@ -450,7 +444,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                               onClick={() => navigateTo(item.path)} 
                               className={`header__dropdown-link ${location.pathname === item.path ? 'header__dropdown-link--active' : ''}`}
                             >
-                              <img src={(Icons as IconsType)[item.icon]} alt="" className="header__dropdown-icon" />
+                              <img src={Icons[item.icon as keyof typeof Icons]} alt="" className="header__dropdown-icon" />
                               {item.name}
                             </button>
                           </li>
@@ -467,7 +461,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                                   onClick={() => navigateTo(item.path)} 
                                   className={`header__dropdown-link ${location.pathname === item.path ? 'header__dropdown-link--active' : ''}`}
                                 >
-                                  <img src={(Icons as IconsType)[item.icon]} alt="" className="header__dropdown-icon" />
+                                  <img src={Icons[item.icon as keyof typeof Icons]} alt="" className="header__dropdown-icon" />
                                   {item.name}
                                 </button>
                               </li>
@@ -608,7 +602,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                   >
                     <div className="header__mobile-category-icon">
                       <img 
-                        src={(Images as ImagesType)[item.name.toLowerCase()]} 
+                        src={Images[item.name.toLowerCase() as keyof typeof Images]} 
                         alt={`${item.name} category`}
                         className="header__mobile-icon-img"
                       />
@@ -632,7 +626,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
                       setIsMobileMenuOpen(false);
                     }}
                   >
-                    <img src={(Icons as IconsType)[item.icon]} alt="" className="header__mobile-icon-img" />
+                    <img src={Icons[item.icon as keyof typeof Icons]} alt="" className="header__mobile-icon-img" />
                     {item.name}
                   </a>
                 </li>

@@ -74,7 +74,7 @@ function Home(): JSX.Element {
 
           const { data } = await axios.get<ProductType[]>('/api/products', { params });
           
-          if (data === 'Not found' || !Array.isArray(data)) {
+          if (typeof data === 'string' || !Array.isArray(data)) {
             setHasError(true);
           } else {
             // Group products by category
@@ -100,7 +100,7 @@ function Home(): JSX.Element {
           
           responses.forEach((response, index) => {
             const categoryName = CATEGORY_NAMES[index];
-            if (response.data === 'Not found' || !Array.isArray(response.data)) {
+            if (typeof response.data === 'string' || !Array.isArray(response.data)) {
               newProductsByCategory[categoryName] = [];
             } else {
               // Simulate pagination client-side

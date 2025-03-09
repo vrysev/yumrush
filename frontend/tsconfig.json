@@ -31,5 +31,6 @@
     }
   },
   "include": ["src"],
+  "exclude": ["src/__tests__/**", "**/*.test.ts", "**/*.test.tsx", "node_modules", "cypress", "**/cypress/**"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

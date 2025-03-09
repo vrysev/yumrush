@@ -5,20 +5,12 @@ import * as Icons from '@assets/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCategory, scrollToCategory } from '@redux/slices/sortSlice';
 import { RootState } from '@/types/product';
-import { IconsType } from '@/types/icons';
+import { IconsType, ImagesType } from '@/types/icons';
 
 // Types
 interface Category {
   id: number;
   name: string;
-}
-
-interface ImagesType {
-  [key: string]: string;
-  pizza: string;
-  burger: string;
-  fries: string;
-  pack: string;
 }
 
 interface SortState {
@@ -109,7 +101,8 @@ const Categories: FC<CategoriesProps> = ({ mode = 'default', onToggleMobileMenu 
           if (categoryElement && categoriesRef.current) {
             const categoriesScroll = categoriesRef.current.querySelector('.categories__list');
             if (categoriesScroll && categoriesScroll instanceof HTMLElement) {
-              categoriesScroll.scrollLeft = categoryElement.offsetLeft - 100;
+              const htmlElement = categoryElement as HTMLElement;
+              categoriesScroll.scrollLeft = htmlElement.offsetLeft - 100;
             }
           }
           
@@ -138,7 +131,7 @@ const Categories: FC<CategoriesProps> = ({ mode = 'default', onToggleMobileMenu 
               >
                 <div className="categories-header__item-icon">
                   <img 
-                    src={(Images as ImagesType)[obj.name.toLowerCase()]} 
+                    src={Images[obj.name.toLowerCase() as keyof typeof Images]} 
                     alt={`${obj.name} category`} 
                     loading="lazy"
                   />
@@ -171,7 +164,7 @@ const Categories: FC<CategoriesProps> = ({ mode = 'default', onToggleMobileMenu 
               >
                 <div className="categories__item-image">
                   <img 
-                    src={(Images as ImagesType)[obj.name.toLowerCase()]} 
+                    src={Images[obj.name.toLowerCase() as keyof typeof Images]} 
                     alt={`${obj.name} category`} 
                     loading="lazy"
                   />

@@ -21,7 +21,7 @@ const NavItem: FC<NavItemProps> = ({ icon, label, isActive, onClick, path }) => 
   >
     <a href={path || "#"} className="navbar__link" onClick={(e) => path && e.preventDefault()}>
       <img 
-        src={(Icons as IconsType)[icon]} 
+        src={Icons[icon as keyof typeof Icons]} 
         alt={label} 
         className="navbar__icon" 
       />

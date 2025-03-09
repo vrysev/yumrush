@@ -1,86 +1,107 @@
-# Настройка CI/CD для YumRush
+# CI/CD Setup for YumRush
 
-Этот документ содержит инструкции по настройке непрерывной интеграции и непрерывного развертывания (CI/CD) для проекта YumRush.
+This document contains instructions for setting up Continuous Integration and Continuous Deployment (CI/CD) for the YumRush project.
 
 ## GitHub Actions
 
-GitHub Actions используются для автоматизации тестирования и деплоя. Пайплайн настроен в файле `.github/workflows/main.yml` и выполняет следующие шаги:
+GitHub Actions are used to automate testing and deployment. The pipeline is configured in the `.github/workflows/main.yml` file and performs the following steps:
 
-1. При каждом пуше или PR в ветку `main`:
-   - Запускает тесты, линтинг и проверку типов для бэкенда
-   - Запускает тесты, линтинг и проверку типов для фронтенда
+1. On each push or PR to the `main` branch:
+   - Runs tests, linting, and type checking for the backend
+   - Runs tests, linting, and type checking for the frontend
 
-2. При успешном прохождении тестов и пуше в ветку `main`:
-   - Триггерит деплой бэкенда на Render
-   - Деплоит фронтенд на Vercel
+2. On successful tests and push to the `main` branch:
+   - Triggers backend deployment to Render
+   - Deploys frontend to Vercel
 
-## Настройка GitHub Actions
+## Setting Up GitHub Actions
 
-### 1. Настройка секретов в GitHub
+### 1. Setting up Secrets in GitHub
 
-В репозитории необходимо настроить следующие секреты:
+You need to configure the following secrets in your repository:
 
-1. Перейдите в настройки вашего репозитория: `Settings > Secrets and variables > Actions`
-2. Добавьте следующие секреты:
+1. Navigate to your repository settings: `Settings > Secrets and variables > Actions`
+2. Add the following secrets:
 
-   - `RENDER_DEPLOY_HOOK`: URL вебхука для деплоя на Render
-   - `VERCEL_TOKEN`: API токен Vercel
-   - `VERCEL_ORG_ID`: ID вашей организации в Vercel 
-   - `VERCEL_PROJECT_ID`: ID вашего проекта в Vercel
+   - `RENDER_DEPLOY_HOOK`: The webhook URL for Render deployment
+   - `VERCEL_TOKEN`: Vercel API token
+   - `VERCEL_ORG_ID`: Your Vercel organization ID
+   - `VERCEL_PROJECT_ID`: Your Vercel project ID
 
-### 2. Получение деплой хука Render
+### 2. Getting the Render Deploy Hook
 
-1. Войдите в свою учетную запись Render
-2. Выберите ваш сервис бэкенда
-3. Перейдите в `Settings > Deploy Hooks`
-4. Создайте новый хук: `Create Deploy Hook`
-5. Назовите его "GitHub Actions" и выберите ветку `main`
-6. Скопируйте сгенерированный URL и сохраните его как секрет `RENDER_DEPLOY_HOOK` в GitHub
+1. Sign in to your Render account
+2. Select your backend service
+3. Navigate to `Settings > Deploy Hooks`
+4. Click `Create Deploy Hook`
+5. Name it "GitHub Actions" and select the `main` branch
+6. Copy the generated URL and save it as the `RENDER_DEPLOY_HOOK` secret in GitHub
 
-### 3. Получение токенов Vercel
+### 3. Obtaining Vercel Tokens
 
-1. Войдите в свою учетную запись Vercel
-2. Перейдите в `Settings > Tokens`
-3. Создайте новый токен: `Create Token` 
-4. Назовите его "GitHub Actions" и установите `Full Account` доступ
-5. Скопируйте токен и сохраните его как секрет `VERCEL_TOKEN` в GitHub
+1. Sign in to your Vercel account
+2. Navigate to `Settings > Tokens`
+3. Click `Create Token`
+4. Name it "GitHub Actions" and set `Full Account` access
+5. Copy the token and save it as the `VERCEL_TOKEN` secret in GitHub
 
-### 4. Получение ID проекта и организации Vercel
+### 4. Getting Vercel Project and Organization IDs
 
-1. Установите Vercel CLI: `npm i -g vercel`
-2. Войдите в свою учетную запись: `vercel login`
-3. Перейдите в корневую директорию проекта и выполните: `vercel link`
-4. После связывания, посмотрите файл `.vercel/project.json`
-5. В этом файле вы найдете `orgId` и `projectId`
-6. Сохраните их как секреты `VERCEL_ORG_ID` и `VERCEL_PROJECT_ID` в GitHub
+1. Install Vercel CLI: `npm i -g vercel`
+2. Login to your account: `vercel login`
+3. Navigate to your project's frontend directory and run: `vercel link`
+4. After linking, check the `.vercel/project.json` file
+5. In this file, you'll find `orgId` and `projectId`
+6. Save them as `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` secrets in GitHub
 
-## Проверка настройки CI/CD
+**Note:** During the first deployment, Vercel CLI may request to create project configuration in the repository. If you encounter errors in GitHub Actions, try deploying locally using `vercel` from the frontend directory first to create all necessary configuration files.
 
-После настройки всех секретов и пуша в ветку `main`, вы должны увидеть запуск GitHub Actions workflow:
+## Verifying CI/CD Setup
 
-1. Перейдите в раздел `Actions` вашего репозитория
-2. Вы должны увидеть запущенный workflow "YumRush CI/CD Pipeline"
-3. После успешного завершения, ваше приложение будет автоматически развернуто:
-   - Фронтенд на Vercel
-   - Бэкенд на Render
+After setting up all secrets and pushing to the `main` branch, you should see the GitHub Actions workflow start:
 
-## Мониторинг деплоев
+1. Go to the `Actions` section of your repository
+2. You should see the "YumRush CI/CD Pipeline" workflow running
+3. After successful completion, your application will be automatically deployed:
+   - Frontend to Vercel
+   - Backend to Render
 
-- **Vercel**: Доступ к логам и статусу деплоя через дашборд Vercel
-- **Render**: Доступ к логам и статусу деплоя через дашборд Render
+## Deployment Monitoring
 
-## Устранение неполадок
+- **Vercel**: Access logs and deployment status through the Vercel dashboard
+- **Render**: Access logs and deployment status through the Render dashboard
 
-Если возникли проблемы с CI/CD:
+## Troubleshooting
 
-1. Проверьте логи в разделе GitHub Actions
-2. Убедитесь, что все секреты настроены правильно
-3. Проверьте, что токены не истекли
-4. Убедитесь, что вебхук Render имеет правильный URL и активен
-5. Проверьте настройки проекта в Vercel (рабочая директория, скрипты сборки и т.д.)
+If you encounter issues with CI/CD:
 
-## Дополнительные ресурсы
+1. Check logs in the GitHub Actions section
+2. Ensure all secrets are properly configured
+3. Verify that tokens haven't expired
+4. Make sure the Render webhook URL is correct and active
+5. Check Vercel project settings (working directory, build scripts, etc.)
 
-- [Документация GitHub Actions](https://docs.github.com/en/actions)
-- [Документация Vercel для CI/CD](https://vercel.com/docs/concepts/git/vercel-for-github)
-- [Документация Render по деплою](https://render.com/docs/deploy-hooks)
+### Troubleshooting Vercel Deployment
+
+If you encounter errors when deploying to Vercel through GitHub Actions:
+
+1. Navigate to the `frontend` directory locally
+2. Run the `vercel login` command to sign in
+3. Then run `vercel link` to connect your local project to the Vercel project
+4. After successful linking, run `vercel` to deploy
+5. After a successful local deployment, GitHub Actions should work correctly
+
+### Troubleshooting Render Deployment
+
+If you encounter issues with Render deployment:
+
+1. Make sure the webhook URL is correct and active
+2. Check deployment logs in the Render dashboard
+3. If necessary, perform a manual deployment through the Render dashboard
+4. Ensure that the configuration in `render.yaml` matches the settings in the dashboard
+
+## Additional Resources
+
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Vercel CI/CD Documentation](https://vercel.com/docs/concepts/git/vercel-for-github)
+- [Render Deploy Hooks Documentation](https://render.com/docs/deploy-hooks)

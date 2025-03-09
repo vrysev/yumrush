@@ -19,7 +19,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    minify: 'terser',
+    minify: 'esbuild', // Используем esbuild вместо terser
     sourcemap: false,
     target: 'es2018',
   },

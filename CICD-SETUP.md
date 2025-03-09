@@ -8,7 +8,7 @@ The YumRush project uses a single CI/CD pipeline that performs sequential testin
 
 1. **Backend Tests**: Validates the backend code
 2. **Frontend Tests**: Validates the frontend code
-3. **End-to-End Tests**: (Prepared for future implementation)
+3. **End-to-End Tests**: Tests the integration between frontend and backend
 4. **Deployment**: Deploys code to production environments
 
 The pipeline is configured in `.github/workflows/main.yml` and follows this flow:
@@ -16,8 +16,7 @@ The pipeline is configured in `.github/workflows/main.yml` and follows this flow
 ```
                                  [Only on push to main]
                                           ↓
-[Code Push/PR] → [Backend Tests] → [Frontend Tests] → [E2E Tests*] → [Deploy to Production]
-                                                        (*future)
+[Code Push/PR] → [Backend Tests] → [Frontend Tests] → [E2E Tests] → [Deploy to Production]
 ```
 
 ## How the Pipeline Works
@@ -25,7 +24,7 @@ The pipeline is configured in `.github/workflows/main.yml` and follows this flow
 1. When code is pushed to any branch or a pull request is created:
    - First, backend tests run
    - If backend tests pass, frontend tests run
-   - (In the future: if frontend tests pass, E2E tests will run)
+   - If frontend tests pass, End-to-End tests run
 
 2. When code is pushed to the main branch and all tests pass:
    - The deploy job runs after all tests have passed
@@ -95,8 +94,8 @@ After setting up all the secrets:
 3. You should see the "YumRush CI/CD" workflow running with the following jobs:
    - Backend Tests
    - Frontend Tests
-   - (E2E Tests - will be added in the future)
-   - Deploy to Production (only runs on main branch and if tests pass)
+   - End-to-End Tests
+   - Deploy to Production (only runs on main branch and if all tests pass)
 
 ## Manual Deployment
 

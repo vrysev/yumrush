@@ -21,4 +21,7 @@ if [ ! -f "src/types/assets.d.ts" ]; then
   touch src/types/assets.d.ts
 fi
 
+# Make sure dist directory exists
+mkdir -p dist
+
 echo "Prepared for Vercel deployment!"

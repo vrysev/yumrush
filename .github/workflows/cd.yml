@@ -1,9 +1,8 @@
-name: YumRush CD
+name: YumRush CD (Deprecated)
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
+  # This workflow is now split into backend.yml and frontend.yml
 
 jobs:
   deploy-frontend:

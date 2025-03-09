@@ -1,0 +1,12 @@
+{
+  "name": "frontend-ci",
+  "version": "1.0.0",
+  "description": "Fixed dependencies for CI",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-is": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
+    "react-shallow-renderer": "^16.15.0"
+  }
+}

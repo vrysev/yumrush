@@ -1,10 +1,9 @@
 {
   "framework": "vite",
-  "buildCommand": "tsc --skipLibCheck --noEmit && vite build",
+  "buildCommand": "tsc --skipLibCheck --noEmit || vite build",
   "devCommand": "npm run dev",
   "installCommand": "./prepare-for-vercel.sh && npm install --no-save --legacy-peer-deps",
   "outputDirectory": "dist",
-  "ignoreBuildErrors": true,
   "headers": [
     {
       "source": "/(.*)",

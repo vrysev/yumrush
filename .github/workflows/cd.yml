@@ -3,11 +3,32 @@ name: YumRush CD
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
   workflow_dispatch:
+    inputs:
+      deploy_frontend:
+        description: 'Deploy Frontend'
+        required: false
+        type: boolean
+        default: false
+      deploy_backend:
+        description: 'Deploy Backend'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' && inputs.deploy_frontend ||
+      github.event_name == 'push' && (
+        contains(github.event.head_commit.modified, 'frontend/') ||
+        contains(github.event.head_commit.added, 'frontend/') ||
+        contains(github.event.head_commit.removed, 'frontend/')
+      )
     
     steps:
       - name: Checkout repository
@@ -35,6 +56,13 @@ jobs:
   
   deploy-backend:
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' && inputs.deploy_backend ||
+      github.event_name == 'push' && (
+        contains(github.event.head_commit.modified, 'backend/') ||
+        contains(github.event.head_commit.added, 'backend/') ||
+        contains(github.event.head_commit.removed, 'backend/')
+      )
     
     steps:
       - uses: actions/checkout@v3

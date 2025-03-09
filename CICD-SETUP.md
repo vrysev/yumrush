@@ -23,13 +23,8 @@ GitHub Actions are used to automate testing and deployment. The pipeline is conf
 
 ## Deployment Overview
 
-- **Backend**: Automatically deployed to Render via webhook triggered by GitHub Actions when changes are made in the backend directory
-- **Frontend**: Automatically deployed to Vercel via GitHub Actions when changes are made in the frontend directory
-
-The deployment is smart and only triggers when relevant files are changed. For example:
-- If you only change frontend code, only the frontend will be deployed
-- If you only change backend code, only the backend will be deployed
-- If you change both, both will be deployed
+- **Backend**: Automatically deployed to Render via webhook triggered by GitHub Actions
+- **Frontend**: Automatically deployed to Vercel via GitHub Actions
 
 ## Setting Up GitHub Actions
 
@@ -89,15 +84,12 @@ For frontend deployment through GitHub Actions, you need to get the following cr
 
 After setting up all the secrets and webhooks:
 
-1. Push a change to the `main` branch:
-   - If you change files in `frontend/`, the frontend will be deployed
-   - If you change files in `backend/`, the backend will be deployed
-
+1. Push a change to the `main` branch
 2. Go to the `Actions` section of your GitHub repository
 3. You should see the "YumRush CI/CD Pipeline" workflow running
 4. After successful test completion:
-   - If backend files were changed, the Render webhook will be triggered to deploy the backend
-   - If frontend files were changed, the Vercel CLI will deploy the frontend
+   - The Render webhook will be triggered to deploy the backend
+   - The Vercel CLI will deploy the frontend
 
 5. Check deployment status:
    - Backend: Go to your Render dashboard to monitor deployment
@@ -111,10 +103,7 @@ You can also manually trigger deployment:
 2. Select the "YumRush CD" workflow
 3. Click "Run workflow"
 4. Select the branch (usually `main`)
-5. Choose which components to deploy:
-   - Deploy Frontend: Check to deploy the frontend
-   - Deploy Backend: Check to deploy the backend
-6. Click "Run workflow"
+5. Click "Run workflow"
 
 This is useful when you want to redeploy without making code changes.
 

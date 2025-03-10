@@ -41,16 +41,3 @@ databases:
   - name: yumrush-db
     plan: free
     region: ohio
-
-envVarGroups:
-  - name: stripe-secrets
-    envVars:
-      - key: STRIPE_SECRET_KEY
-        # Replace with your Stripe secret key or use Render dashboard to set it
-        value: sk_test_your_secret_key
-      - key: STRIPE_PUBLIC_KEY
-        # Replace with your Stripe public key
-        value: pk_test_your_public_key
-      - key: STRIPE_WEBHOOK_SECRET
-        # Replace with your Stripe webhook secret
-        value: whsec_your_webhook_secret

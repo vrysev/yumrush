@@ -23,20 +23,16 @@ jest.mock('mongoose', () => {
     Types: {
       ObjectId: jest.fn().mockImplementation(() => 'mock-id'),
     },
-    Schema: jest.fn().mockImplementation(() => ({
-      pre: jest.fn().mockImplementation(function(this: any, hook: string, callback: Function) {
-        return this;
-      }),
-      post: jest.fn().mockImplementation(function(this: any, hook: string, callback: Function) {
-        return this;
-      }),
-      method: jest.fn().mockImplementation(function(this: any, name: string, fn: Function) {
-        return this;
-      }),
-      set: jest.fn().mockImplementation(function(this: any, name: string, fn: Function) {
-        return this;
-      }),
-    })),
+    // Make Schema a constructor function
+    Schema: class MockSchema {
+      constructor() {
+        // Define methods directly on the instance
+        this.pre = jest.fn().mockReturnThis();
+        this.post = jest.fn().mockReturnThis();
+        this.method = jest.fn().mockReturnThis();
+        this.set = jest.fn().mockReturnThis();
+      }
+    },
     model: jest.fn().mockImplementation(() => {
       return {
         findOne: jest.fn().mockResolvedValue(null),

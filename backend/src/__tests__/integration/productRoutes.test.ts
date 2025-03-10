@@ -6,8 +6,11 @@ import Product from '../../models/Product';
 
 // Mock mongoose to avoid real database connections
 jest.mock('mongoose', () => {
+  const actualMongoose = jest.fn().mockImplementation(() => {
+    return require.requireActual('mongoose');
+  });
   return {
-    ...jest.requireActual('mongoose'),
+    ...actualMongoose(),
     connect: jest.fn().mockResolvedValue(true),
     connection: {
       close: jest.fn().mockResolvedValue(true),

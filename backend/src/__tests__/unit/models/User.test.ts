@@ -13,8 +13,12 @@ jest.mock('mongoose', () => {
     return Promise.resolve(doc);
   });
   
+  const actualMongoose = jest.fn().mockImplementation(() => {
+    return require.requireActual('mongoose');
+  });
+  
   return {
-    ...jest.requireActual('mongoose'),
+    ...actualMongoose(),
     connect: jest.fn().mockResolvedValue(true),
     connection: {
       close: jest.fn().mockResolvedValue(true),

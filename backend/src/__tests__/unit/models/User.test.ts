@@ -13,12 +13,9 @@ jest.mock('mongoose', () => {
     return Promise.resolve(doc);
   });
   
-  const actualMongoose = jest.fn().mockImplementation(() => {
-    return require.requireActual('mongoose');
-  });
+  // Removed requireActual which causes TypeScript errors
   
   return {
-    ...actualMongoose(),
     connect: jest.fn().mockResolvedValue(true),
     connection: {
       close: jest.fn().mockResolvedValue(true),

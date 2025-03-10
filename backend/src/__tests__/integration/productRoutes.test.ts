@@ -6,11 +6,8 @@ import Product from '../../models/Product';
 
 // Mock mongoose to avoid real database connections
 jest.mock('mongoose', () => {
-  const actualMongoose = jest.fn().mockImplementation(() => {
-    return require.requireActual('mongoose');
-  });
+  // Instead of using requireActual which causes TypeScript errors
   return {
-    ...actualMongoose(),
     connect: jest.fn().mockResolvedValue(true),
     connection: {
       close: jest.fn().mockResolvedValue(true),

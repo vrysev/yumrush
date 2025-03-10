@@ -18,6 +18,8 @@ import AdminProducts from './pages/Admin/Products';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import Orders from './pages/Account/Orders';
 import ProfileSettings from './pages/Account/ProfileSettings';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 const router = createBrowserRouter([
   {
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
       {
         path: 'account/profile',
         element: <ProfileSettings />,
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'contact',
+        element: <Contact />,
       },
     ],
   },

@@ -207,7 +207,6 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
   const profileItems = [
     { name: t('Profile'), path: '/account/profile', icon: 'person' },
     { name: t('My Orders'), path: '/account/orders', icon: 'balance' },
-    { name: t('Settings'), path: '/settings', icon: 'settings' },
   ];
   
   // Admin items

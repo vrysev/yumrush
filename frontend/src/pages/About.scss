@@ -1,0 +1,49 @@
+.about-page {
+  padding: 4rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--color-primary);
+  }
+  
+  .about-section {
+    margin-bottom: 3rem;
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--color-primary-dark);
+      border-bottom: 2px solid var(--color-accent);
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+    
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--color-text);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .about-section {
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
+}

@@ -91,6 +91,7 @@ frontend/
 └── package.json         # Dependencies and scripts
 ```
 
-![Screenshot of YumRush](https://github.com/vrysev/yumrush/assets/109638459/65db2205-b4ae-4d6c-9ed3-ac5151c913ee)
+![image](https://github.com/user-attachments/assets/352372f1-6cf9-41ed-9731-8a95bf860d84)
+
 
 Originally created by Vadim Rysev, modernized with proper SCSS and TypeScript.

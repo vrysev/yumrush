@@ -10,6 +10,7 @@ interface IMockSchema {
   post: jest.Mock;
   method: jest.Mock;
   set: jest.Mock;
+  methods: { [key: string]: any };
 }
 
 // Mock mongoose to avoid real database connections
@@ -20,12 +21,14 @@ jest.mock('mongoose', () => {
     post: jest.Mock;
     method: jest.Mock;
     set: jest.Mock;
+    methods: { [key: string]: any };
 
     constructor() {
       this.pre = jest.fn().mockReturnThis();
       this.post = jest.fn().mockReturnThis();
       this.method = jest.fn().mockReturnThis();
       this.set = jest.fn().mockReturnThis();
+      this.methods = {}; // Add methods object to avoid "undefined" error
     }
   }
 

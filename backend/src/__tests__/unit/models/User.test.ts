@@ -1,6 +1,14 @@
 import mongoose from 'mongoose';
 import User, { IUser } from '../../../models/User';
 
+// Define an interface for our mock Schema class to fix TypeScript errors
+interface IMockSchema {
+  pre: jest.Mock;
+  post: jest.Mock;
+  method: jest.Mock;
+  set: jest.Mock;
+}
+
 // Mock mongoose to avoid real database connections
 jest.mock('mongoose', () => {
   const mockDocumentSave = jest.fn().mockResolvedValue({});
@@ -23,8 +31,13 @@ jest.mock('mongoose', () => {
     Types: {
       ObjectId: jest.fn().mockImplementation(() => 'mock-id'),
     },
-    // Make Schema a constructor function
-    Schema: class MockSchema {
+    // Make Schema a constructor function with proper typings
+    Schema: class MockSchema implements IMockSchema {
+      pre: jest.Mock;
+      post: jest.Mock;
+      method: jest.Mock;
+      set: jest.Mock;
+      
       constructor() {
         // Define methods directly on the instance
         this.pre = jest.fn().mockReturnThis();

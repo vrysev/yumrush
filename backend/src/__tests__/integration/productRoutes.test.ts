@@ -4,10 +4,23 @@ import express from 'express';
 import productRoutes from '../../routes/productRoutes';
 import Product from '../../models/Product';
 
+// Define an interface for our mock Schema class to fix TypeScript errors
+interface IMockSchema {
+  pre: jest.Mock;
+  post: jest.Mock;
+  method: jest.Mock;
+  set: jest.Mock;
+}
+
 // Mock mongoose to avoid real database connections
 jest.mock('mongoose', () => {
-  // Make Schema a constructor function
-  class MockSchema {
+  // Make Schema a constructor function with proper typings
+  class MockSchema implements IMockSchema {
+    pre: jest.Mock;
+    post: jest.Mock;
+    method: jest.Mock;
+    set: jest.Mock;
+
     constructor() {
       this.pre = jest.fn().mockReturnThis();
       this.post = jest.fn().mockReturnThis();

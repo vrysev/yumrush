@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './Contact.scss';
 
 const Contact: React.FC = () => {
+  const { t } = useTranslation();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,27 +45,27 @@ const Contact: React.FC = () => {
   return (
     <div className="contact-page">
       <div className="container">
-        <h1>Contact Us</h1>
+        <h1>{t('contactUs')}</h1>
         
         <div className="contact-content">
           <div className="contact-info">
             <div className="info-item">
-              <h3>Customer Service</h3>
-              <p>Have a question about your order?</p>
-              <p><strong>Email:</strong> support@yumrush.com</p>
-              <p><strong>Phone:</strong> (555) 123-4567</p>
-              <p><strong>Hours:</strong> 8am - 10pm, 7 days a week</p>
+              <h3>{t('customerService')}</h3>
+              <p>{t('customerServiceText')}</p>
+              <p><strong>{t('email')}:</strong> support@yumrush.com</p>
+              <p><strong>{t('phone')}:</strong> (555) 123-4567</p>
+              <p><strong>{t('hours')}:</strong> 8am - 10pm, 7 days a week</p>
             </div>
             
             <div className="info-item">
-              <h3>Business Inquiries</h3>
-              <p>Interested in partnering with YumRush?</p>
-              <p><strong>Email:</strong> partners@yumrush.com</p>
-              <p><strong>Phone:</strong> (555) 987-6543</p>
+              <h3>{t('businessInquiries')}</h3>
+              <p>{t('businessInquiriesText')}</p>
+              <p><strong>{t('email')}:</strong> partners@yumrush.com</p>
+              <p><strong>{t('phone')}:</strong> (555) 987-6543</p>
             </div>
             
             <div className="info-item">
-              <h3>Main Office</h3>
+              <h3>{t('mainOffice')}</h3>
               <p>123 Food Street</p>
               <p>New York, NY 10001</p>
             </div>
@@ -71,14 +74,14 @@ const Contact: React.FC = () => {
           <div className="contact-form-container">
             {submitted ? (
               <div className="form-success">
-                <h2>Thank you for your message!</h2>
-                <p>We've received your inquiry and will get back to you within 24 hours.</p>
-                <button onClick={() => setSubmitted(false)} className="btn">Send another message</button>
+                <h2>{t('thankYouMessage')}</h2>
+                <p>{t('messageReceivedText')}</p>
+                <button onClick={() => setSubmitted(false)} className="btn">{t('sendAnotherMessage')}</button>
               </div>
             ) : (
               <form className="contact-form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label htmlFor="name">Your Name</label>
+                  <label htmlFor="name">{t('yourName')}</label>
                   <input
                     type="text"
                     id="name"
@@ -90,7 +93,7 @@ const Contact: React.FC = () => {
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="email">Email Address</label>
+                  <label htmlFor="email">{t('emailAddress')}</label>
                   <input
                     type="email"
                     id="email"
@@ -102,7 +105,7 @@ const Contact: React.FC = () => {
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="subject">Subject</label>
+                  <label htmlFor="subject">{t('subject')}</label>
                   <select
                     id="subject"
                     name="subject"
@@ -110,17 +113,17 @@ const Contact: React.FC = () => {
                     onChange={handleChange}
                     required
                   >
-                    <option value="">Select a subject</option>
-                    <option value="order">Order Issue</option>
-                    <option value="account">Account Question</option>
-                    <option value="partner">Restaurant Partnership</option>
-                    <option value="feedback">General Feedback</option>
-                    <option value="other">Other</option>
+                    <option value="">{t('selectSubject')}</option>
+                    <option value="order">{t('orderIssue')}</option>
+                    <option value="account">{t('accountQuestion')}</option>
+                    <option value="partner">{t('restaurantPartnership')}</option>
+                    <option value="feedback">{t('generalFeedback')}</option>
+                    <option value="other">{t('other')}</option>
                   </select>
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="message">Your Message</label>
+                  <label htmlFor="message">{t('yourMessage')}</label>
                   <textarea
                     id="message"
                     name="message"
@@ -138,7 +141,7 @@ const Contact: React.FC = () => {
                   className="submit-btn"
                   disabled={submitting}
                 >
-                  {submitting ? 'Sending...' : 'Send Message'}
+                  {submitting ? t('sending') : t('sendMessage')}
                 </button>
               </form>
             )}

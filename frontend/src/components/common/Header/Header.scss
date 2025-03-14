@@ -9,6 +9,7 @@
   top: 0;
   z-index: 1000;
   transition: all 0.3s ease;
+  width: 100%;
   
   &--scrolled {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -20,6 +21,11 @@
     align-items: center;
     height: 70px;
     padding: 0 15px;
+    
+    @include media-down('sm') {
+      height: 60px;
+      padding: 0 10px;
+    }
   }
 
   &__logo {
@@ -38,6 +44,10 @@
       color: color('primary');
       margin: 0;
       transition: transform 0.2s ease;
+      
+      @include media-down('sm') {
+        font-size: 20px;
+      }
     }
   }
   
@@ -503,6 +513,10 @@
     
     .header--scrolled & {
       display: block;
+      
+      @include media-down('md') {
+        display: none; // Не показываем кнопку навигации на мобильных при прокрутке
+      }
     }
     
     @include media-down('sm') {
@@ -613,6 +627,10 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    
+    @include media-down('sm') {
+      top: 60px; // Match the header height on mobile
+    }
     
     &--open {
       transform: translateX(0);

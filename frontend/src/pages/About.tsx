@@ -1,46 +1,33 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './About.scss';
 
 const About: React.FC = () => {
+  const { t } = useTranslation();
+  
   return (
     <div className="about-page">
       <div className="container">
-        <h1>About YumRush</h1>
+        <h1>{t('aboutYumRush')}</h1>
         
         <section className="about-section">
-          <h2>Our Story</h2>
-          <p>
-            Founded in 2024, YumRush was born from a simple idea: delivering exceptional food without
-            the long wait. We believe that delicious meals should be accessible to everyone, 
-            whenever hunger strikes.
-          </p>
+          <h2>{t('ourStory')}</h2>
+          <p>{t('ourStoryText')}</p>
         </section>
         
         <section className="about-section">
-          <h2>Our Mission</h2>
-          <p>
-            At YumRush, our mission is to connect hungry customers with their favorite local
-            restaurants, providing a seamless ordering experience and lightning-fast delivery.
-            We're passionate about supporting local businesses while satisfying cravings.
-          </p>
+          <h2>{t('ourMission')}</h2>
+          <p>{t('ourMissionText')}</p>
         </section>
         
         <section className="about-section">
-          <h2>Quality Promise</h2>
-          <p>
-            We partner only with restaurants that share our commitment to quality ingredients,
-            exceptional taste, and responsible food handling. When you order through YumRush,
-            you can expect nothing but the best.
-          </p>
+          <h2>{t('qualityPromise')}</h2>
+          <p>{t('qualityPromiseText')}</p>
         </section>
         
         <section className="about-section">
-          <h2>Join Our Team</h2>
-          <p>
-            We're always looking for passionate people to join our growing team. Whether you're
-            a developer, customer service specialist, or delivery driver, we'd love to hear from you.
-            Check our careers page for current opportunities.
-          </p>
+          <h2>{t('joinOurTeam')}</h2>
+          <p>{t('joinOurTeamText')}</p>
         </section>
       </div>
     </div>

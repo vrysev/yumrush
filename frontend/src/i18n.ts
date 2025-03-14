@@ -196,7 +196,44 @@ i18n
           cookieText: 'We use cookies to improve your experience on our site. Some cookies are necessary for the site to function, while others help us improve your experience.',
           privacyPolicy: 'Privacy Policy',
           acceptAll: 'Accept All',
-          acceptEssential: 'Only Essential'
+          acceptEssential: 'Only Essential',
+          
+          // About page
+          aboutYumRush: 'About YumRush',
+          ourStory: 'Our Story',
+          ourStoryText: 'Founded in 2024, YumRush was born from a simple idea: delivering exceptional food without the long wait. We believe that delicious meals should be accessible to everyone, whenever hunger strikes.',
+          ourMission: 'Our Mission',
+          ourMissionText: 'At YumRush, our mission is to connect hungry customers with their favorite local restaurants, providing a seamless ordering experience and lightning-fast delivery. We\'re passionate about supporting local businesses while satisfying cravings.',
+          qualityPromise: 'Quality Promise',
+          qualityPromiseText: 'We partner only with restaurants that share our commitment to quality ingredients, exceptional taste, and responsible food handling. When you order through YumRush, you can expect nothing but the best.',
+          joinOurTeam: 'Join Our Team',
+          joinOurTeamText: 'We\'re always looking for passionate people to join our growing team. Whether you\'re a developer, customer service specialist, or delivery driver, we\'d love to hear from you. Check our careers page for current opportunities.',
+          
+          // Contact page
+          contactUs: 'Contact Us',
+          customerService: 'Customer Service',
+          customerServiceText: 'Have a question about your order?',
+          email: 'Email',
+          phone: 'Phone',
+          hours: 'Hours',
+          businessInquiries: 'Business Inquiries',
+          businessInquiriesText: 'Interested in partnering with YumRush?',
+          mainOffice: 'Main Office',
+          yourName: 'Your Name',
+          emailAddress: 'Email Address',
+          subject: 'Subject',
+          selectSubject: 'Select a subject',
+          orderIssue: 'Order Issue',
+          accountQuestion: 'Account Question',
+          restaurantPartnership: 'Restaurant Partnership',
+          generalFeedback: 'General Feedback',
+          other: 'Other',
+          yourMessage: 'Your Message',
+          sending: 'Sending...',
+          sendMessage: 'Send Message',
+          thankYouMessage: 'Thank you for your message!',
+          messageReceivedText: 'We\'ve received your inquiry and will get back to you within 24 hours.',
+          sendAnotherMessage: 'Send another message'
         }
       },
       cz: {
@@ -377,7 +414,44 @@ i18n
           cookieText: 'Používáme cookies pro zlepšení vašeho zážitku na našich stránkách. Některé cookies jsou nezbytné pro fungování stránek, zatímco jiné nám pomáhají zlepšit váš zážitek.',
           privacyPolicy: 'Zásady ochrany osobních údajů',
           acceptAll: 'Přijmout vše',
-          acceptEssential: 'Pouze nezbytné'
+          acceptEssential: 'Pouze nezbytné',
+          
+          // About page
+          aboutYumRush: 'O YumRush',
+          ourStory: 'Náš příběh',
+          ourStoryText: 'Založeno v roce 2024, YumRush vznikl z jednoduché myšlenky: doručovat výjimečné jídlo bez dlouhého čekání. Věříme, že chutná jídla by měla být dostupná pro každého, kdykoliv dostane hlad.',
+          ourMission: 'Naše mise',
+          ourMissionText: 'V YumRush je naším posláním spojit hladové zákazníky s jejich oblíbenými místními restauracemi, poskytovat bezproblémové objednávání a bleskově rychlé doručení. Jsme nadšení pro podporu místních podniků a zároveň uspokojování chuťových potřeb.',
+          qualityPromise: 'Slib kvality',
+          qualityPromiseText: 'Spolupracujeme pouze s restauracemi, které sdílejí náš závazek k kvalitním ingrediencím, výjimečné chuti a zodpovědnému zacházení s potravinami. Když si objednáte přes YumRush, můžete očekávat jen to nejlepší.',
+          joinOurTeam: 'Připojte se k našemu týmu',
+          joinOurTeamText: 'Vždy hledáme nadšené lidi, kteří se přidají do našeho rostoucího týmu. Ať už jste vývojář, specialista na zákaznický servis nebo řidič doručovatel, rádi se s vámi spojíme. Zkontrolujte naši stránku kariéry pro aktuální příležitosti.',
+          
+          // Contact page
+          contactUs: 'Kontaktujte nás',
+          customerService: 'Zákaznický servis',
+          customerServiceText: 'Máte dotaz ohledně vaší objednávky?',
+          email: 'E-mail',
+          phone: 'Telefon',
+          hours: 'Hodiny',
+          businessInquiries: 'Obchodní dotazy',
+          businessInquiriesText: 'Máte zájem o partnerství s YumRush?',
+          mainOffice: 'Hlavní kancelář',
+          yourName: 'Vaše jméno',
+          emailAddress: 'E-mailová adresa',
+          subject: 'Předmět',
+          selectSubject: 'Vyberte předmět',
+          orderIssue: 'Problém s objednávkou',
+          accountQuestion: 'Otázka k účtu',
+          restaurantPartnership: 'Partnerství restaurace',
+          generalFeedback: 'Obecná zpětná vazba',
+          other: 'Jiné',
+          yourMessage: 'Vaše zpráva',
+          sending: 'Odesílání...',
+          sendMessage: 'Odeslat zprávu',
+          thankYouMessage: 'Děkujeme za vaši zprávu!',
+          messageReceivedText: 'Obdrželi jsme váš dotaz a ozveme se vám do 24 hodin.',
+          sendAnotherMessage: 'Poslat další zprávu'
         }
       }
     }

@@ -34,6 +34,7 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [showNavigation, setShowNavigation] = useState<boolean>(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState<boolean>(false);
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
@@ -99,6 +100,16 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolled]);
+  
+  // Отслеживаем изменение размера окна
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleClearSearch = (event: MouseEvent<HTMLDivElement>): void => {
     event.preventDefault();
@@ -145,13 +156,14 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
   
   // Toggle between categories and navigation in header when scrolled
   const toggleHeaderView = () => {
-    if (isScrolled && window.innerWidth >= 768) {
-      // Simple toggle between showing categories or navigation
+    // We completely disable category switching for mobile devices
+    if (isScrolled && windowWidth >= 768) {
+      // For desktop only: toggle between categories and navigation
       setShowNavigation(!showNavigation);
       setIsUserDropdownOpen(false);
       setIsNotificationsOpen(false);
-    } else if (window.innerWidth < 768) {
-      // On mobile, just open the menu
+    } else if (windowWidth < 768) {
+      // On mobile devices, we only open the menu, without category switching
       openMobileMenu();
     }
   };
@@ -283,8 +295,8 @@ const Header: FC<HeaderProps> = ({ showSearch = true }) => {
           <Categories mode="header" onToggleMobileMenu={toggleHeaderView} />
           
           <div className="header__actions">
-            {/* Toggle between Categories/Navigation when scrolled */}
-          {isScrolled && (
+            {/* Toggle between Categories/Navigation when scrolled - desktop only */}
+          {isScrolled && windowWidth >= 768 && (
             <button 
                 className="header__nav-toggle"
                 onClick={(e) => {

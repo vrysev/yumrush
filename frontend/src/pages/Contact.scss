@@ -14,6 +14,11 @@
     
     @media (max-width: 992px) {
       flex-direction: column;
+      gap: 2rem;
+    }
+    
+    @media (max-width: 576px) {
+      gap: 1.5rem;
     }
   }
   
@@ -42,6 +47,35 @@
         
         strong {
           color: var(--color-primary-dark);
+        }
+      }
+      
+      @media (max-width: 768px) {
+        margin-bottom: 1.5rem;
+        padding: 1.2rem;
+        
+        h3 {
+          font-size: 1.2rem;
+          margin-bottom: 0.8rem;
+        }
+        
+        p {
+          font-size: 1rem;
+          margin-bottom: 0.4rem;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        
+        h3 {
+          font-size: 1.1rem;
+          padding-bottom: 0.3rem;
+        }
+        
+        p {
+          font-size: 0.95rem;
         }
       }
     }
@@ -79,6 +113,39 @@
         
         &:hover {
           background-color: var(--color-primary-dark);
+        }
+      }
+      
+      @media (max-width: 768px) {
+        padding: 1.5rem;
+        
+        h2 {
+          font-size: 1.4rem;
+          margin-bottom: 0.8rem;
+        }
+        
+        p {
+          font-size: 1rem;
+          margin-bottom: 1.2rem;
+        }
+        
+        button {
+          padding: 0.7rem 1.2rem;
+          font-size: 0.95rem;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        padding: 1.2rem;
+        
+        h2 {
+          font-size: 1.2rem;
+          margin-bottom: 0.6rem;
+        }
+        
+        p {
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
         }
       }
     }
@@ -143,6 +210,68 @@
         cursor: not-allowed;
       }
     }
+    
+    @media (max-width: 768px) {
+      padding: 1.5rem;
+      
+      .form-group {
+        margin-bottom: 1.2rem;
+        
+        label {
+          margin-bottom: 0.4rem;
+          font-size: 0.95rem;
+        }
+        
+        input, 
+        select,
+        textarea {
+          padding: 0.7rem;
+          font-size: 0.95rem;
+        }
+      }
+      
+      .submit-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      padding: 1.2rem;
+      
+      .form-group {
+        margin-bottom: 1rem;
+        
+        label {
+          font-size: 0.9rem;
+        }
+        
+        input, 
+        select,
+        textarea {
+          padding: 0.6rem;
+          font-size: 0.9rem;
+        }
+      }
+      
+      .submit-btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+      }
+      
+      .form-error {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  
+  @media (max-width: 992px) {
+    padding: 3rem 1rem;
+    
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1.8rem;
+    }
   }
   
   @media (max-width: 768px) {
@@ -150,6 +279,16 @@
     
     h1 {
       font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    padding: 1.5rem 1rem;
+    
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
     }
   }
 }
